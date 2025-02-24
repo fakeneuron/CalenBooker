@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 
 const BusinessDetailsForm = () => {
+  const [searchParams] = useSearchParams();
+  const userId = searchParams.get('user_id');
   const [formData, setFormData] = useState({
     businessName: '',
     phone: '',
+    userId: userId || '',
   });
 
   const handleChange = (e) => {

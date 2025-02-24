@@ -25,7 +25,7 @@ app.post('/signup', async (req, res) => {
       password,
     });
     if (error) throw error;
-    res.status(200).json({ message: 'Signup successful! Check your email to confirm.' });
+    res.status(200).json({ message: 'Signup successful! Check your email to confirm.', userId: data.user.id });
   } catch (error) {
     console.error('Signup error:', error.message);
     res.status(400).json({ error: error.message });
@@ -33,10 +33,13 @@ app.post('/signup', async (req, res) => {
 });
 
 app.post('/business-details', async (req, res) => {
-  const { businessName, phone } = req.body;
-  console.log('Business details submission:', { businessName, phone });
+  const { businessName, phone, userId } = req.body;
+  console.log('Business details submission:', { businessName, phone, userId });
   try {
-    // Placeholder: We'll store this in Supabase later
+    const { data, error } = await supabase
+      .from('business_details')
+      .insert({ business_name: businessName, phone, user_id: userId });
+    if (error) throw error;
     res.status(200).json({ message: 'Business details saved successfully!' });
   } catch (error) {
     console.error('Business details error:', error.message);
