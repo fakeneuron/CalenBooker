@@ -6,14 +6,28 @@ const SignupForm = () => {
     email: '',
     password: '',
   });
+  const [passwordError, setPasswordError] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+    if (name === 'password') {
+      const strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+      if (!strongPasswordRegex.test(value)) {
+        setPasswordError('Password must be 8+ characters with uppercase, lowercase, number, and special character');
+      } else {
+        setPasswordError('');
+      }
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+    if (!strongPasswordRegex.test(formData.password)) {
+      setPasswordError('Password must be 8+ characters with uppercase, lowercase, number, and special character');
+      return;
+    }
     try {
       const response = await axios.post('http://localhost:4001/signup', formData);
       alert(response.data.message);
@@ -44,9 +58,15 @@ const SignupForm = () => {
             name="password"
             value={formData.password}
             onChange={handleChange}
-            className="w-full p-2 border rounded"
+            className={`w-full p-2 border rounded ${passwordError ? 'border-red-500' : ''}`}
             required
           />
+          <p className="text-sm text-gray-500 mt-1">
+            Must be 8+ characters with uppercase, lowercase, number, and special character (e.g., !@#$%^&*)
+          </p>
+          {passwordError && (
+            <p className="text-sm text-red-500 mt-1">{passwordError}</p>
+          )}
         </div>
         <button
           type="submit"
