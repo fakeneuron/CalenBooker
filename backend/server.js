@@ -32,6 +32,18 @@ app.post('/signup', async (req, res) => {
   }
 });
 
+app.post('/business-details', async (req, res) => {
+  const { businessName, phone } = req.body;
+  console.log('Business details submission:', { businessName, phone });
+  try {
+    // Placeholder: We'll store this in Supabase later
+    res.status(200).json({ message: 'Business details saved successfully!' });
+  } catch (error) {
+    console.error('Business details error:', error.message);
+    res.status(400).json({ error: error.message });
+  }
+});
+
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
 });

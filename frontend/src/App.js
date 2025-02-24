@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import SignupForm from './forms/SignupForm';
+import BusinessDetailsForm from './forms/BusinessDetailsForm';
 import ConfirmationPage from './components/ConfirmationPage';
 import './index.css';
 
@@ -11,6 +12,7 @@ function App() {
         <Routes>
           <Route path="/" element={<SignupForm />} />
           <Route path="/confirm" element={<ConfirmationPage />} />
+          <Route path="/business-details" element={<BusinessDetailsForm />} />
         </Routes>
       </div>
     </Router>
