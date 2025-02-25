@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const SignupForm = () => {
   const [formData, setFormData] = useState({
@@ -7,6 +8,7 @@ const SignupForm = () => {
     password: '',
   });
   const [passwordError, setPasswordError] = useState('');
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -31,8 +33,12 @@ const SignupForm = () => {
     try {
       const response = await axios.post('http://localhost:4001/signup', formData);
       alert(response.data.message);
+      if (response.data.userId) {
+        navigate(`/business-details?user_id=${response.data.userId}`);
+      }
     } catch (error) {
-      alert('Error during signup: ' + error.message);
+      const errorMessage = error.response?.data?.error || 'An error occurred during signup';
+      alert(errorMessage);
     }
   };
 
@@ -61,12 +67,7 @@ const SignupForm = () => {
             className={`w-full p-2 border rounded ${passwordError ? 'border-red-500' : ''}`}
             required
           />
-          <p className="text-sm text-gray-500 mt-1">
-            Must be 8+ characters with uppercase, lowercase, number, and special character (e.g., !@#$%^&*)
-          </p>
-          {passwordError && (
-            <p className="text-sm text-red-500 mt-1">{passwordError}</p>
-          )}
+          {passwordError && <p className="text-sm text-red-500 mt-1">{passwordError}</p>}
         </div>
         <button
           type="submit"

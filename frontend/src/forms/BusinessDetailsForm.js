@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 
@@ -10,6 +10,26 @@ const BusinessDetailsForm = () => {
     phone: '',
     userId: userId || '',
   });
+  const [isUpdate, setIsUpdate] = useState(false);
+
+  useEffect(() => {
+    const fetchExisting = async () => {
+      try {
+        const { data } = await axios.get(`http://localhost:4001/business-details/check?userId=${userId}`);
+        if (data.exists) {
+          setFormData({
+            businessName: data.business_name || '',
+            phone: data.phone || '',
+            userId: userId,
+          });
+          setIsUpdate(true);
+        }
+      } catch (error) {
+        console.log('No existing entry found or error:', error.message);
+      }
+    };
+    if (userId) fetchExisting();
+  }, [userId]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,8 +41,9 @@ const BusinessDetailsForm = () => {
     try {
       const response = await axios.post('http://localhost:4001/business-details', formData);
       alert(response.data.message);
+      setIsUpdate(response.data.isUpdate || true); // Set to true after first save
     } catch (error) {
-      alert('Error saving details: ' + error.message);
+      alert('Error saving details: ' + (error.response?.data?.error || error.message));
     }
   };
 
@@ -38,7 +59,7 @@ const BusinessDetailsForm = () => {
             value={formData.businessName}
             onChange={handleChange}
             className="w-full p-2 border rounded"
-            required
+            required={!isUpdate} // Required only for first save
           />
         </div>
         <div>
@@ -49,14 +70,14 @@ const BusinessDetailsForm = () => {
             value={formData.phone}
             onChange={handleChange}
             className="w-full p-2 border rounded"
-            required
+            required={!isUpdate}
           />
         </div>
         <button
           type="submit"
           className="w-full p-2 bg-blue-600 text-white rounded hover:bg-blue-700"
         >
-          Save Details
+          {isUpdate ? 'Update Details' : 'Save Details'}
         </button>
       </form>
     </div>

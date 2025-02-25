@@ -1,0 +1,22 @@
+CREATE TABLE IF NOT EXISTS signup (
+  id TEXT PRIMARY KEY,
+  user_id TEXT NOT NULL,
+  email TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS business_details (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_id TEXT NOT NULL UNIQUE,
+  business_name TEXT NOT NULL,
+  phone TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS meetings (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_id TEXT NOT NULL,
+  client_name TEXT NOT NULL,
+  client_email TEXT NOT NULL,
+  meeting_date DATE NOT NULL,
+  meeting_time TIME NOT NULL,
+  duration INTEGER NOT NULL
+);
