@@ -5,11 +5,17 @@ CREATE TABLE IF NOT EXISTS signup (
 );
 
 CREATE TABLE IF NOT EXISTS business_details (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  user_id TEXT NOT NULL UNIQUE,
+  email TEXT PRIMARY KEY,
   business_name TEXT NOT NULL,
-  phone TEXT NOT NULL
+  phone TEXT NOT NULL,
+  address TEXT NOT NULL,
+  unit TEXT,
+  city TEXT NOT NULL,
+  province TEXT NOT NULL,
+  postal_code TEXT NOT NULL,
+  logo TEXT
 );
+
 
 CREATE TABLE IF NOT EXISTS meetings (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
