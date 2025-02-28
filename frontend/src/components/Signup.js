@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import supabase from '../supabaseClient';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -31,7 +31,6 @@ const Signup = () => {
       return;
     }
     try {
-      // Check if email exists in users_view
       const { data: existingUsers, error: checkError } = await supabase
         .from('users_view')
         .select('email')
@@ -43,8 +42,6 @@ const Signup = () => {
         navigate('/login');
         return;
       }
-
-      // Email doesn't exist, proceed with signup
       const { data, error } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,
@@ -93,6 +90,12 @@ const Signup = () => {
           Sign Up
         </button>
       </form>
+      <p className="mt-4 text-center text-sm text-gray-600">
+        Already have an account?{' '}
+        <Link to="/login" className="text-blue-600 hover:underline">
+          Log in
+        </Link>
+      </p>
     </div>
   );
 };

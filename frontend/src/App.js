@@ -1,10 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom'; // Removed useNavigate
+import { Routes, Route, Navigate } from 'react-router-dom';
 import supabase from './supabaseClient';
 import Signup from './components/Signup';
 import Login from './components/Login';
 import BusinessDetailsForm from './forms/BusinessDetailsForm';
 import ScheduleMeetingForm from './forms/ScheduleMeetingForm';
+
+function Home() {
+  return (
+    <div className="bg-gray-100 flex items-center justify-center min-h-screen">
+      <div className="text-center">
+        <h1 className="text-4xl font-bold text-blue-600 mb-4">CalenBooker</h1>
+        <p className="text-lg text-gray-700">Coming Soon</p>
+      </div>
+    </div>
+  );
+}
 
 function App() {
   const [session, setSession] = useState(null);
@@ -53,7 +64,7 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route path="/" element={<Navigate to="/signup" replace />} />
+        <Route path="/" element={<Home />} /> {/* Show static content at root */}
       </Routes>
     </div>
   );
