@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import supabase from '../supabaseClient'; 
+import supabase from '../supabaseClient';
 
 const BusinessDetailsForm = () => {
-  const [searchParams] = useSearchParams();
-  const userIdFromUrl = searchParams.get('user_id'); // Store as reference, but verify with session
   const [formData, setFormData] = useState({
     userId: '',
+    email: '', // Added email field
     businessName: '',
     phone: '',
     address: '',
@@ -45,26 +43,29 @@ const BusinessDetailsForm = () => {
       }
 
       const userId = session.user.id;
-      setFormData(prev => ({ ...prev, userId }));
+      const userEmail = session.user.email; // Get email from session
+      setFormData(prev => ({ ...prev, userId, email: userEmail }));
 
       try {
         const { data, error } = await supabase
           .from('business_details')
           .select('*')
-          .eq('user_id', userId)
-          .single();
-        if (error && error.code !== 'PGRST116') throw error;
-        if (data) {
+          .eq('user_id', userId);
+        console.log('Business details fetch:', { data, error });
+        if (error) throw error;
+        if (data && data.length > 0) {
+          const details = data[0];
           setFormData({
             userId,
-            businessName: data.business_name || '',
-            phone: data.phone || '',
-            address: data.address || '',
-            unit: data.unit || '',
-            city: data.city || '',
-            province: data.province || '',
-            postalCode: data.postal_code || '',
-            logo: data.logo || null
+            email: details.email || userEmail,
+            businessName: details.business_name || '',
+            phone: details.phone || '',
+            address: details.address || '',
+            unit: details.unit || '',
+            city: details.city || '',
+            province: details.province || '',
+            postalCode: details.postal_code || '',
+            logo: details.logo || null
           });
           setIsUpdate(true);
         }
@@ -118,26 +119,29 @@ const BusinessDetailsForm = () => {
       return;
     }
 
+    const payload = {
+      user_id: session.user.id,
+      email: formData.email || session.user.email, // Ensure email is included
+      business_name: formData.businessName,
+      phone: formData.phone,
+      address: formData.address,
+      unit: formData.unit,
+      city: formData.city,
+      province: formData.province,
+      postal_code: formData.postalCode,
+      logo: formData.logo
+    };
+    console.log('Submitting payload:', payload);
+
     try {
       const { error } = await supabase
         .from('business_details')
-        .upsert({
-          user_id: session.user.id,
-          business_name: formData.businessName,
-          phone: formData.phone,
-          address: formData.address,
-          unit: formData.unit,
-          city: formData.city,
-          province: formData.province,
-          postal_code: formData.postalCode,
-          logo: formData.logo
-        }, { onConflict: 'user_id' });
-      if (error) {
-        throw error;
-      }
+        .upsert(payload, { onConflict: 'user_id' });
+      if (error) throw error;
       alert('Business details saved successfully!');
       setIsUpdate(true);
     } catch (error) {
+      console.error('Upsert error:', error);
       alert('Error saving details: ' + error.message);
     }
   };
