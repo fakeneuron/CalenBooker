@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import axios from 'axios';
+import supabase from '../supabaseClient'; 
 
 const BusinessDetailsForm = () => {
   const [searchParams] = useSearchParams();
-  const email = searchParams.get('email');
+  const userIdFromUrl = searchParams.get('user_id'); // Store as reference, but verify with session
   const [formData, setFormData] = useState({
-    email: email || '',
+    userId: '',
     businessName: '',
     phone: '',
     address: '',
@@ -14,10 +14,11 @@ const BusinessDetailsForm = () => {
     city: '',
     province: '',
     postalCode: '',
-    logo: null,
+    logo: null
   });
   const [isUpdate, setIsUpdate] = useState(false);
   const [postalCodeError, setPostalCodeError] = useState('');
+  const [error, setError] = useState('');
 
   const canadianProvinces = [
     { value: 'AB', label: 'Alberta' },
@@ -32,16 +33,30 @@ const BusinessDetailsForm = () => {
     { value: 'PE', label: 'Prince Edward Island' },
     { value: 'QC', label: 'Quebec' },
     { value: 'SK', label: 'Saskatchewan' },
-    { value: 'YT', label: 'Yukon' },
+    { value: 'YT', label: 'Yukon' }
   ];
 
   useEffect(() => {
-    const fetchExisting = async () => {
+    const fetchSessionAndData = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session?.user) {
+        setError('Please log in to submit business details.');
+        return;
+      }
+
+      const userId = session.user.id;
+      setFormData(prev => ({ ...prev, userId }));
+
       try {
-        const { data } = await axios.get(`http://localhost:4001/business-details/check?email=${encodeURIComponent(email)}`);
-        if (data.exists) {
+        const { data, error } = await supabase
+          .from('business_details')
+          .select('*')
+          .eq('user_id', userId)
+          .single();
+        if (error && error.code !== 'PGRST116') throw error;
+        if (data) {
           setFormData({
-            email: email,
+            userId,
             businessName: data.business_name || '',
             phone: data.phone || '',
             address: data.address || '',
@@ -49,7 +64,7 @@ const BusinessDetailsForm = () => {
             city: data.city || '',
             province: data.province || '',
             postalCode: data.postal_code || '',
-            logo: data.logo || null,
+            logo: data.logo || null
           });
           setIsUpdate(true);
         }
@@ -57,8 +72,8 @@ const BusinessDetailsForm = () => {
         console.log('No existing entry found or error:', error.message);
       }
     };
-    if (email) fetchExisting();
-  }, [email]);
+    fetchSessionAndData();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -97,12 +112,33 @@ const BusinessDetailsForm = () => {
       alert(postalCodeError);
       return;
     }
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session?.user) {
+      setError('Please log in to submit business details.');
+      return;
+    }
+
     try {
-      const response = await axios.post('http://localhost:4001/business-details', formData);
-      alert(response.data.message);
-      setIsUpdate(response.data.isUpdate || true);
+      const { error } = await supabase
+        .from('business_details')
+        .upsert({
+          user_id: session.user.id,
+          business_name: formData.businessName,
+          phone: formData.phone,
+          address: formData.address,
+          unit: formData.unit,
+          city: formData.city,
+          province: formData.province,
+          postal_code: formData.postalCode,
+          logo: formData.logo
+        }, { onConflict: 'user_id' });
+      if (error) {
+        throw error;
+      }
+      alert('Business details saved successfully!');
+      setIsUpdate(true);
     } catch (error) {
-      alert('Error saving details: ' + (error.response?.data?.error || error.message));
+      alert('Error saving details: ' + error.message);
     }
   };
 
@@ -200,6 +236,7 @@ const BusinessDetailsForm = () => {
           <p>Drag and drop logo here</p>
           {formData.logo && <img src={formData.logo} alt="Business Logo" className="mt-2 max-w-full h-auto" />}
         </div>
+        {error && <p className="text-red-500 mt-2">{error}</p>}
         <button
           type="submit"
           className="w-full p-2 bg-blue-600 text-white rounded hover:bg-blue-700"

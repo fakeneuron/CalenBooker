@@ -1,0 +1,3 @@
+--Enable RLS for Tables
+ALTER TABLE business_details ENABLE ROW LEVEL SECURITY;
+ALTER TABLE meetings ENABLE ROW LEVEL SECURITY;

@@ -2,58 +2,63 @@ const express = require('express');
 const router = express.Router();
 
 router.post('/', async (req, res) => {
-  const { email, businessName, phone, address, unit, city, province, postalCode, logo } = req.body;
-  console.log('Business details submission:', { email, businessName, phone, address, unit, city, province, postalCode, logo });
+  const { userId, business_name, phone, address, unit, city, province, postal_code, logo } = req.body;
+  console.log('Business details submission:', { userId, business_name });
   try {
-    const { data: existing, error: fetchError } = await req.supabase
-      .from('business_details')
-      .select('*')
-      .eq('email', email)
-      .single();
-    if (fetchError && fetchError.code !== 'PGRST116') throw fetchError;
+    // Debug: Check authentication context
+    console.log('Current auth.uid():', req.supabase.auth.session?.user?.id || 'Not authenticated');
+    console.log('Received userId from request:', userId);
 
-    const updatedData = {
-      email,
-      business_name: businessName !== undefined ? businessName : existing?.business_name,
-      phone: phone !== undefined ? phone : existing?.phone,
-      address: address !== undefined ? address : existing?.address,
-      unit: unit !== undefined ? unit : existing?.unit,
-      city: city !== undefined ? city : existing?.city,
-      province: province !== undefined ? province : existing?.province,
-      postal_code: postalCode !== undefined ? postalCode : existing?.postal_code,
-      logo: logo !== undefined ? logo : existing?.logo,
-    };
+    // Validate that the userId exists in users_view (optional, for security)
+    const { data: users, error: userError } = await req.supabase
+      .from('users_view')
+      .select('id')
+      .eq('id', userId);
+    if (userError) {
+      console.error('Error validating user in users_view:', userError);
+      throw new Error(`Invalid user ID: ${userError.message}`);
+    }
+    if (!users || users.length === 0) {
+      throw new Error('User not found in users_view');
+    }
+    const user = users[0]; // Use the first (and only) row, as id is unique
 
+    // Insert or update business details, linking to auth.users.id
     const { data, error } = await req.supabase
       .from('business_details')
-      .upsert(updatedData, { onConflict: 'email' })
-      .select();
-    if (error) throw new Error(`Supabase error: ${error.message}`);
-    console.log('Supabase business details response:', data);
-
-    const businessData = {
-      email: data[0].email,
-      business_name: data[0].business_name,
-      phone: data[0].phone,
-      address: data[0].address,
-      unit: data[0].unit,
-      city: data[0].city,
-      province: data[0].province,
-      postal_code: data[0].postal_code,
-      logo: data[0].logo,
-    };
-    await req.db.run(
-      'INSERT OR REPLACE INTO business_details (email, business_name, phone, address, unit, city, province, postal_code, logo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
-      [businessData.email, businessData.business_name, businessData.phone, businessData.address, businessData.unit, businessData.city, businessData.province, businessData.postal_code, businessData.logo]
-    );
-    console.log('SQLite business details saved:', businessData);
-
-    res.status(200).json({ 
-      message: existing ? 'Business details updated successfully!' : 'Business details saved successfully!',
-      isUpdate: !!existing
-    });
+      .upsert({
+        user_id: userId,
+        business_name,
+        phone,
+        address,
+        unit,
+        city,
+        province,
+        postal_code,
+        logo
+      }, { onConflict: 'user_id' });
+    if (error) {
+      console.error('Error saving business details:', error);
+      throw new Error(`Failed to save business details: ${error.message}`);
+    }
+    res.status(200).json({ message: 'Business details saved successfully!' });
   } catch (error) {
-    console.error('Business details error:', error.message);
+    res.status(400).json({ error: error.message });
+  }
+});
+
+// Optional: GET route to check or retrieve business details
+router.get('/check', async (req, res) => {
+  const { userId } = req.query;
+  try {
+    const { data, error } = await req.supabase
+      .from('business_details')
+      .select('*')
+      .eq('user_id', userId)
+      .single();
+    if (error && error.code !== 'PGRST116') throw error;
+    res.status(200).json(data ? { exists: true, ...data } : { exists: false });
+  } catch (error) {
     res.status(400).json({ error: error.message });
   }
 });

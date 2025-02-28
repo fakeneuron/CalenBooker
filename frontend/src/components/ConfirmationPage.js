@@ -7,16 +7,24 @@ const ConfirmationPage = () => {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    const hashParams = new URLSearchParams(location.hash.substring(1)); // Parse #access_token=...
+    console.log('Full location object:', location);
+    const hashParams = new URLSearchParams(location.hash.substring(1));
+    console.log('Hash params:', Object.fromEntries(hashParams));
+    
     const accessToken = hashParams.get('access_token');
-    console.log('Access token from URL:', accessToken);
+    const errorCode = hashParams.get('error_code');
+    const errorDesc = hashParams.get('error_description');
+
+    if (errorCode) {
+      setError(`Confirmation failed: ${errorDesc} (Code: ${errorCode})`);
+      return;
+    }
 
     if (accessToken) {
       try {
-        // Decode JWT manually (base64 part)
         const payload = JSON.parse(atob(accessToken.split('.')[1]));
         console.log('Decoded JWT payload:', payload);
-        setUserId(payload.sub); // 'sub' is the user ID in Supabase JWT
+        setUserId(payload.sub);
       } catch (err) {
         console.error('Error decoding token:', err.message);
         setError('Invalid confirmation link');

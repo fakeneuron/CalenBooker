@@ -1,23 +1,61 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import SignupForm from './forms/SignupForm';
+import React, { useState, useEffect } from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom'; // Removed useNavigate
+import supabase from './supabaseClient';
+import Signup from './components/Signup';
+import Login from './components/Login';
 import BusinessDetailsForm from './forms/BusinessDetailsForm';
-import SchedulingMeetingsForm from './forms/SchedulingMeetingsForm';
-import ConfirmationPage from './components/ConfirmationPage';
-import './index.css';
+import ScheduleMeetingForm from './forms/ScheduleMeetingForm';
 
 function App() {
+  const [session, setSession] = useState(null);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+    });
+
+    const { data: authListener } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        setSession(session);
+      }
+    );
+
+    return () => {
+      authListener.subscription.unsubscribe();
+    };
+  }, []);
+
+  const ProtectedRoute = ({ children }) => {
+    if (!session) {
+      return <Navigate to="/login" replace />;
+    }
+    return children;
+  };
+
   return (
-    <Router>
-      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-        <Routes>
-          <Route path="/" element={<SignupForm />} />
-          <Route path="/confirm" element={<ConfirmationPage />} />
-          <Route path="/business-details" element={<BusinessDetailsForm />} />
-          <Route path="/schedule-meeting" element={<SchedulingMeetingsForm />} />
-        </Routes>
-      </div>
-    </Router>
+    <div className="App">
+      <Routes>
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/login" element={<Login />} />
+        <Route
+          path="/business-details"
+          element={
+            <ProtectedRoute>
+              <BusinessDetailsForm />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/schedule-meeting"
+          element={
+            <ProtectedRoute>
+              <ScheduleMeetingForm />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="/" element={<Navigate to="/signup" replace />} />
+      </Routes>
+    </div>
   );
 }
 

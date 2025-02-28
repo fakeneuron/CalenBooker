@@ -1,0 +1,1 @@
+GRANT SELECT ON public.users_view TO anon;

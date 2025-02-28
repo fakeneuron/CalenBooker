@@ -1,1 +1,25 @@
+# Node.js dependencies
+node_modules/
+npm-debug.log
+package-lock.json  # Optional, see note below
+
+# Environment variables
 .env
+
+# Local database (SQLite)
+data/calenbooker.db
+
+# Logs
+*.log
+
+# Build output (if you have a frontend build step)
+dist/
+build/
+
+# OS-specific files
+.DS_Store  # macOS
+Thumbs.db  # Windows
+
+# Editor-specific files
+.vscode/  # Optional, if you don’t share VS Code settings
+*.swp     # Vim swap files
