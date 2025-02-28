@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import supabase from './supabaseClient';
 import Signup from './components/Signup';
 import Login from './components/Login';
 import BusinessDetailsForm from './forms/BusinessDetailsForm';
 import ScheduleMeetingForm from './forms/ScheduleMeetingForm';
+import Navbar from './components/Navbar';
+import Dashboard from './Dashboard';
 
 function Home() {
   return (
@@ -12,6 +14,10 @@ function Home() {
       <div className="text-center">
         <h1 className="text-4xl font-bold text-blue-600 mb-4">CalenBooker</h1>
         <p className="text-lg text-gray-700">Coming Soon</p>
+        <div className="mt-4">
+          <a href="/signup" className="text-blue-900 hover:underline mr-4">Sign Up</a>
+          <a href="/login" className="text-blue-900 hover:underline">Log In</a>
+        </div>
       </div>
     </div>
   );
@@ -36,35 +42,33 @@ function App() {
     };
   }, []);
 
-  const ProtectedRoute = ({ children }) => {
+  const ProtectedLayout = () => {
     if (!session) {
       return <Navigate to="/login" replace />;
     }
-    return children;
+    return (
+      <>
+        <Navbar />
+        <Outlet />
+      </>
+    );
   };
 
   return (
     <div className="App">
       <Routes>
+        <Route path="/" element={session ? <Navigate to="/dashboard" replace /> : <Home />} />
+        <Route path="/dashboard" element={<ProtectedLayout />}>
+          <Route index element={<Dashboard />} />
+        </Route>
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
-        <Route
-          path="/business-details"
-          element={
-            <ProtectedRoute>
-              <BusinessDetailsForm />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/schedule-meeting"
-          element={
-            <ProtectedRoute>
-              <ScheduleMeetingForm />
-            </ProtectedRoute>
-          }
-        />
-        <Route path="/" element={<Home />} /> {/* Show static content at root */}
+        <Route path="/business-details" element={<ProtectedLayout />}>
+          <Route index element={<BusinessDetailsForm />} />
+        </Route>
+        <Route path="/schedule-meeting" element={<ProtectedLayout />}>
+          <Route index element={<ScheduleMeetingForm />} />
+        </Route>
       </Routes>
     </div>
   );

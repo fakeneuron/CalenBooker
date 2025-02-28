@@ -2,7 +2,7 @@ const webpack = require('webpack');
 const dotenv = require('dotenv');
 
 // Load environment variables from the root .env file
-dotenv.config({ path: '../../../.env' });
+dotenv.config({ path: '../../.env' });
 
 module.exports = {
   resolve: {
