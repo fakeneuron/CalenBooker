@@ -12,6 +12,7 @@
     "axios": "^1.7.9",
     "crypto-browserify": "^3.12.1",
     "dotenv": "^16.4.7",
+    "ics": "^3.8.1",
     "os-browserify": "^0.3.0",
     "path-browserify": "^1.0.1",
     "postcss": "^8.5.3",
@@ -19,6 +20,7 @@
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.2.0",
     "react-scripts": "^5.0.1",
+    "runes": "^0.4.3",
     "tailwindcss": "^3.4.17",
     "web-vitals": "^2.1.4"
   },
