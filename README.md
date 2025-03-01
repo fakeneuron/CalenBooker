@@ -2,7 +2,7 @@
 
 ## Purpose and Vision
 
-"CalenBooker MVP" streamlines appointment scheduling for small businesses (e.g., barber shops), allowing owners to sign up, provide business profiles, and schedule client meetings. Key features include minimal signup (email/password), email confirmation, business profile capture, and meeting scheduling with client notifications. The v1 goal is to generate a standardized meeting invitation with calendar integration options (e.g., `.ics`, Google Calendar, Outlook) for clients, delivered via a shareable webpage; full email notifications are deferred to v2. The system leverages Supabase with Anon Key and RLS for authentication and data storage, hosted on `github.com/fakeneuron/CalenBooker` (branch: `master`).
+"CalenBooker MVP" streamlines appointment scheduling for small businesses (e.g., barber shops), allowing owners to sign up, provide business profiles, and schedule client meetings with client notifications. Key features include minimal signup (email/password), email confirmation, business profile capture, and meeting scheduling with a shareable webpage displaying meeting details and calendar integration options (e.g., `.ics`, Google Calendar, Outlook); full email notifications are deferred to v2. The system leverages Supabase with Anon Key and RLS for authentication and data storage, hosted on `github.com/fakeneuron/CalenBooker` (branch: `master`).
 
 ## Coder Environment
 
@@ -29,13 +29,15 @@
        - `Home.js`: Landing page for unauthenticated users (`/`).
        - `Signup.js`: Signup screen with login link (`/signup`).
        - `SignupSuccess.js`: Confirmation screen after signup (`/signup-success`).
-       - `Login.js`: Login screen with signup link and enhanced unconfirmed user feedback (`/login`).
+       - `Login.js`: Login screen with signup link (`/login`).
        - `AuthConfirm.js`: Handles email confirmation redirect to `/dashboard` (`/auth/confirm`).
-       - `Dashboard.js`: Dashboard screen, default post-login page (`/dashboard`).
+       - `Dashboard.js`: Dashboard screen with meetings table, default post-login page (`/dashboard`).
        - `BusinessProfile.js`: Business profile screen (`/business-profile`).
-       - `ScheduleMeeting.js`: Scheduling screen (`/schedule-meeting`).
+       - `ScheduleMeeting.js`: Scheduling screen with meeting URL generation (`/schedule-meeting`).
+       - `MeetingConfirmation.js`: Client-facing meeting confirmation page (`/meeting-confirmation/:id`).
      - `frontend/src/components/`:
        - `Navbar.js`: Navigation bar for protected routes, redirects to `/` on logout.
+       - `MeetingsTable.js`: Reusable table displaying user’s meetings.
      - `frontend/src/`:
        - `App.js`: Root component with routing and Supabase auth state management.
        - `index.js`: Entry point rendering `App.js` with routing.
@@ -67,18 +69,13 @@
 ### Remaining (v1)
 
 1. **Client Meeting Notification System**:
-
    - **Purpose**: Enable businesses to schedule meetings and automatically generate a client-facing notification with appointment details and calendar integration options (e.g., `.ics` download, Google Calendar link, Outlook integration).
-   - **Components**:
-     - **Meeting Creation**: Business enters client details (name, email, date, time, duration) in `ScheduleMeeting.js`, saved to `meetings` table.
-     - **Notification**: Generates a shareable webpage URL (e.g., `/meeting-confirmation/<meeting-id>`) displaying details and buttons: “Add to iCalendar” (`.ics` download), “Add to Google Calendar” (URL), “Add to Outlook” (`.ics` or link).
-     - **Delivery**: For v1, business manually sends the URL to the client (e.g., via email/text); v2 will automate email delivery.
-   - **Implementation**:
-     - Update `ScheduleMeeting.js` to generate a confirmation URL after saving the meeting.
-     - Create `MeetingConfirmation.js` to render the notification page, fetching data from `meetings` and `business_profile` tables.
-     - Add `.ics` generation using a library (e.g., `ics`) and links for Google Calendar and Outlook.
-     - Add `/meeting-confirmation/:id` route to `App.js`.
-
+   - **Progress**:
+     - URL generation added to `ScheduleMeeting.js` (e.g., `/meeting-confirmation/<id>`).
+     - `MeetingConfirmation.js` displays meeting and business details (public access for v1).
+   - **To-Do**:
+     - Implement `.ics` file generation and calendar links (Google Calendar, Outlook) in `MeetingConfirmation.js`.
+     - Require a completed `business_profile` before allowing meeting scheduling in `ScheduleMeeting.js`.
 2. **Domain Hosting**:
    - Confirm HTTPS on `fakeneuron.com` post-DNS propagation.
 
@@ -108,9 +105,9 @@
 
 1. **Client Meeting Notification System**:
 
-   - Update `ScheduleMeeting.js` to generate a confirmation URL.
-   - Create `MeetingConfirmation.js` with calendar integration options.
-   - Add routing and implement `.ics` generation.
+   - Add calendar integration buttons to `MeetingConfirmation.js` (`.ics`, Google Calendar, Outlook).
+   - Update `ScheduleMeeting.js` to require a completed `business_profile` before submission.
+   - Add auto-populate buttons to `BusinessProfile.js` and `ScheduleMeeting.js` forms for testing purposes.
 
 2. **Confirm HTTPS Setup**:
 

@@ -1,3 +1,4 @@
+// Calenbooker/frontend/src/pages/ScheduleMeeting.js
 import React, { useState } from 'react';
 import supabase from '../supabaseClient';
 
@@ -10,6 +11,7 @@ const ScheduleMeeting = () => {
     duration: '30', // Default in minutes
   });
   const [error, setError] = useState('');
+  const [confirmationUrl, setConfirmationUrl] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -25,7 +27,7 @@ const ScheduleMeeting = () => {
     }
 
     try {
-      const { error } = await supabase
+      const { data, error } = await supabase
         .from('meetings')
         .insert({
           user_id: session.user.id,
@@ -34,11 +36,14 @@ const ScheduleMeeting = () => {
           meeting_date: formData.meetingDate,
           meeting_time: formData.meetingTime,
           duration: parseInt(formData.duration, 10)
-        });
-      if (error) {
-        throw error;
-      }
-      alert('Meeting scheduled successfully!');
+        })
+        .select('id')
+        .single();
+      if (error) throw error;
+
+      const meetingId = data.id;
+      const url = `${window.location.origin}/meeting-confirmation/${meetingId}`;
+      setConfirmationUrl(url);
       setFormData({
         clientName: '',
         clientEmail: '',
@@ -46,8 +51,9 @@ const ScheduleMeeting = () => {
         meetingTime: '',
         duration: '30'
       });
+      setError('');
     } catch (error) {
-      alert('Error scheduling meeting: ' + error.message);
+      setError('Error scheduling meeting: ' + error.message);
     }
   };
 
@@ -121,6 +127,18 @@ const ScheduleMeeting = () => {
           Schedule Meeting
         </button>
       </form>
+      {confirmationUrl && (
+        <div className="mt-4 p-4 bg-green-100 rounded">
+          <p className="text-green-700">
+            Meeting scheduled successfully! Share this link with your client:
+          </p>
+          <p className="mt-2 text-blue-600 break-all">
+            <a href={confirmationUrl} target="_blank" rel="noopener noreferrer">
+              {confirmationUrl}
+            </a>
+          </p>
+        </div>
+      )}
     </div>
   );
 };
