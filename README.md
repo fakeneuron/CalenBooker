@@ -29,7 +29,6 @@
        - `Home.js`: Landing page for unauthenticated users (`/`).
        - `Signup.js`: Signup screen with login link (`/signup`).
        - `Login.js`: Login screen with signup link (`/login`).
-       - `LogoutSuccess.js`: Unused logout confirmation (to be removed).
        - `Dashboard.js`: Dashboard placeholder (`/dashboard`).
        - `BusinessDetailsForm.js`: Business profile screen (`/business-details`).
        - `ScheduleMeetingForm.js`: Scheduling screen (`/schedule-meeting`).
@@ -72,7 +71,7 @@
 
 2. **Cleanup Frontend**:
 
-   - Remove unused `LogoutSuccess.js` from `src/pages/`.
+   - Remove unused `LogoutSuccess.js` from `src/pages/` (in progress).
 
 3. **Rename Business Details to Business Profile**:
 
@@ -113,7 +112,7 @@
 
    - Automate post-confirmation redirection.
    - Enhance feedback for unconfirmed users.
-   - Remove `LogoutSuccess.js`.
+   - Complete removal of `LogoutSuccess.js`.
    - Rename “Business Details” to “Business Profile”.
 
 2. **Implement `.ics` File Generation**:
