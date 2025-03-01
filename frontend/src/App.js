@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import supabase from './supabaseClient';
-import Signup from './components/Signup';
-import Login from './components/Login';
-import BusinessDetailsForm from './forms/BusinessDetailsForm';
-import ScheduleMeetingForm from './forms/ScheduleMeetingForm';
+import Signup from './pages/Signup';
+import Login from './pages/Login';
+import BusinessDetailsForm from './pages/BusinessDetailsForm';
+import ScheduleMeetingForm from './pages/ScheduleMeetingForm';
 import Navbar from './components/Navbar';
-import Dashboard from './Dashboard';
+import Dashboard from './pages/Dashboard';
 
 function Home() {
   return (

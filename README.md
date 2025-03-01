@@ -18,23 +18,28 @@
    - Project structure:
      - `Calenbooker/frontend`: React app (port 4000) with `react-scripts@5.0.1`.
      - `Calenbooker/backend`: Express app (port 4001, minimal setup for future v2 features).
-     - `Calenbooker/.env`: Top-level environment variables (not committed).
      - `Calenbooker/supabase/`: Local SQL snippets (source of truth).
+     - `Calenbooker/README.md`: Main project documentation (root-level).
 
 2. **Frontend Setup**:
 
    - Tailwind CSS via CDN (`2.2.19`) in `public/index.html` and local dependency (`3.4.17`).
-   - **Components**:
-     - `frontend/src/App.js`: Root component with routing and Supabase auth state management.
-     - `frontend/src/components/Signup.js`: Signup with email check via `users_view`, redirects to `/login`.
-     - `frontend/src/components/Login.js`: Login with Supabase Auth, redirects to `/business-details`.
-     - `frontend/src/components/Navbar.js`: Navigation bar for protected routes.
-     - `frontend/src/Dashboard.js`: Placeholder dashboard for authenticated users.
-     - `frontend/src/forms/BusinessDetailsForm.js`: Submits/updates business details in `business_details`.
-     - `frontend/src/forms/ScheduleMeetingForm.js`: Schedules meetings in `meetings`.
-     - `frontend/src/Home.js`: Landing page for unauthenticated users.
-     - `frontend/src/LogoutSuccess.js`: Success message after logout.
-     - `frontend/src/supabaseClient.js`: Initializes Supabase client with Anon Key from `.env`.
+   - **Structure**:
+     - `frontend/src/pages/`:
+       - `Home.js`: Landing page for unauthenticated users (`/`).
+       - `Signup.js`: Signup screen (`/signup`).
+       - `Login.js`: Login screen (`/login`).
+       - `LogoutSuccess.js`: Logout confirmation (future `/login?logout=true`).
+       - `Dashboard.js`: Dashboard placeholder (`/dashboard`).
+       - `BusinessDetailsForm.js`: Business details screen (`/business-details`).
+       - `ScheduleMeetingForm.js`: Scheduling screen (`/schedule-meeting`).
+     - `frontend/src/components/`:
+       - `Navbar.js`: Navigation bar for protected routes.
+     - `frontend/src/`:
+       - `App.js`: Root component with routing and Supabase auth state management.
+       - `index.js`: Entry point rendering `App.js` with routing.
+       - `index.css`: Tailwind CSS setup (placeholder for custom styles).
+       - `supabaseClient.js`: Supabase client initialization with Anon Key from `.env`.
    - Routing with `react-router-dom@7.2.0`.
    - Dependencies in `frontend/package.json`: `react@19.0.0`, `@supabase/supabase-js@2.49.1`, etc.
    - `frontend/public/index.html`: Includes Tailwind CSS CDN.
@@ -85,7 +90,7 @@
 - **Frontend**:
 
   - React (`19.0.0`) with `react-router-dom@7.2.0`.
-  - Tailwind CSS (`3.4.17` local, `2.2.19` CDN).
+  - Tailwind CSS (`3.4.17` local via `index.css`, `2.2.19` CDN in `index.html`).
   - Supabase client with Anon Key from `.env`.
   - Runs on port 4000.
 
