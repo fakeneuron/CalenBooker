@@ -30,8 +30,8 @@
        - `Signup.js`: Signup screen with login link (`/signup`).
        - `Login.js`: Login screen with signup link (`/login`).
        - `Dashboard.js`: Dashboard placeholder (`/dashboard`).
-       - `BusinessDetailsForm.js`: Business profile screen (`/business-details`).
-       - `ScheduleMeetingForm.js`: Scheduling screen (`/schedule-meeting`).
+       - `BusinessProfile.js`: Business profile screen (`/business-details`).
+       - `ScheduleMeeting.js`: Scheduling screen (`/schedule-meeting`).
      - `frontend/src/components/`:
        - `Navbar.js`: Navigation bar for protected routes, redirects to `/` on logout.
      - `frontend/src/`:
@@ -50,7 +50,7 @@
    - Dependencies in `backend/package.json`: `express@4.21.2`, `@supabase/supabase-js@2.49.1`, `cors@2.8.5`, `dotenv@16.4.7`.
 
 4. **Supabase SQL Snippets**:
-   - Tables: `business_details`, `meetings`.
+   - Tables: `business_profile`, `meetings`.
    - Views: `users_view` for email checks.
    - RLS policies for secure data access.
 
@@ -58,7 +58,7 @@
 
 - **Storage**: `Calenbooker/supabase/`—source of truth, duplicated in SQL Editor (sync script pending).
 - **Snippets**:
-  - **`create_tables.sql`**: Defines `business_details` and `meetings` tables linked to `auth.users`.
+  - **`create_tables.sql`**: Defines `business_profile` and `meetings` tables linked to `auth.users`.
   - **`rls.sql`**: Enables RLS and defines policies for `INSERT`, `UPDATE`, `SELECT` on tables.
   - **`users_view_setup.sql`**: Creates `users_view` and grants Anon Key `SELECT` access for email checks.
 
@@ -71,15 +71,15 @@
 
 2. **Cleanup Frontend**:
 
-   - Remove unused `LogoutSuccess.js` from `src/pages/` (in progress).
+   - Remove unused `LogoutSuccess.js` from `src/pages/`.
 
 3. **Rename Business Details to Business Profile**:
 
-   - Update `BusinessDetailsForm.js` filename, references, and UI to “Business Profile” (e.g., route, navbar link).
+   - Update `BusinessProfile.js` filename, references, and UI to “Business Profile” (completed for frontend and Supabase tables; route `/business-details` remains).
 
-4. **Scheduling Meetings Form**:
+4. **Scheduling Meetings**:
 
-   - Implement `.ics` file generation for scheduled meetings.
+   - Implement `.ics` file generation for scheduled meetings in `ScheduleMeeting.js`.
 
 5. **Domain Hosting**:
    - Confirm HTTPS on `fakeneuron.com` post-DNS propagation.
@@ -112,12 +112,12 @@
 
    - Automate post-confirmation redirection.
    - Enhance feedback for unconfirmed users.
-   - Complete removal of `LogoutSuccess.js`.
-   - Rename “Business Details” to “Business Profile”.
+   - Remove `LogoutSuccess.js`.
+   - Optionally rename `/business-details` route to `/business-profile`.
 
 2. **Implement `.ics` File Generation**:
 
-   - Research and integrate into `ScheduleMeetingForm.js`.
+   - Research and integrate into `ScheduleMeeting.js`.
 
 3. **Confirm HTTPS Setup**:
 
