@@ -1,7 +1,14 @@
 INITIAL PROMPT
-I'm developing a web app according to the MVP.md file attached. The project has a backend and a frontend and supabase SQL scripts. Please take a look at the .md file and request the project files one at a time. Start with requesting all the backend files one at a time before moving on to the next sections (frontend, supabase). Confirm that you have all the needed files in each section before progressing to the next.
+I have a web app project described in the attached README.md file. The project includes a frontend, Supabase SQL scripts, and a backend placeholder. The project is well on its way, and the coding environment is already set up. As a novice coder, I need your help to guide me through the remaining development process step by step.
+Please review the attached README.md file to understand the project structure, technologies used, and the overall goal of the application.
+To avoid overwhelming me, please request the project files one at a time. Start with the most fundamental file relevant to the current stage of development, and we’ll proceed from there. All these files are already committed to Git, and I’m sharing them so I can pick up where I left off. When receiving the files, take them in to understand the concepts without providing a comprehensive analysis or being overly descriptive in your responses. Do not make any suggestions for changes as I share these files. Ensure you have all the files before proceeding with suggestions for changes.
+The Supabase database is already set up. I’m sharing the .sql files only so you can understand the overall structure of the project.
+Guide me through the remaining development process incrementally. Ensure I complete and understand each step before moving on to the next. This includes writing code, testing, and debugging based on the project’s current state.
+As a beginner, I may need explanations of certain concepts or technologies. Please explain these in simple terms within our conversation.
+Encourage me to follow best practices, such as writing clean and readable code, using version control (e.g., Git), and adhering to coding standards relevant to the technologies in this project, but only make suggestions after all files are collected.
+The README.md file is attached for your review. After reviewing it, please ask me for the first project file you need based on the project’s current progress. Once you’ve requested and received all the files, check with me to confirm there’s nothing missing. After that, we’ll figure out what to prioritize next and proceed together.
 
-Post-File Updates
+POST FILE UPDATES
 Let's start by cleaning up the backend. Once tested, we will move on to the cleanup sql scripts. . I'd like to highlight that i'm a novice coder and leaning to code by using AI while developing this app. Please proceed slowly and deliberately so that I can keep up. When possible, include the full code for files rather than just pieces for manual insert (however it is nice to know which code is being changed explicitly). Don't move too fast or provide too many updates at once. i rather deal with smaller pieces of information and update before proceeding to the next stage.
 
 Specifics on the meeting invitation notification

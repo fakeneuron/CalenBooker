@@ -54,9 +54,15 @@
    - Dependencies in `backend/package.json`: `express@4.21.2`, `@supabase/supabase-js@2.49.1`, `cors@2.8.5`, `dotenv@16.4.7`.
 
 4. **Supabase SQL Snippets**:
+
    - Tables: `business_profile`, `meetings`.
    - Views: `users_view` for email checks.
    - RLS policies for secure data access.
+
+5. **Client Meeting Notification System**:
+   - URL generation added to `ScheduleMeeting.js` (e.g., `/meeting-confirmation/<id>`).
+   - `MeetingConfirmation.js` displays meeting and business details with calendar integration (`.ics`, Google Calendar, Outlook) using manual `.ics` file generation, removing dependency on `ics` library to resolve `runes` error.
+   - Removed unused `ics` and `runes` dependencies from `frontend/package.json`.
 
 ### Supabase SQL Snippets
 
@@ -72,9 +78,8 @@
    - **Purpose**: Enable businesses to schedule meetings and automatically generate a client-facing notification with appointment details and calendar integration options (e.g., `.ics` download, Google Calendar link, Outlook integration).
    - **Progress**:
      - URL generation added to `ScheduleMeeting.js` (e.g., `/meeting-confirmation/<id>`).
-     - `MeetingConfirmation.js` displays meeting and business details (public access for v1).
+     - `MeetingConfirmation.js` displays meeting and business details (public access for v1) with `.ics`, Google Calendar, and Outlook integration completed.
    - **To-Do**:
-     - Implement `.ics` file generation and calendar links (Google Calendar, Outlook) in `MeetingConfirmation.js`.
      - Require a completed `business_profile` before allowing meeting scheduling in `ScheduleMeeting.js`.
 2. **Domain Hosting**:
    - Confirm HTTPS on `fakeneuron.com` post-DNS propagation.
@@ -86,6 +91,10 @@
 - Self-scheduling for clients.
 - Multi-employee support.
 - Analytics dashboard.
+- **Move sensitive operations (e.g., email notifications, data writes) to the backend with a Supabase Service Key** to reduce Anon Key exposure in the frontend.
+- **Add server-side input validation in the backend** to sanitize data before it hits Supabase, enhancing security beyond frontend checks.
+- **Implement rate limiting or CAPTCHA** on signup/login endpoints to prevent abuse or spam.
+- **Use Supabase edge functions** for lightweight backend logic (e.g., rate limiting, notifications) if avoiding a full backend expansion.
 
 ### Technical Approach
 
@@ -105,9 +114,8 @@
 
 1. **Client Meeting Notification System**:
 
-   - Add calendar integration buttons to `MeetingConfirmation.js` (`.ics`, Google Calendar, Outlook).
    - Update `ScheduleMeeting.js` to require a completed `business_profile` before submission.
-   - Add auto-populate buttons to `BusinessProfile.js` and `ScheduleMeeting.js` forms for testing purposes.
+   - Add auto-populate buttons to `BusinessProfile.js` and `ScheduleMeeting.js` forms for testing purposes (already implemented).
 
 2. **Confirm HTTPS Setup**:
 
