@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import supabase from '../supabaseClient'; 
+import supabase from '../supabaseClient';
 
-const ScheduleMeetingForm = () => {
+const ScheduleMeeting = () => {
   const [formData, setFormData] = useState({
     clientName: '',
     clientEmail: '',
@@ -28,12 +28,12 @@ const ScheduleMeetingForm = () => {
       const { error } = await supabase
         .from('meetings')
         .insert({
-          user_id: session.user.id, // Link to authenticated user's ID
+          user_id: session.user.id,
           client_name: formData.clientName,
           client_email: formData.clientEmail,
           meeting_date: formData.meetingDate,
           meeting_time: formData.meetingTime,
-          duration: parseInt(formData.duration, 10) // Ensure duration is a number
+          duration: parseInt(formData.duration, 10)
         });
       if (error) {
         throw error;
@@ -125,4 +125,4 @@ const ScheduleMeetingForm = () => {
   );
 };
 
-export default ScheduleMeetingForm;
+export default ScheduleMeeting;

@@ -3,8 +3,8 @@ import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import supabase from './supabaseClient';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
-import BusinessProfile from './pages/BusinessProfile'; // Updated import
-import ScheduleMeetingForm from './pages/ScheduleMeetingForm';
+import BusinessProfile from './pages/BusinessProfile';
+import ScheduleMeeting from './pages/ScheduleMeeting'; // Updated import
 import Navbar from './components/Navbar';
 import Dashboard from './pages/Dashboard';
 import Home from './pages/Home';
@@ -50,10 +50,10 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         <Route path="/business-details" element={<ProtectedLayout />}>
-          <Route index element={<BusinessProfile />} /> {/* Updated component */}
+          <Route index element={<BusinessProfile />} />
         </Route>
         <Route path="/schedule-meeting" element={<ProtectedLayout />}>
-          <Route index element={<ScheduleMeetingForm />} />
+          <Route index element={<ScheduleMeeting />} /> {/* Updated component */}
         </Route>
       </Routes>
     </div>
