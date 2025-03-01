@@ -28,7 +28,9 @@
      - `frontend/src/pages/`:
        - `Home.js`: Landing page for unauthenticated users (`/`).
        - `Signup.js`: Signup screen with login link (`/signup`).
+       - `SignupSuccess.js`: Confirmation screen after signup (`/signup-success`).
        - `Login.js`: Login screen with signup link (`/login`).
+       - `AuthConfirm.js`: Handles email confirmation redirect to `/dashboard` (`/auth/confirm`).
        - `Dashboard.js`: Dashboard placeholder (`/dashboard`).
        - `BusinessProfile.js`: Business profile screen (`/business-profile`).
        - `ScheduleMeeting.js`: Scheduling screen (`/schedule-meeting`).
@@ -66,7 +68,6 @@
 
 1. **Refine Signup/Confirmation Flow**:
 
-   - Automate redirection after email confirmation to `/business-profile`.
    - Enhance feedback for unconfirmed users on `/login` (e.g., display a message).
 
 2. **Scheduling Meetings**:
@@ -102,7 +103,6 @@
 
 1. **Frontend Refinements**:
 
-   - Automate post-confirmation redirection.
    - Enhance feedback for unconfirmed users.
 
 2. **Implement `.ics` File Generation**:
