@@ -24,9 +24,13 @@ const Login = () => {
         password: formData.password,
       });
       if (error) throw error;
-      navigate('/business-profile'); // Updated redirect
+      navigate('/business-profile');
     } catch (error) {
-      setErrorMessage(error.message);
+      if (error.message === 'Email not confirmed') {
+        setErrorMessage('Your email isn’t confirmed yet. Please check your inbox (and spam/junk folder) for the confirmation link.');
+      } else {
+        setErrorMessage(error.message);
+      }
       setResendMessage(''); // Clear resend message on new attempt
     }
   };
@@ -74,7 +78,7 @@ const Login = () => {
         {errorMessage && (
           <div className="text-sm text-red-500">
             {errorMessage}
-            {errorMessage === 'Email not confirmed' && (
+            {errorMessage.includes('confirmed') && (
               <button
                 type="button"
                 onClick={handleResendConfirmation}
