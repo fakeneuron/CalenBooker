@@ -8,6 +8,7 @@ import ScheduleMeeting from './pages/ScheduleMeeting';
 import Navbar from './components/Navbar';
 import Dashboard from './pages/Dashboard';
 import Home from './pages/Home';
+import AuthConfirm from './pages/AuthConfirm'; // New import
 
 function App() {
   const [session, setSession] = useState(null);
@@ -50,11 +51,12 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         <Route path="/business-profile" element={<ProtectedLayout />}>
-          <Route index element={<BusinessProfile />} /> {/* Updated route */}
+          <Route index element={<BusinessProfile />} />
         </Route>
         <Route path="/schedule-meeting" element={<ProtectedLayout />}>
           <Route index element={<ScheduleMeeting />} />
         </Route>
+        <Route path="/auth/confirm" element={<AuthConfirm />} /> {/* New route */}
       </Routes>
     </div>
   );

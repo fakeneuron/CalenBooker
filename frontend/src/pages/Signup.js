@@ -13,10 +13,13 @@ const Signup = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+
     if (name === 'password') {
-      const strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
-      if (!strongPasswordRegex.test(value)) {
-        setPasswordError('Password must be 8+ characters with uppercase, lowercase, number, and special character');
+      const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+      if (!passwordRegex.test(value)) {
+        setPasswordError(
+          'Password must be at least 8 characters long, contain one uppercase letter, one lowercase letter, one number, and one special character.'
+        );
       } else {
         setPasswordError('');
       }
@@ -25,34 +28,35 @@ const Signup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
-    if (!strongPasswordRegex.test(formData.password)) {
-      setPasswordError('Password must be 8+ characters with uppercase, lowercase, number, and special character');
+    if (passwordError) {
+      alert(passwordError);
       return;
     }
+
     try {
-      const { data: existingUsers, error: checkError } = await supabase
+      const { data, error } = await supabase
         .from('users_view')
         .select('email')
         .eq('email', formData.email);
-      console.log('Users_view check:', { existingUsers, checkError });
-      if (checkError) throw checkError;
-      if (existingUsers && existingUsers.length > 0) {
-        alert('User already exists, please log in.');
-        navigate('/login');
+
+      if (error) throw error;
+      if (data.length > 0) {
+        alert('Email already in use');
         return;
       }
-      const { data, error } = await supabase.auth.signUp({
+
+      const { error: signUpError } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,
+        options: {
+          emailRedirectTo: `${window.location.origin}/auth/confirm`, // Redirect to /auth/confirm
+        },
       });
-      if (error) throw error;
-      alert('Signup successful! Please check your email to confirm your account.');
+
+      if (signUpError) throw signUpError;
       navigate('/login');
     } catch (error) {
-      const errorMessage = error.message || 'An error occurred during signup';
-      alert(errorMessage);
-      navigate('/login');
+      alert(error.message);
     }
   };
 
