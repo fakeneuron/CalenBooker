@@ -22,7 +22,7 @@ const MeetingsTable = () => {
 
         const { data, error } = await supabase
           .from('meetings')
-          .select('id, client_name, client_email, meeting_date, meeting_time, duration')
+          .select('client_name, client_email, meeting_date, meeting_time, duration') // Removed id
           .eq('user_id', session.user.id)
           .order('meeting_date', { ascending: true })
           .order('meeting_time', { ascending: true });
@@ -68,7 +68,6 @@ const MeetingsTable = () => {
       <table className="min-w-full bg-white border border-gray-200">
         <thead className="bg-blue-900 text-white">
           <tr>
-            <th className="py-2 px-4 border-b">ID</th>
             <th className="py-2 px-4 border-b">Name</th>
             <th className="py-2 px-4 border-b">Email</th>
             <th className="py-2 px-4 border-b">Date</th>
@@ -79,14 +78,13 @@ const MeetingsTable = () => {
         <tbody>
           {meetings.length === 0 ? (
             <tr>
-              <td colSpan="6" className="py-4 px-4 text-center text-gray-500">
+              <td colSpan="5" className="py-4 px-4 text-center text-gray-500">
                 No meetings scheduled yet.
               </td>
             </tr>
           ) : (
-            meetings.map((meeting) => (
-              <tr key={meeting.id} className="hover:bg-gray-100">
-                <td className="py-2 px-4 border-b">{meeting.id}</td>
+            meetings.map((meeting, index) => ( // Use index as key since id is removed
+              <tr key={index} className="hover:bg-gray-100">
                 <td className="py-2 px-4 border-b">{meeting.client_name}</td>
                 <td className="py-2 px-4 border-b">{meeting.client_email}</td>
                 <td className="py-2 px-4 border-b">{meeting.meeting_date}</td>
