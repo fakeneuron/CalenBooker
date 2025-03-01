@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import supabase from '../supabaseClient';
-import { useNavigate, Link } from 'react-router-dom'; // Add Link to imports
+import { useNavigate, Link } from 'react-router-dom'; // No useLocation needed
 
 const Login = () => {
   const [formData, setFormData] = useState({

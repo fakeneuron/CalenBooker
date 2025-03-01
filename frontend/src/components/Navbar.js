@@ -13,15 +13,14 @@ const Navbar = () => {
       alert('Failed to log out: ' + error.message);
       return;
     }
-    console.log('Logged out successfully, navigating to /login?logout=true');
-    navigate('/login?logout=true');
+    console.log('Logged out successfully, navigating to /');
+    navigate('/'); // Changed to root
   };
 
   return (
     <nav className="bg-blue-900 p-2 shadow-md">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         <div className="flex items-center space-x-2">
-          {/* Logo from /public/logo.png */}
           <Link to="/dashboard" className="flex items-center">
             <img src="/logo.png" alt="CalenBooker Logo" className="w-8 h-8" />
           </Link>

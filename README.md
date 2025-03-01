@@ -2,7 +2,7 @@
 
 ## Purpose and Vision
 
-"CalenBooker MVP" streamlines appointment scheduling for small businesses (e.g., barber shops), allowing owners to sign up, provide business details, and schedule client meetings. Key features include minimal signup (email/password), email confirmation, business details capture, and meeting scheduling. The v1 goal is to generate downloadable `.ics` files for meetings; email notifications are deferred to v2. The system leverages Supabase with Anon Key and RLS for authentication and data storage, hosted on `github.com/fakeneuron/CalenBooker` (branch: `master`).
+"CalenBooker MVP" streamlines appointment scheduling for small businesses (e.g., barber shops), allowing owners to sign up, provide business profiles, and schedule client meetings. Key features include minimal signup (email/password), email confirmation, business profile capture, and meeting scheduling. The v1 goal is to generate downloadable `.ics` files for meetings; email notifications are deferred to v2. The system leverages Supabase with Anon Key and RLS for authentication and data storage, hosted on `github.com/fakeneuron/CalenBooker` (branch: `master`).
 
 ## Coder Environment
 
@@ -27,14 +27,14 @@
    - **Structure**:
      - `frontend/src/pages/`:
        - `Home.js`: Landing page for unauthenticated users (`/`).
-       - `Signup.js`: Signup screen (`/signup`).
-       - `Login.js`: Login screen (`/login`).
-       - `LogoutSuccess.js`: Logout confirmation (future `/login?logout=true`).
+       - `Signup.js`: Signup screen with login link (`/signup`).
+       - `Login.js`: Login screen with signup link (`/login`).
+       - `LogoutSuccess.js`: Unused logout confirmation (to be removed).
        - `Dashboard.js`: Dashboard placeholder (`/dashboard`).
-       - `BusinessDetailsForm.js`: Business details screen (`/business-details`).
+       - `BusinessDetailsForm.js`: Business profile screen (`/business-details`).
        - `ScheduleMeetingForm.js`: Scheduling screen (`/schedule-meeting`).
      - `frontend/src/components/`:
-       - `Navbar.js`: Navigation bar for protected routes.
+       - `Navbar.js`: Navigation bar for protected routes, redirects to `/` on logout.
      - `frontend/src/`:
        - `App.js`: Root component with routing and Supabase auth state management.
        - `index.js`: Entry point rendering `App.js` with routing.
@@ -68,13 +68,21 @@
 1. **Refine Signup/Confirmation Flow**:
 
    - Automate redirection after email confirmation to `/business-details`.
-   - Improve feedback for unconfirmed users on `/login` (e.g., display a message).
+   - Enhance feedback for unconfirmed users on `/login` (e.g., display a message).
 
-2. **Scheduling Meetings Form**:
+2. **Cleanup Frontend**:
+
+   - Remove unused `LogoutSuccess.js` from `src/pages/`.
+
+3. **Rename Business Details to Business Profile**:
+
+   - Update `BusinessDetailsForm.js` filename, references, and UI to “Business Profile” (e.g., route, navbar link).
+
+4. **Scheduling Meetings Form**:
 
    - Implement `.ics` file generation for scheduled meetings.
 
-3. **Domain Hosting**:
+5. **Domain Hosting**:
    - Confirm HTTPS on `fakeneuron.com` post-DNS propagation.
 
 ### v2 Considerations
@@ -103,10 +111,10 @@
 
 1. **Frontend Refinements**:
 
-   - Import `Home.js` into `App.js`.
-   - Integrate `LogoutSuccess.js` for `/login?logout=true`.
    - Automate post-confirmation redirection.
    - Enhance feedback for unconfirmed users.
+   - Remove `LogoutSuccess.js`.
+   - Rename “Business Details” to “Business Profile”.
 
 2. **Implement `.ics` File Generation**:
 
