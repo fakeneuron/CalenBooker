@@ -49,12 +49,12 @@ const Signup = () => {
         email: formData.email,
         password: formData.password,
         options: {
-          emailRedirectTo: `${window.location.origin}/auth/confirm`,
+          emailRedirectTo: 'https://random-name-123.netlify.app/auth/confirm', // Replace with your Netlify URL
         },
       });
 
       if (signUpError) throw signUpError;
-      navigate('/signup-success'); // Updated redirect
+      navigate('/signup-success');
     } catch (error) {
       alert(error.message);
     }
