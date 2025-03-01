@@ -29,9 +29,9 @@
        - `Home.js`: Landing page for unauthenticated users (`/`).
        - `Signup.js`: Signup screen with login link (`/signup`).
        - `SignupSuccess.js`: Confirmation screen after signup (`/signup-success`).
-       - `Login.js`: Login screen with signup link (`/login`).
+       - `Login.js`: Login screen with signup link and enhanced unconfirmed user feedback (`/login`).
        - `AuthConfirm.js`: Handles email confirmation redirect to `/dashboard` (`/auth/confirm`).
-       - `Dashboard.js`: Dashboard placeholder (`/dashboard`).
+       - `Dashboard.js`: Dashboard screen, default post-login page (`/dashboard`).
        - `BusinessProfile.js`: Business profile screen (`/business-profile`).
        - `ScheduleMeeting.js`: Scheduling screen (`/schedule-meeting`).
      - `frontend/src/components/`:
@@ -66,15 +66,11 @@
 
 ### Remaining (v1)
 
-1. **Refine Signup/Confirmation Flow**:
-
-   - Enhance feedback for unconfirmed users on `/login` (e.g., display a message).
-
-2. **Scheduling Meetings**:
+1. **Scheduling Meetings**:
 
    - Implement `.ics` file generation for scheduled meetings in `ScheduleMeeting.js`.
 
-3. **Domain Hosting**:
+2. **Domain Hosting**:
    - Confirm HTTPS on `fakeneuron.com` post-DNS propagation.
 
 ### v2 Considerations
@@ -101,17 +97,13 @@
 
 ### Action Items and Next Steps
 
-1. **Frontend Refinements**:
-
-   - Enhance feedback for unconfirmed users.
-
-2. **Implement `.ics` File Generation**:
+1. **Implement `.ics` File Generation**:
 
    - Research and integrate into `ScheduleMeeting.js`.
 
-3. **Confirm HTTPS Setup**:
+2. **Confirm HTTPS Setup**:
 
    - Verify `fakeneuron.com` serves HTTPS.
 
-4. **Plan for v2**:
+3. **Plan for v2**:
    - Prioritize features based on user feedback.
