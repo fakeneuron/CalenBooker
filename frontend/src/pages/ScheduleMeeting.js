@@ -57,6 +57,17 @@ const ScheduleMeeting = () => {
     }
   };
 
+  const handleAutoPopulate = () => {
+    setFormData({
+      clientName: 'John Smith',
+      clientEmail: 'john.smith@example.com',
+      meetingDate: '2025-03-25',
+      meetingTime: '14:00',
+      duration: '30'
+    });
+    setError('');
+  };
+
   return (
     <div className="max-w-md mx-auto p-6 bg-white shadow-md rounded-lg">
       <h2 className="text-2xl font-bold mb-4">Schedule a Meeting</h2>
@@ -125,6 +136,13 @@ const ScheduleMeeting = () => {
           className="w-full p-2 bg-blue-600 text-white rounded hover:bg-blue-700"
         >
           Schedule Meeting
+        </button>
+        <button
+          type="button"
+          onClick={handleAutoPopulate}
+          className="w-full p-2 bg-gray-600 text-white rounded hover:bg-gray-700 mt-2"
+        >
+          Fill Sample Data
         </button>
       </form>
       {confirmationUrl && (
