@@ -49,12 +49,12 @@ const Signup = () => {
         email: formData.email,
         password: formData.password,
         options: {
-          emailRedirectTo: `${window.location.origin}/auth/confirm`, // Redirect to /auth/confirm
+          emailRedirectTo: `${window.location.origin}/auth/confirm`,
         },
       });
 
       if (signUpError) throw signUpError;
-      navigate('/login');
+      navigate('/signup-success'); // Updated redirect
     } catch (error) {
       alert(error.message);
     }

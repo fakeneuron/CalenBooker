@@ -8,7 +8,8 @@ import ScheduleMeeting from './pages/ScheduleMeeting';
 import Navbar from './components/Navbar';
 import Dashboard from './pages/Dashboard';
 import Home from './pages/Home';
-import AuthConfirm from './pages/AuthConfirm'; // New import
+import AuthConfirm from './pages/AuthConfirm';
+import SignupSuccess from './pages/SignupSuccess'; // New import
 
 function App() {
   const [session, setSession] = useState(null);
@@ -49,6 +50,7 @@ function App() {
           <Route index element={<Dashboard />} />
         </Route>
         <Route path="/signup" element={<Signup />} />
+        <Route path="/signup-success" element={<SignupSuccess />} /> {/* New route */}
         <Route path="/login" element={<Login />} />
         <Route path="/business-profile" element={<ProtectedLayout />}>
           <Route index element={<BusinessProfile />} />
@@ -56,7 +58,7 @@ function App() {
         <Route path="/schedule-meeting" element={<ProtectedLayout />}>
           <Route index element={<ScheduleMeeting />} />
         </Route>
-        <Route path="/auth/confirm" element={<AuthConfirm />} /> {/* New route */}
+        <Route path="/auth/confirm" element={<AuthConfirm />} />
       </Routes>
     </div>
   );
