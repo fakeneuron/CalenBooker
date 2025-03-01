@@ -1,0 +1,5 @@
+INITIAL PROMPT
+I'm developing a web app according to the MVP.md file attached. The project has a backend and a frontend and supabase SQL scripts. Please take a look at the .md file and request the project files one at a time. Start with requesting all the backend files one at a time before moving on to the next sections (frontend, supabase). Confirm that you have all the needed files in each section before progressing to the next.
+
+Post-File Updates
+Let's start by cleaning up the backend. Once tested, we will move on to the cleanup sql scripts. . I'd like to highlight that i'm a novice coder and leaning to code by using AI while developing this app. Please proceed slowly and deliberately so that I can keep up. When possible, include the full code for files rather than just pieces for manual insert (however it is nice to know which code is being changed explicitly). Don't move too fast or provide too many updates at once. i rather deal with smaller pieces of information and update before proceeding to the next stage.

@@ -1,70 +1,115 @@
-# Getting Started with Create React App
+# CalenBooker MVP Plan
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Purpose and Vision
 
-## Available Scripts
+"CalenBooker MVP" streamlines appointment scheduling for small businesses (e.g., barber shops), allowing owners to sign up, provide business details, and schedule client meetings. Key features include minimal signup (email/password), email confirmation, business details capture, and meeting scheduling. The v1 goal is to generate downloadable `.ics` files for meetings; email notifications are deferred to v2. The system leverages Supabase with Anon Key and RLS for authentication and data storage, hosted on `github.com/fakeneuron/CalenBooker` (branch: `master`).
 
-In the project directory, you can run:
+## Coder Environment
 
-### `npm start`
+- **Coder**: Novice, using Terminal, VS Code, Node.js v20.18.0, npm v11.1.0, Git on Mac OS.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Project Coding Overview
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Progress (Completed)
 
-### `npm test`
+1. **Initialize Project**:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+   - Git repository: `github.com/fakeneuron/CalenBooker` (branch: `master`).
+   - Project structure:
+     - `Calenbooker/frontend`: React app (port 4000) with `react-scripts@5.0.1`.
+     - `Calenbooker/backend`: Express app (port 4001, minimal setup for future v2 features).
+     - `Calenbooker/.env`: Top-level environment variables (not committed).
+     - `Calenbooker/supabase/`: Local SQL snippets (source of truth).
 
-### `npm run build`
+2. **Frontend Setup**:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+   - Tailwind CSS via CDN (`2.2.19`) in `public/index.html` and local dependency (`3.4.17`).
+   - **Components**:
+     - `frontend/src/App.js`: Root component with routing and Supabase auth state management.
+     - `frontend/src/components/Signup.js`: Signup with email check via `users_view`, redirects to `/login`.
+     - `frontend/src/components/Login.js`: Login with Supabase Auth, redirects to `/business-details`.
+     - `frontend/src/components/Navbar.js`: Navigation bar for protected routes.
+     - `frontend/src/Dashboard.js`: Placeholder dashboard for authenticated users.
+     - `frontend/src/forms/BusinessDetailsForm.js`: Submits/updates business details in `business_details`.
+     - `frontend/src/forms/ScheduleMeetingForm.js`: Schedules meetings in `meetings`.
+     - `frontend/src/Home.js`: Landing page for unauthenticated users.
+     - `frontend/src/LogoutSuccess.js`: Success message after logout.
+     - `frontend/src/supabaseClient.js`: Initializes Supabase client with Anon Key from `.env`.
+   - Routing with `react-router-dom@7.2.0`.
+   - Dependencies in `frontend/package.json`: `react@19.0.0`, `@supabase/supabase-js@2.49.1`, etc.
+   - `frontend/public/index.html`: Includes Tailwind CSS CDN.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+3. **Backend Setup**:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+   - Minimal Express app in `backend/server.js` with Supabase client (Anon Key from `backend/.env`).
+   - Runs on port 4001, responds with a hello message, reserved for v2 features (e.g., email notifications).
+   - Dependencies in `backend/package.json`: `express@4.21.2`, `@supabase/supabase-js@2.49.1`, `cors@2.8.5`, `dotenv@16.4.7`.
 
-### `npm run eject`
+4. **Supabase SQL Snippets**:
+   - Tables: `business_details`, `meetings`.
+   - Views: `users_view` for email checks.
+   - RLS policies for secure data access.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Supabase SQL Snippets
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- **Storage**: `Calenbooker/supabase/`—source of truth, duplicated in SQL Editor (sync script pending).
+- **Snippets**:
+  - **`create_tables.sql`**: Defines `business_details` and `meetings` tables linked to `auth.users`.
+  - **`rls.sql`**: Enables RLS and defines policies for `INSERT`, `UPDATE`, `SELECT` on tables.
+  - **`users_view_setup.sql`**: Creates `users_view` and grants Anon Key `SELECT` access for email checks.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Remaining (v1)
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+1. **Refine Signup/Confirmation Flow**:
 
-## Learn More
+   - Automate redirection after email confirmation to `/business-details`.
+   - Improve feedback for unconfirmed users on `/login` (e.g., display a message).
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+2. **Scheduling Meetings Form**:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+   - Implement `.ics` file generation for scheduled meetings.
 
-### Code Splitting
+3. **Domain Hosting**:
+   - Confirm HTTPS on `fakeneuron.com` post-DNS propagation.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### v2 Considerations
 
-### Analyzing the Bundle Size
+- Email notifications with MailerSend.
+- Real-time password feedback in `Signup.js`.
+- Self-scheduling for clients.
+- Multi-employee support.
+- Analytics dashboard.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### Technical Approach
 
-### Making a Progressive Web App
+- **Frontend**:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+  - React (`19.0.0`) with `react-router-dom@7.2.0`.
+  - Tailwind CSS (`3.4.17` local, `2.2.19` CDN).
+  - Supabase client with Anon Key from `.env`.
+  - Runs on port 4000.
 
-### Advanced Configuration
+- **Backend**:
+  - Node.js/Express (`4.21.2`).
+  - Supabase client with Anon Key.
+  - Runs on port 4001 (minimal setup for v2 expansion).
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+### Action Items and Next Steps
 
-### Deployment
+1. **Frontend Refinements**:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+   - Import `Home.js` into `App.js`.
+   - Integrate `LogoutSuccess.js` for `/login?logout=true`.
+   - Automate post-confirmation redirection.
+   - Enhance feedback for unconfirmed users.
 
-### `npm run build` fails to minify
+2. **Implement `.ics` File Generation**:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+   - Research and integrate into `ScheduleMeetingForm.js`.
+
+3. **Confirm HTTPS Setup**:
+
+   - Verify `fakeneuron.com` serves HTTPS.
+
+4. **Plan for v2**:
+   - Prioritize features based on user feedback.
