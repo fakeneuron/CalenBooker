@@ -4,7 +4,7 @@ import supabase from './supabaseClient';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
 import BusinessProfile from './pages/BusinessProfile';
-import ScheduleMeeting from './pages/ScheduleMeeting'; // Updated import
+import ScheduleMeeting from './pages/ScheduleMeeting';
 import Navbar from './components/Navbar';
 import Dashboard from './pages/Dashboard';
 import Home from './pages/Home';
@@ -49,11 +49,11 @@ function App() {
         </Route>
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/business-details" element={<ProtectedLayout />}>
-          <Route index element={<BusinessProfile />} />
+        <Route path="/business-profile" element={<ProtectedLayout />}>
+          <Route index element={<BusinessProfile />} /> {/* Updated route */}
         </Route>
         <Route path="/schedule-meeting" element={<ProtectedLayout />}>
-          <Route index element={<ScheduleMeeting />} /> {/* Updated component */}
+          <Route index element={<ScheduleMeeting />} />
         </Route>
       </Routes>
     </div>

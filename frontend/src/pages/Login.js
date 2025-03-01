@@ -24,7 +24,7 @@ const Login = () => {
         password: formData.password,
       });
       if (error) throw error;
-      navigate('/business-details'); // Consistent with route, no rename yet
+      navigate('/business-profile'); // Updated redirect
     } catch (error) {
       setErrorMessage(error.message);
       setResendMessage(''); // Clear resend message on new attempt

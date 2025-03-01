@@ -29,7 +29,7 @@ const Navbar = () => {
           </Link>
         </div>
         <div className="space-x-4">
-          <Link to="/business-details" className="text-white hover:underline">
+          <Link to="/business-profile" className="text-white hover:underline">
             Business Profile
           </Link>
           <Link to="/schedule-meeting" className="text-white hover:underline">
