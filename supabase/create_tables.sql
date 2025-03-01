@@ -1,10 +1,9 @@
 -- Create Tables
-
 -- Supabase (PostgreSQL) schema for CalenBooker MVP (simplified to use auth.users)
 DROP TABLE IF EXISTS meetings;
-DROP TABLE IF EXISTS business_details;
+DROP TABLE IF EXISTS business_profile;
 
-CREATE TABLE business_details (
+CREATE TABLE business_profile (
   user_id UUID PRIMARY KEY,  -- References auth.users.id
   email TEXT UNIQUE NOT NULL,
   business_name TEXT NOT NULL,

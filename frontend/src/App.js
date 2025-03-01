@@ -3,11 +3,11 @@ import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import supabase from './supabaseClient';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
-import BusinessDetailsForm from './pages/BusinessDetailsForm';
+import BusinessProfile from './pages/BusinessProfile'; // Updated import
 import ScheduleMeetingForm from './pages/ScheduleMeetingForm';
 import Navbar from './components/Navbar';
 import Dashboard from './pages/Dashboard';
-import Home from './pages/Home'; // New import
+import Home from './pages/Home';
 
 function App() {
   const [session, setSession] = useState(null);
@@ -50,7 +50,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         <Route path="/business-details" element={<ProtectedLayout />}>
-          <Route index element={<BusinessDetailsForm />} />
+          <Route index element={<BusinessProfile />} /> {/* Updated component */}
         </Route>
         <Route path="/schedule-meeting" element={<ProtectedLayout />}>
           <Route index element={<ScheduleMeetingForm />} />

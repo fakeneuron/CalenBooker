@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import supabase from '../supabaseClient';
 
-const BusinessDetailsForm = () => {
+const BusinessProfile = () => {
   const [formData, setFormData] = useState({
     userId: '',
-    email: '', // Added email field
+    email: '',
     businessName: '',
     phone: '',
     address: '',
@@ -38,34 +38,34 @@ const BusinessDetailsForm = () => {
     const fetchSessionAndData = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (!session?.user) {
-        setError('Please log in to submit business details.');
+        setError('Please log in to submit business profile.');
         return;
       }
 
       const userId = session.user.id;
-      const userEmail = session.user.email; // Get email from session
+      const userEmail = session.user.email;
       setFormData(prev => ({ ...prev, userId, email: userEmail }));
 
       try {
         const { data, error } = await supabase
-          .from('business_details')
+          .from('business_profile') // Updated to business_profile
           .select('*')
           .eq('user_id', userId);
-        console.log('Business details fetch:', { data, error });
+        console.log('Business profile fetch:', { data, error });
         if (error) throw error;
         if (data && data.length > 0) {
-          const details = data[0];
+          const profile = data[0];
           setFormData({
             userId,
-            email: details.email || userEmail,
-            businessName: details.business_name || '',
-            phone: details.phone || '',
-            address: details.address || '',
-            unit: details.unit || '',
-            city: details.city || '',
-            province: details.province || '',
-            postalCode: details.postal_code || '',
-            logo: details.logo || null
+            email: profile.email || userEmail,
+            businessName: profile.business_name || '',
+            phone: profile.phone || '',
+            address: profile.address || '',
+            unit: profile.unit || '',
+            city: profile.city || '',
+            province: profile.province || '',
+            postalCode: profile.postal_code || '',
+            logo: profile.logo || null
           });
           setIsUpdate(true);
         }
@@ -115,13 +115,13 @@ const BusinessDetailsForm = () => {
     }
     const { data: { session } } = await supabase.auth.getSession();
     if (!session?.user) {
-      setError('Please log in to submit business details.');
+      setError('Please log in to submit business profile.');
       return;
     }
 
     const payload = {
       user_id: session.user.id,
-      email: formData.email || session.user.email, // Ensure email is included
+      email: formData.email || session.user.email,
       business_name: formData.businessName,
       phone: formData.phone,
       address: formData.address,
@@ -135,20 +135,20 @@ const BusinessDetailsForm = () => {
 
     try {
       const { error } = await supabase
-        .from('business_details')
+        .from('business_profile') // Updated to business_profile
         .upsert(payload, { onConflict: 'user_id' });
       if (error) throw error;
-      alert('Business details saved successfully!');
+      alert('Business profile saved successfully!');
       setIsUpdate(true);
     } catch (error) {
       console.error('Upsert error:', error);
-      alert('Error saving details: ' + error.message);
+      alert('Error saving profile: ' + error.message);
     }
   };
 
   return (
     <div className="max-w-md mx-auto p-6 bg-white shadow-md rounded-lg">
-      <h2 className="text-2xl font-bold mb-4">Business Details</h2>
+      <h2 className="text-2xl font-bold mb-4">Business Profile</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label className="block text-sm font-medium">Business Name</label>
@@ -245,11 +245,11 @@ const BusinessDetailsForm = () => {
           type="submit"
           className="w-full p-2 bg-blue-600 text-white rounded hover:bg-blue-700"
         >
-          {isUpdate ? 'Update Details' : 'Save Details'}
+          {isUpdate ? 'Update Profile' : 'Save Profile'}
         </button>
       </form>
     </div>
   );
 };
 
-export default BusinessDetailsForm;
+export default BusinessProfile;

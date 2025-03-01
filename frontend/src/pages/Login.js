@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import supabase from '../supabaseClient';
-import { useNavigate, Link } from 'react-router-dom'; // No useLocation needed
+import { useNavigate, Link } from 'react-router-dom';
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -24,7 +24,7 @@ const Login = () => {
         password: formData.password,
       });
       if (error) throw error;
-      navigate('/business-details');
+      navigate('/business-details'); // Consistent with route, no rename yet
     } catch (error) {
       setErrorMessage(error.message);
       setResendMessage(''); // Clear resend message on new attempt

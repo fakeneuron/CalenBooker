@@ -14,7 +14,7 @@ const Navbar = () => {
       return;
     }
     console.log('Logged out successfully, navigating to /');
-    navigate('/'); // Changed to root
+    navigate('/');
   };
 
   return (
@@ -30,7 +30,7 @@ const Navbar = () => {
         </div>
         <div className="space-x-4">
           <Link to="/business-details" className="text-white hover:underline">
-            Business Details
+            Business Profile
           </Link>
           <Link to="/schedule-meeting" className="text-white hover:underline">
             Schedule Meetings
