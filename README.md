@@ -2,7 +2,7 @@
 
 ## Purpose and Vision
 
-"CalenBooker MVP" streamlines appointment scheduling for small businesses (e.g., barber shops), allowing owners to sign up, provide business profiles, and schedule client meetings. Key features include minimal signup (email/password), email confirmation, business profile capture, and meeting scheduling. The v1 goal is to generate downloadable `.ics` files for meetings; email notifications are deferred to v2. The system leverages Supabase with Anon Key and RLS for authentication and data storage, hosted on `github.com/fakeneuron/CalenBooker` (branch: `master`).
+"CalenBooker MVP" streamlines appointment scheduling for small businesses (e.g., barber shops), allowing owners to sign up, provide business profiles, and schedule client meetings. Key features include minimal signup (email/password), email confirmation, business profile capture, and meeting scheduling with client notifications. The v1 goal is to generate a standardized meeting invitation with calendar integration options (e.g., `.ics`, Google Calendar, Outlook) for clients, delivered via a shareable webpage; full email notifications are deferred to v2. The system leverages Supabase with Anon Key and RLS for authentication and data storage, hosted on `github.com/fakeneuron/CalenBooker` (branch: `master`).
 
 ## Coder Environment
 
@@ -66,16 +66,25 @@
 
 ### Remaining (v1)
 
-1. **Scheduling Meetings**:
+1. **Client Meeting Notification System**:
 
-   - Implement `.ics` file generation for scheduled meetings in `ScheduleMeeting.js`.
+   - **Purpose**: Enable businesses to schedule meetings and automatically generate a client-facing notification with appointment details and calendar integration options (e.g., `.ics` download, Google Calendar link, Outlook integration).
+   - **Components**:
+     - **Meeting Creation**: Business enters client details (name, email, date, time, duration) in `ScheduleMeeting.js`, saved to `meetings` table.
+     - **Notification**: Generates a shareable webpage URL (e.g., `/meeting-confirmation/<meeting-id>`) displaying details and buttons: “Add to iCalendar” (`.ics` download), “Add to Google Calendar” (URL), “Add to Outlook” (`.ics` or link).
+     - **Delivery**: For v1, business manually sends the URL to the client (e.g., via email/text); v2 will automate email delivery.
+   - **Implementation**:
+     - Update `ScheduleMeeting.js` to generate a confirmation URL after saving the meeting.
+     - Create `MeetingConfirmation.js` to render the notification page, fetching data from `meetings` and `business_profile` tables.
+     - Add `.ics` generation using a library (e.g., `ics`) and links for Google Calendar and Outlook.
+     - Add `/meeting-confirmation/:id` route to `App.js`.
 
 2. **Domain Hosting**:
    - Confirm HTTPS on `fakeneuron.com` post-DNS propagation.
 
 ### v2 Considerations
 
-- Email notifications with MailerSend.
+- Automate client notification emails with MailerSend integration.
 - Real-time password feedback in `Signup.js`.
 - Self-scheduling for clients.
 - Multi-employee support.
@@ -97,9 +106,11 @@
 
 ### Action Items and Next Steps
 
-1. **Implement `.ics` File Generation**:
+1. **Client Meeting Notification System**:
 
-   - Research and integrate into `ScheduleMeeting.js`.
+   - Update `ScheduleMeeting.js` to generate a confirmation URL.
+   - Create `MeetingConfirmation.js` with calendar integration options.
+   - Add routing and implement `.ics` generation.
 
 2. **Confirm HTTPS Setup**:
 
