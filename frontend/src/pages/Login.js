@@ -24,7 +24,7 @@ const Login = () => {
         password: formData.password,
       });
       if (error) throw error;
-      navigate('/business-profile');
+      navigate('/dashboard'); // Updated redirect
     } catch (error) {
       if (error.message === 'Email not confirmed') {
         setErrorMessage('Your email isn’t confirmed yet. Please check your inbox (and spam/junk folder) for the confirmation link.');
