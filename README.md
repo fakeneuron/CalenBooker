@@ -30,7 +30,7 @@
        - `Signup.js`: Signup screen with login link (`/signup`).
        - `Login.js`: Login screen with signup link (`/login`).
        - `Dashboard.js`: Dashboard placeholder (`/dashboard`).
-       - `BusinessProfile.js`: Business profile screen (`/business-details`).
+       - `BusinessProfile.js`: Business profile screen (`/business-profile`).
        - `ScheduleMeeting.js`: Scheduling screen (`/schedule-meeting`).
      - `frontend/src/components/`:
        - `Navbar.js`: Navigation bar for protected routes, redirects to `/` on logout.
@@ -66,22 +66,14 @@
 
 1. **Refine Signup/Confirmation Flow**:
 
-   - Automate redirection after email confirmation to `/business-details`.
+   - Automate redirection after email confirmation to `/business-profile`.
    - Enhance feedback for unconfirmed users on `/login` (e.g., display a message).
 
-2. **Cleanup Frontend**:
-
-   - Remove unused `LogoutSuccess.js` from `src/pages/`.
-
-3. **Rename Business Details to Business Profile**:
-
-   - Update `BusinessProfile.js` filename, references, and UI to “Business Profile” (completed for frontend and Supabase tables; route `/business-details` remains).
-
-4. **Scheduling Meetings**:
+2. **Scheduling Meetings**:
 
    - Implement `.ics` file generation for scheduled meetings in `ScheduleMeeting.js`.
 
-5. **Domain Hosting**:
+3. **Domain Hosting**:
    - Confirm HTTPS on `fakeneuron.com` post-DNS propagation.
 
 ### v2 Considerations
@@ -112,8 +104,6 @@
 
    - Automate post-confirmation redirection.
    - Enhance feedback for unconfirmed users.
-   - Remove `LogoutSuccess.js`.
-   - Optionally rename `/business-details` route to `/business-profile`.
 
 2. **Implement `.ics` File Generation**:
 
