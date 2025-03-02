@@ -8,15 +8,12 @@ const AuthConfirm = () => {
   useEffect(() => {
     const handleAuthConfirm = async () => {
       try {
-        // Get session after confirmation (Supabase handles token from URL)
         const { data: { session }, error } = await supabase.auth.getSession();
         if (error) throw error;
 
         if (session) {
-          // User is logged in after confirmation
           navigate('/dashboard');
         } else {
-          // No session, redirect to login
           navigate('/login');
         }
       } catch (error) {
