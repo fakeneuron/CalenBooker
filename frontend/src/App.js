@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import supabase from './supabaseClient';
 import Home from './pages/Home';
 import Signup from './pages/Signup';
@@ -8,7 +8,7 @@ import Login from './pages/Login';
 import AuthConfirm from './pages/AuthConfirm';
 import Dashboard from './pages/Dashboard';
 import BusinessProfile from './pages/BusinessProfile';
-import MeetingScheduler from './pages/MeetingScheduler'; // Updated import
+import MeetingScheduler from './pages/MeetingScheduler';
 import MeetingConfirmation from './pages/MeetingConfirmation';
 import Navbar from './components/Navbar';
 
@@ -33,22 +33,20 @@ function App() {
   }, []);
 
   return (
-    <Router>
-      <div className="App">
-        {session && <Navbar />}
-        <Routes>
-          <Route path="/" element={!session ? <Home /> : <Navigate to="/dashboard" />} />
-          <Route path="/signup" element={!session ? <Signup /> : <Navigate to="/dashboard" />} />
-          <Route path="/signup-success" element={!session ? <SignupSuccess /> : <Navigate to="/dashboard" />} />
-          <Route path="/login" element={!session ? <Login /> : <Navigate to="/dashboard" />} />
-          <Route path="/dashboard" element={session ? <Dashboard /> : <Navigate to="/login" />} />
-          <Route path="/business-profile" element={session ? <BusinessProfile /> : <Navigate to="/login" />} />
-          <Route path="/meeting-scheduler" element={session ? <MeetingScheduler /> : <Navigate to="/login" />} />
-          <Route path="/auth/confirm" element={<AuthConfirm />} />
-          <Route path="/meeting-confirmation/:id" element={<MeetingConfirmation />} />
-        </Routes>
-      </div>
-    </Router>
+    <div className="App">
+      {session && <Navbar />}
+      <Routes>
+        <Route path="/" element={!session ? <Home /> : <Navigate to="/dashboard" />} />
+        <Route path="/signup" element={!session ? <Signup /> : <Navigate to="/dashboard" />} />
+        <Route path="/signup-success" element={!session ? <SignupSuccess /> : <Navigate to="/dashboard" />} />
+        <Route path="/login" element={!session ? <Login /> : <Navigate to="/dashboard" />} />
+        <Route path="/dashboard" element={session ? <Dashboard /> : <Navigate to="/login" />} />
+        <Route path="/business-profile" element={session ? <BusinessProfile /> : <Navigate to="/login" />} />
+        <Route path="/meeting-scheduler" element={session ? <MeetingScheduler /> : <Navigate to="/login" />} />
+        <Route path="/auth/confirm" element={<AuthConfirm />} />
+        <Route path="/meeting-confirmation/:id" element={<MeetingConfirmation />} />
+      </Routes>
+    </div>
   );
 }
 
