@@ -1,6 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import supabase from '../supabaseClient';
-import { container, input, buttonPrimary, buttonSecondary, errorText, heading, label } from '../styles';
+import { 
+  container, 
+  input, 
+  buttonPrimary, 
+  buttonSecondary, 
+  errorText, 
+  heading, 
+  label, 
+  previewButton, 
+  previewContainer, 
+  previewText, 
+  previewTitle 
+} from '../styles';
 
 const BusinessProfile = () => {
   const [formData, setFormData] = useState({
@@ -12,9 +24,10 @@ const BusinessProfile = () => {
     city: '',
     province: '',
     postalCode: '',
-    timeZone: 'America/New_York', // Default time zone
+    timeZone: 'America/New_York',
   });
   const [error, setError] = useState('');
+  const [showPreview, setShowPreview] = useState(false); // New state for preview visibility
 
   useEffect(() => {
     const fetchBusinessProfile = async () => {
@@ -24,7 +37,7 @@ const BusinessProfile = () => {
       try {
         const { data, error } = await supabase
           .from('business_profile')
-          .select('email, business_name, phone, address, unit, city, province, postal_code, time_zone') // Added time_zone
+          .select('email, business_name, phone, address, unit, city, province, postal_code, time_zone')
           .eq('user_id', session.user.id)
           .single();
         if (error && error.code !== 'PGRST116') throw error;
@@ -75,7 +88,7 @@ const BusinessProfile = () => {
           city: formData.city,
           province: formData.province,
           postal_code: formData.postalCode,
-          time_zone: formData.timeZone, // Added time zone
+          time_zone: formData.timeZone,
         });
       if (error) throw error;
       alert('Business profile saved successfully!');
@@ -94,9 +107,13 @@ const BusinessProfile = () => {
       city: 'Toronto',
       province: 'ON',
       postalCode: 'M5V 2T6',
-      timeZone: 'America/Toronto', // Updated sample data
+      timeZone: 'America/Toronto',
     });
     setError('');
+  };
+
+  const handlePreview = () => {
+    setShowPreview(!showPreview); // Toggle preview visibility
   };
 
   return (
@@ -207,13 +224,30 @@ const BusinessProfile = () => {
           </select>
         </div>
         {error && <p className={errorText}>{error}</p>}
-        <button type="submit" className={buttonPrimary}>
-          Save Profile
-        </button>
-        <button type="button" onClick={handleAutoPopulate} className={buttonSecondary}>
-          Fill Sample Data
-        </button>
+        <div className="flex space-x-4">
+          <button type="submit" className={buttonPrimary}>
+            Save Profile
+          </button>
+          <button type="button" onClick={handleAutoPopulate} className={buttonSecondary}>
+            Fill Sample Data
+          </button>
+          <button type="button" onClick={handlePreview} className={previewButton}>
+            {showPreview ? 'Hide Preview' : 'Show Preview'}
+          </button>
+        </div>
       </form>
+
+      {/* Preview Section */}
+      {showPreview && (
+        <div className={previewContainer}>
+          <h3 className={previewTitle}>Business Profile Preview</h3>
+          <p className={previewText}><strong>Business Name:</strong> {formData.businessName || 'Business TBD'}</p>
+          <p className={previewText}><strong>Email:</strong> {formData.email || 'Not provided'}</p>
+          <p className={previewText}><strong>Phone:</strong> {formData.phone || 'Not provided'}</p>
+          <p className={previewText}><strong>Location:</strong> {formData.address ? `${formData.address}${formData.unit ? ', ' + formData.unit : ''}, ${formData.city}, ${formData.province} ${formData.postalCode}` : 'Not provided'}</p>
+          <p className={previewText}><strong>Time Zone:</strong> {formData.timeZone.split('/')[1].replace('_', ' ') || 'TBD'}</p>
+        </div>
+      )}
     </div>
   );
 };

@@ -67,7 +67,7 @@ Request the following files to understand and work on this project:
        - `Login.js`: Login screen with signup link and resend confirmation option for unconfirmed emails.
        - `AuthConfirm.js`: Handles email confirmation redirect to `/dashboard` (`/auth/confirm`).
        - `Dashboard.js`: Dashboard screen with appointments table, default post-login page (`/dashboard`), left-aligned names, centered data columns.
-       - `BusinessProfile.js`: Business profile screen (`/business-profile`) with form for business details, auto-populate sample data, and a time zone dropdown (e.g., "America/New_York") saved to `time_zone` column in `business_profile`.
+       - `BusinessProfile.js`: Business profile screen (`/business-profile`) with form for business details, auto-populate sample data, a time zone dropdown (e.g., "America/New_York") saved to `time_zone` column in `business_profile`, and a "Preview" button to display a Kawaii-styled preview of the profile as clients would see it.
        - `AppointmentScheduler.js`: Scheduling screen with appointment URL generation (`/appointment-scheduler`), profile check, and auto-populate sample data. Includes a "Service Type" dropdown with preset options ("Haircut," "Consultation," "Shave") and an "Other" option with manual text entry; saves `service_type` to the `appointments` table. Added a "Status" dropdown ("Confirmed," "Pending," "Cancelled") with "Confirmed" as default, saving to `status` column.
        - `AppointmentConfirmation.js`: Client-facing appointment confirmation page (`/appointment-confirmation/:id`) with appointment/business details (including `service_type` and `time_zone` displayed with the appointment time) and calendar integration (`.ics`, Google Calendar, Outlook).
      - `frontend/src/components/`:
@@ -143,6 +143,7 @@ Request the following files to understand and work on this project:
    - Redesigned `Home.js` into a professional landing page with a Kawaii aesthetic, featuring a hero section, feature highlights, and updated app-wide styles in `styles.js` for a cohesive cute look.
    - Enhanced `Navbar.js` with a Kawaii-styled user icon dropdown for "Business Profile," "Settings," and "Logout," and a top-level "Schedule Appointment" link, with click-outside collapse functionality.
    - Refactored nomenclature from "Meeting" to "Appointment" across all frontend files, UI text, Supabase table (`meetings` to `appointments`), and documentation for consistency.
+   - Added a "Preview" button to `BusinessProfile.js` displaying a Kawaii-styled preview of the profile, enhancing transparency for business owners.
 
 ### To-Dos
 
