@@ -46,6 +46,7 @@
    - Routing with `react-router-dom@7.2.0`.
    - Dependencies in `frontend/package.json`: `react@19.0.0`, `@supabase/supabase-js@2.49.1`, etc.
    - `frontend/public/index.html`: Includes Tailwind CSS CDN.
+   - Added `frontend/public/_redirects` to handle SPA routing on Netlify (`/* /index.html 200`).
 
 3. **Backend Setup**:
 
@@ -60,9 +61,14 @@
    - RLS policies for secure data access.
 
 5. **Client Meeting Notification System**:
+
    - URL generation added to `ScheduleMeeting.js` (e.g., `/meeting-confirmation/<id>`).
    - `MeetingConfirmation.js` displays meeting and business details with calendar integration (`.ics`, Google Calendar, Outlook) using manual `.ics` file generation, removing dependency on `ics` library to resolve `runes` error.
    - Removed unused `ics` and `runes` dependencies from `frontend/package.json`.
+
+6. **Deployment**:
+   - Built and deployed frontend to Netlify, redirected to https://fakeneuron.com with HTTPS enabled.
+   - Added `REACT_APP_SUPABASE_URL` and `REACT_APP_SUPABASE_ANON_KEY` to Netlify environment variables for secure configuration, keeping `.env` out of GitHub with `.gitignore`.
 
 ### Supabase SQL Snippets
 
@@ -82,7 +88,7 @@
    - **To-Do**:
      - Require a completed `business_profile` before allowing meeting scheduling in `ScheduleMeeting.js`.
 2. **Domain Hosting**:
-   - Confirm HTTPS on `fakeneuron.com` post-DNS propagation.
+   - Confirm HTTPS on `fakeneuron.com` post-DNS propagation (verified via Netlify deployment).
 
 ### v2 Considerations
 
@@ -119,7 +125,7 @@
 
 2. **Confirm HTTPS Setup**:
 
-   - Verify `fakeneuron.com` serves HTTPS.
+   - Verify `fakeneuron.com` serves HTTPS (completed via Netlify deployment).
 
 3. **Plan for v2**:
    - Prioritize features based on user feedback.
