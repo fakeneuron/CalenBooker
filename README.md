@@ -69,7 +69,8 @@
 6. **Deployment**:
    - Built and deployed frontend to Netlify, redirected to https://delparte.com with HTTPS enabled.
    - Added `REACT_APP_SUPABASE_URL` and `REACT_APP_SUPABASE_ANON_KEY` to Netlify environment variables for secure configuration, keeping `.env` out of GitHub with `.gitignore`.
-   - Updated `Signup.js` to set `emailRedirectTo` to `https://delparte.com/auth/confirm` for consistent email confirmation redirects (fixed to ensure live site usage).
+   - Updated `Signup.js` to set `emailRedirectTo` to `https://delparte.com/auth/confirm` for consistent email confirmation redirects.
+   - Updated Supabase Authentication Settings Site URL to `https://delparte.com/auth/confirm` to align with live deployment (previously set to `http://localhost:4000/confirm`).
 
 ### Supabase SQL Snippets
 
