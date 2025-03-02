@@ -22,7 +22,8 @@ const MeetingScheduler = () => {
     meetingTime: '',
     duration: '30', // Default in minutes
     serviceType: 'Consultation', // Default service type
-    customServiceType: '', // New field for manual entry
+    customServiceType: '',
+    status: 'Confirmed', // Default status
   });
   const [error, setError] = useState('');
   const [confirmationUrl, setConfirmationUrl] = useState('');
@@ -71,7 +72,8 @@ const MeetingScheduler = () => {
           meeting_date: formData.meetingDate,
           meeting_time: formData.meetingTime,
           duration: parseInt(formData.duration, 10),
-          service_type: serviceTypeToSave, // Use custom value if "Other"
+          service_type: serviceTypeToSave,
+          status: formData.status, // Added status
         })
         .select('id')
         .single();
@@ -87,7 +89,8 @@ const MeetingScheduler = () => {
         meetingTime: '',
         duration: '30',
         serviceType: 'Consultation',
-        customServiceType: '', // Reset custom field
+        customServiceType: '',
+        status: 'Confirmed', // Reset to default
       });
       setError('');
     } catch (error) {
@@ -104,6 +107,7 @@ const MeetingScheduler = () => {
       duration: '30',
       serviceType: 'Haircut',
       customServiceType: '',
+      status: 'Confirmed', // Default for sample
     });
     setError('');
   };
@@ -199,6 +203,20 @@ const MeetingScheduler = () => {
             />
           </div>
         )}
+        <div>
+          <label className={label}>Status</label>
+          <select
+            name="status"
+            value={formData.status}
+            onChange={handleChange}
+            className={input}
+            required
+          >
+            <option value="Confirmed">Confirmed</option>
+            <option value="Pending">Pending</option>
+            <option value="Cancelled">Cancelled</option>
+          </select>
+        </div>
         {error && <p className={errorText}>{error}</p>}
         <button type="submit" className={buttonPrimary}>
           Schedule Meeting

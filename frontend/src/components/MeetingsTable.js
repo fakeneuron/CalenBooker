@@ -31,7 +31,7 @@ const MeetingsTable = () => {
 
         const { data, error } = await supabase
           .from('meetings')
-          .select('client_name, client_email, meeting_date, meeting_time, duration, service_type') // Added service_type
+          .select('client_name, client_email, meeting_date, meeting_time, duration, service_type, status') // Added status
           .eq('user_id', session.user.id)
           .order('meeting_date', { ascending: true })
           .order('meeting_time', { ascending: true });
@@ -72,6 +72,19 @@ const MeetingsTable = () => {
     );
   }
 
+  const getStatusClass = (status) => {
+    switch (status) {
+      case 'Confirmed':
+        return 'text-green-600';
+      case 'Pending':
+        return 'text-yellow-600';
+      case 'Cancelled':
+        return 'text-red-600';
+      default:
+        return 'text-gray-600';
+    }
+  };
+
   return (
     <div className="overflow-x-auto">
       <table className={table}>
@@ -82,13 +95,14 @@ const MeetingsTable = () => {
             <th className={tableHeaderCellCenter}>Date</th>
             <th className={tableHeaderCellCenter}>Time</th>
             <th className={tableHeaderCellCenter}>Duration (min)</th>
-            <th className={tableHeaderCellCenter}>Service Type</th> {/* Added column */}
+            <th className={tableHeaderCellCenter}>Service Type</th>
+            <th className={tableHeaderCellCenter}>Status</th> {/* Added column */}
           </tr>
         </thead>
         <tbody>
           {meetings.length === 0 ? (
             <tr>
-              <td colSpan="6" className="py-4 px-4 text-center text-gray-500"> {/* Updated colSpan */}
+              <td colSpan="7" className="py-4 px-4 text-center text-gray-500"> {/* Updated colSpan */}
                 No meetings scheduled yet.
               </td>
             </tr>
@@ -100,7 +114,8 @@ const MeetingsTable = () => {
                 <td className={tableCellCenter}>{meeting.meeting_date}</td>
                 <td className={tableCellCenter}>{meeting.meeting_time}</td>
                 <td className={tableCellCenter}>{meeting.duration}</td>
-                <td className={tableCellCenter}>{meeting.service_type}</td> {/* Added column */}
+                <td className={tableCellCenter}>{meeting.service_type}</td>
+                <td className={`${tableCellCenter} ${getStatusClass(meeting.status)}`}>{meeting.status}</td> {/* Added with color */}
               </tr>
             ))
           )}

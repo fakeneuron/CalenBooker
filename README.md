@@ -68,11 +68,11 @@ Request the following files to understand and work on this project:
        - `AuthConfirm.js`: Handles email confirmation redirect to `/dashboard` (`/auth/confirm`).
        - `Dashboard.js`: Dashboard screen with meetings table, default post-login page (`/dashboard`), left-aligned names, centered data columns.
        - `BusinessProfile.js`: Business profile screen (`/business-profile`) with form for business details and auto-populate sample data.
-       - `MeetingScheduler.js`: Scheduling screen with meeting URL generation (`/meeting-scheduler`), profile check, and auto-populate sample data. Now includes a "Service Type" dropdown with preset options ("Haircut," "Consultation," "Shave") and an "Other" option with manual text entry; saves `service_type` to the `meetings` table.
+       - `MeetingScheduler.js`: Scheduling screen with meeting URL generation (`/meeting-scheduler`), profile check, and auto-populate sample data. Includes a "Service Type" dropdown with preset options ("Haircut," "Consultation," "Shave") and an "Other" option with manual text entry; saves `service_type` to the `meetings` table. Added a "Status" dropdown ("Confirmed," "Pending," "Cancelled") with "Confirmed" as default, saving to `status` column.
        - `MeetingConfirmation.js`: Client-facing meeting confirmation page (`/meeting-confirmation/:id`) with meeting/business details (including `service_type`) and calendar integration (`.ics`, Google Calendar, Outlook).
      - `frontend/src/components/`:
        - `Navbar.js`: Navigation bar for protected routes (dashboard, profile, scheduling, logout), redirects to `/` on logout.
-       - `MeetingsTable.js`: Reusable table displaying user’s meetings with sortable columns (date/time ascending). Now includes a "Service Type" column showing the `service_type` for each meeting.
+       - `MeetingsTable.js`: Reusable table displaying user’s meetings with sortable columns (date/time ascending). Includes "Service Type" and "Status" columns with `status` shown in colors (green for "Confirmed," yellow for "Pending," red for "Cancelled").
      - `frontend/src/`:
        - `App.js`: Root component with routing and Supabase auth state management.
        - `index.js`: Entry point rendering `App.js` with routing.
@@ -93,12 +93,12 @@ Request the following files to understand and work on this project:
 
 4. **Supabase SQL Snippets**:
 
-   - Tables: `business_profile` (business details), `meetings` (meeting records with `service_type` column added for service type tracking).
+   - Tables: `business_profile` (business details), `meetings` (meeting records with `service_type` and `status` columns for tracking).
    - Views: `users_view` for email checks.
    - RLS policies for secure data access (`auth.users` linked).
    - Storage: `Calenbooker/supabase/`—source of truth, duplicated in SQL Editor (sync script pending).
    - Snippets:
-     - `create_tables.sql`: Defines `business_profile` and `meetings` tables (updated with `service_type TEXT NOT NULL` in `meetings`) linked to `auth.users`.
+     - `create_tables.sql`: Defines `business_profile` and `meetings` tables (updated with `service_type TEXT NOT NULL` and `status TEXT NOT NULL DEFAULT 'Confirmed'` in `meetings`) linked to `auth.users`.
      - `rls.sql`: Enables RLS and defines policies for `INSERT`, `UPDATE`, `SELECT` on tables.
      - `users_view_setup.sql`: Creates `users_view` and grants Anon Key `SELECT` access for email checks.
 
@@ -138,6 +138,7 @@ Request the following files to understand and work on this project:
 
 7. **Meeting Scheduler Enhancements**:
    - Added a "Service Type" field to `MeetingScheduler.js` with preset options and manual "Other" entry, displayed in `MeetingConfirmation.js` and `MeetingsTable.js`, with `service_type` column added to the `meetings` table.
+   - Added "Status" indicators to `MeetingScheduler.js` (dropdown with "Confirmed," "Pending," "Cancelled") and `MeetingsTable.js` (color-coded display), with `status` column added to the `meetings` table.
 
 ### To-Dos
 
@@ -145,12 +146,10 @@ Request the following files to understand and work on this project:
 
 ##### Simple
 
-- **Meeting Status Indicators**
-  - Add visual cues (e.g., "Confirmed," "Pending," "Cancelled") with color coding to `MeetingsTable.js` for quick status recognition.
 - **Business Profile Preview**
   - Add a preview button in `BusinessProfile.js` to show how clients will see the profile, enhancing transparency.
-- **Time Zone Display**
-  - Display the business’s time zone on `MeetingConfirmation.js` (e.g., "EST") to avoid scheduling confusion.
+- **Business Time Zone**
+  - Add a time zone field to `BusinessProfile.js`, store it in the `business_profile` table, and display it on `MeetingConfirmation.js` (e.g., "EST") to clarify meeting times.
 - **Professional Landing Page**
   - Redesign `Home.js` with a polished, enterprise-level look (e.g., hero section, feature highlights, signup CTA).
 - **Improved Navigation**
@@ -197,3 +196,7 @@ Request the following files to understand and work on this project:
   - Conduct regular security audits, encrypt sensitive data, and ensure compliance with privacy regulations (e.g., GDPR, CCPA).
 - **Custom Service Types in Business Profile**
   - Allow businesses to define their own service types in `BusinessProfile.js`, stored in the `business_profile` table, and dynamically populate the `MeetingScheduler.js` dropdown with these options.
+- **Client Confirmation Workflow**
+  - Enhance appointment scheduling to default to "Pending," send an email to the client with details and links to confirm or cancel, updating the `status` based on client action; requires email integration and backend updates.
+- **Nomenclature Refactoring**
+  - Replace "Meeting" with "Appointment" across frontend files (e.g., rename `MeetingScheduler.js` to `AppointmentScheduler.js`, update UI text), README.md, and optionally Supabase table names for consistency.

@@ -25,6 +25,7 @@ CREATE TABLE meetings (
   meeting_date DATE NOT NULL,
   meeting_time TIME NOT NULL,
   duration INTEGER NOT NULL,
-  service_type TEXT NOT NULL, -- Added column for service type
+  service_type TEXT NOT NULL,
+  status TEXT NOT NULL DEFAULT 'Confirmed', -- Added status column with default
   FOREIGN KEY (user_id) REFERENCES auth.users(id)
 );
