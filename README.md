@@ -143,8 +143,8 @@ Request the following files to understand and work on this project:
 
 ### v2 To-Dos
 
+- ~~Add real-time password feedback in `Signup.js` (e.g., strength meter)~~ - Completed with green checks for criteria (length, uppercase, lowercase, number, special).
 - Automate client notification emails with MailerSend integration (e.g., post-signup, meeting confirmation).
-- Add real-time password feedback in `Signup.js` (e.g., strength meter).
 - Implement self-scheduling for clients (e.g., public booking page).
 - Support multi-employee scheduling (e.g., assign meetings to staff).
 - Build an analytics dashboard (e.g., meeting stats).

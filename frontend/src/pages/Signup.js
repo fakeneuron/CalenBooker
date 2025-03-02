@@ -1,14 +1,21 @@
 import React, { useState } from 'react';
 import supabase from '../supabaseClient';
 import { useNavigate, Link } from 'react-router-dom';
-import { container, input, buttonPrimary, errorText, heading, link, label } from '../styles';
+import { container, input, buttonPrimary, heading, link, label } from '../styles';
 
 const Signup = () => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   });
-  const [passwordError, setPasswordError] = useState('');
+  const [isPasswordValid, setIsPasswordValid] = useState(true); // Simplified error state
+  const [passwordCriteria, setPasswordCriteria] = useState({
+    length: false, // At least 8 characters
+    uppercase: false, // One uppercase letter
+    lowercase: false, // One lowercase letter
+    number: false, // One number
+    special: false, // One special character
+  });
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -16,21 +23,26 @@ const Signup = () => {
     setFormData({ ...formData, [name]: value });
 
     if (name === 'password') {
+      // Update criteria in real-time
+      const criteria = {
+        length: value.length >= 8,
+        uppercase: /[A-Z]/.test(value),
+        lowercase: /[a-z]/.test(value),
+        number: /\d/.test(value),
+        special: /[@$!%*?&]/.test(value),
+      };
+      setPasswordCriteria(criteria);
+
+      // Validate full password for submission
       const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-      if (!passwordRegex.test(value)) {
-        setPasswordError(
-          'Password must be at least 8 characters long, contain one uppercase letter, one lowercase letter, one number, and one special character.'
-        );
-      } else {
-        setPasswordError('');
-      }
+      setIsPasswordValid(passwordRegex.test(value));
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (passwordError) {
-      alert(passwordError);
+    if (!isPasswordValid) {
+      alert('Please meet all password criteria before submitting.');
       return;
     }
 
@@ -83,10 +95,27 @@ const Signup = () => {
             name="password"
             value={formData.password}
             onChange={handleChange}
-            className={`${input} ${passwordError ? 'border-red-500' : ''}`}
+            className={`${input} ${!isPasswordValid && formData.password.length > 0 ? 'border-red-500' : ''}`}
             required
           />
-          {passwordError && <p className={errorText}>{passwordError}</p>}
+          {/* Real-time password feedback */}
+          <ul className="mt-2 text-sm">
+            <li className={passwordCriteria.length ? 'text-green-600' : 'text-gray-600'}>
+              {passwordCriteria.length ? '✔' : '✗'} At least 8 characters
+            </li>
+            <li className={passwordCriteria.uppercase ? 'text-green-600' : 'text-gray-600'}>
+              {passwordCriteria.uppercase ? '✔' : '✗'} One uppercase letter
+            </li>
+            <li className={passwordCriteria.lowercase ? 'text-green-600' : 'text-gray-600'}>
+              {passwordCriteria.lowercase ? '✔' : '✗'} One lowercase letter
+            </li>
+            <li className={passwordCriteria.number ? 'text-green-600' : 'text-gray-600'}>
+              {passwordCriteria.number ? '✔' : '✗'} One number
+            </li>
+            <li className={passwordCriteria.special ? 'text-green-600' : 'text-gray-600'}>
+              {passwordCriteria.special ? '✔' : '✗'} One special character (e.g., @ $ ! % * ? &)
+            </li>
+          </ul>
         </div>
         <button type="submit" className={buttonPrimary}>
           Sign Up
