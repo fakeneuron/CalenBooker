@@ -67,8 +67,9 @@
    - Removed unused `ics` and `runes` dependencies from `frontend/package.json`.
 
 6. **Deployment**:
-   - Built and deployed frontend to Netlify, redirected to https://fakeneuron.com with HTTPS enabled.
+   - Built and deployed frontend to Netlify, redirected to https://delparte.com with HTTPS enabled.
    - Added `REACT_APP_SUPABASE_URL` and `REACT_APP_SUPABASE_ANON_KEY` to Netlify environment variables for secure configuration, keeping `.env` out of GitHub with `.gitignore`.
+   - Updated `Signup.js` to set `emailRedirectTo` to `https://delparte.com/auth/confirm` for consistent email confirmation redirects.
 
 ### Supabase SQL Snippets
 
@@ -88,7 +89,7 @@
    - **To-Do**:
      - Require a completed `business_profile` before allowing meeting scheduling in `ScheduleMeeting.js`.
 2. **Domain Hosting**:
-   - Confirm HTTPS on `fakeneuron.com` post-DNS propagation (verified via Netlify deployment).
+   - Confirm HTTPS on `delparte.com` post-DNS propagation (verified via Netlify deployment).
 
 ### v2 Considerations
 
@@ -125,7 +126,7 @@
 
 2. **Confirm HTTPS Setup**:
 
-   - Verify `fakeneuron.com` serves HTTPS (completed via Netlify deployment).
+   - Verify `delparte.com` serves HTTPS (completed via Netlify deployment).
 
 3. **Plan for v2**:
    - Prioritize features based on user feedback.

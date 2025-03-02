@@ -49,7 +49,7 @@ const Signup = () => {
         email: formData.email,
         password: formData.password,
         options: {
-          emailRedirectTo: 'https://random-name-123.netlify.app/auth/confirm', // Replace with your Netlify URL
+          emailRedirectTo: 'https://delparte.com/auth/confirm', // Updated to correct live URL
         },
       });
 
