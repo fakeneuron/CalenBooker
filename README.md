@@ -120,7 +120,7 @@ Request the following files to understand and work on this project:
 
 3. **Backend Setup**:
 
-   - Set up minimal Express backend for future v2 expansion.
+   - Set up minimal Express backend for future expansion.
 
 4. **Supabase SQL Snippets**:
 
@@ -133,14 +133,61 @@ Request the following files to understand and work on this project:
 6. **Deployment**:
    - Deployed frontend to Netlify with HTTPS and configured auth redirects.
 
-### v2 To-Dos
+### To-Dos
 
-- ~~Add real-time password feedback in `Signup.js` (e.g., strength meter)~~ - Completed with green checks for criteria (length, uppercase, lowercase, number, special).
-- Automate client notification emails with MailerSend integration (e.g., post-signup, meeting confirmation).
-- Implement self-scheduling for clients (e.g., public booking page).
-- Support multi-employee scheduling (e.g., assign meetings to staff).
-- Build an analytics dashboard (e.g., meeting stats).
-- Move sensitive operations (e.g., email notifications, data writes) to the backend with a Supabase Service Key to reduce Anon Key exposure in the frontend.
-- Add server-side input validation in the backend to sanitize data before it hits Supabase, enhancing security beyond frontend checks.
-- Implement rate limiting or CAPTCHA on signup/login endpoints to prevent abuse or spam.
-- Use Supabase edge functions for lightweight backend logic (e.g., rate limiting, notifications) if avoiding a full backend expansion.
+#### Short-Term Implementations
+
+##### Simple
+
+- **Meeting Scheduler Rename and Service Type**
+  - Rename `ScheduleMeeting.js` to `MeetingScheduler.js` and add a "service type" field (e.g., haircut, consultation) to clarify meeting purposes.
+- **Meeting Status Indicators**
+  - Add visual cues (e.g., "Confirmed," "Pending," "Cancelled") with color coding to `MeetingsTable.js` for quick status recognition.
+- **Business Profile Preview**
+  - Add a preview button in `BusinessProfile.js` to show how clients will see the profile, enhancing transparency.
+- **Time Zone Display**
+  - Display the business’s time zone on `MeetingConfirmation.js` (e.g., "EST") to avoid scheduling confusion.
+- **Professional Landing Page**
+  - Redesign `Home.js` with a polished, enterprise-level look (e.g., hero section, feature highlights, signup CTA).
+- **Improved Navigation**
+  - Enhance `Navbar.js` with better grouping or dropdowns for protected routes (e.g., dashboard, profile, scheduling).
+
+##### Complex
+
+- **Messages Section**
+  - Add a "Messages" section for customizable meeting invites (e.g., booking confirmations, cancellations, instructions).
+- **Client List**
+  - Create a running list of clients in `MeetingScheduler.js` to track returning clients and auto-populate forms.
+- **Automate Client Notification Emails**
+  - Integrate MailerSend to send automated emails (e.g., welcome messages, meeting confirmations).
+- **Move Sensitive Operations to Backend**
+  - Shift email notifications and data writes to `backend/server.js` using a Supabase Service Key for enhanced security.
+- **Server-Side Input Validation**
+  - Add backend validation in `backend/server.js` to sanitize data before it reaches Supabase.
+- **Rate Limiting or CAPTCHA**
+  - Implement rate limiting or CAPTCHA on signup/login endpoints to prevent abuse and improve security.
+
+#### Long-Term Implementations (Complex)
+
+- **Self-Scheduling for Clients**
+  - Build a public booking page where clients can schedule meetings directly, reducing business workload.
+- **Multi-Employee Scheduling**
+  - Enable meeting assignments to specific staff members for team-based operations.
+- **Analytics Dashboard**
+  - Create a dashboard in `Dashboard.js` to display meeting statistics (e.g., bookings per week, client retention).
+- **Client Portal**
+  - Develop a client login system to view and manage bookings, enhancing client engagement.
+- **Recurring Meetings**
+  - Allow scheduling of recurring meetings (e.g., weekly sessions) in `MeetingScheduler.js`.
+- **Availability Calendar**
+  - Add a calendar view in `MeetingScheduler.js` showing open slots based on business availability.
+- **Two-Factor Authentication (2FA)**
+  - Implement 2FA for business accounts to bolster security.
+- **Data Export Options**
+  - Add functionality to export meetings and client data (e.g., CSV, PDF) for reporting purposes.
+- **Advanced Filtering and Sorting**
+  - Enhance `MeetingsTable.js` with filters (e.g., date range, status) and multi-column sorting.
+- **Calendar App Integrations**
+  - Expand integrations to include Apple Calendar and other platforms beyond Google/Outlook.
+- **Enterprise-Level Security Audits**
+  - Conduct regular security audits, encrypt sensitive data, and ensure compliance with privacy regulations (e.g., GDPR, CCPA).
