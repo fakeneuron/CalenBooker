@@ -65,7 +65,7 @@
    - URL generation added to `ScheduleMeeting.js` (e.g., `/meeting-confirmation/<id>`).
    - `MeetingConfirmation.js` displays meeting and business details with calendar integration (`.ics`, Google Calendar, Outlook) using manual `.ics` file generation, removing dependency on `ics` library to resolve `runes` error.
    - Removed unused `ics` and `runes` dependencies from `frontend/package.json`.
-   - Added check in `ScheduleMeeting.js` to require a completed `business_profile` before scheduling, prompting users to complete it at `/business-profile` if missing.
+   - Added check in `ScheduleMeeting.js` to require a completed `business_profile` before scheduling, prompting users with a clickable 'Business Profile' link to `/business-profile` if missing.
 
 6. **Deployment**:
    - Built and deployed frontend to Netlify, redirected to https://delparte.com with HTTPS enabled.
@@ -105,6 +105,7 @@
 - **Add server-side input validation in the backend** to sanitize data before it hits Supabase, enhancing security beyond frontend checks.
 - **Implement rate limiting or CAPTCHA** on signup/login endpoints to prevent abuse or spam.
 - **Use Supabase edge functions** for lightweight backend logic (e.g., rate limiting, notifications) if avoiding a full backend expansion.
+- **Refactor CSS to reduce duplication and improve reusability**: Consolidate repeated Tailwind classes into reusable class names or components (e.g., via a `styles.js` file), remove Tailwind CDN, and rely solely on local Tailwind 3.4.17.
 
 ### Technical Approach
 
@@ -132,4 +133,4 @@
    - Verify `delparte.com` serves HTTPS (completed via Netlify deployment).
 
 3. **Plan for v2**:
-   - Prioritize features based on user feedback.
+   - Prioritize features based on user feedback, starting with CSS refactoring for reusability.
