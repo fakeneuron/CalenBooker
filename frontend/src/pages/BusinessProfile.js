@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import supabase from '../supabaseClient';
-import { container, input, buttonPrimary, buttonSecondary, errorText, heading, label } from '../styles'; // Import styles
+import { container, input, buttonPrimary, buttonSecondary, errorText, heading, label } from '../styles';
 
 const BusinessProfile = () => {
   const [formData, setFormData] = useState({
@@ -11,7 +11,8 @@ const BusinessProfile = () => {
     unit: '',
     city: '',
     province: '',
-    postalCode: ''
+    postalCode: '',
+    timeZone: 'America/New_York', // Default time zone
   });
   const [error, setError] = useState('');
 
@@ -23,10 +24,10 @@ const BusinessProfile = () => {
       try {
         const { data, error } = await supabase
           .from('business_profile')
-          .select('email, business_name, phone, address, unit, city, province, postal_code')
+          .select('email, business_name, phone, address, unit, city, province, postal_code, time_zone') // Added time_zone
           .eq('user_id', session.user.id)
           .single();
-        if (error && error.code !== 'PGRST116') throw error; // Ignore "no rows" error
+        if (error && error.code !== 'PGRST116') throw error;
         if (data) {
           setFormData({
             email: data.email || '',
@@ -36,7 +37,8 @@ const BusinessProfile = () => {
             unit: data.unit || '',
             city: data.city || '',
             province: data.province || '',
-            postalCode: data.postal_code || ''
+            postalCode: data.postal_code || '',
+            timeZone: data.time_zone || 'America/New_York',
           });
         }
       } catch (err) {
@@ -72,7 +74,8 @@ const BusinessProfile = () => {
           unit: formData.unit,
           city: formData.city,
           province: formData.province,
-          postal_code: formData.postalCode
+          postal_code: formData.postalCode,
+          time_zone: formData.timeZone, // Added time zone
         });
       if (error) throw error;
       alert('Business profile saved successfully!');
@@ -90,7 +93,8 @@ const BusinessProfile = () => {
       unit: 'Unit 5',
       city: 'Toronto',
       province: 'ON',
-      postalCode: 'M5V 2T6'
+      postalCode: 'M5V 2T6',
+      timeZone: 'America/Toronto', // Updated sample data
     });
     setError('');
   };
@@ -185,6 +189,22 @@ const BusinessProfile = () => {
             className={input}
             required
           />
+        </div>
+        <div>
+          <label className={label}>Time Zone</label>
+          <select
+            name="timeZone"
+            value={formData.timeZone}
+            onChange={handleChange}
+            className={input}
+            required
+          >
+            <option value="America/New_York">Eastern Time (ET)</option>
+            <option value="America/Chicago">Central Time (CT)</option>
+            <option value="America/Denver">Mountain Time (MT)</option>
+            <option value="America/Los_Angeles">Pacific Time (PT)</option>
+            <option value="America/Toronto">Eastern Time (Toronto)</option>
+          </select>
         </div>
         {error && <p className={errorText}>{error}</p>}
         <button type="submit" className={buttonPrimary}>

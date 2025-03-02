@@ -25,7 +25,7 @@ const MeetingConfirmation = () => {
       try {
         const { data: meetingData, error: meetingError } = await supabase
           .from('meetings')
-          .select('client_name, client_email, meeting_date, meeting_time, duration, service_type, user_id') // Added service_type
+          .select('client_name, client_email, meeting_date, meeting_time, duration, service_type, user_id')
           .eq('id', id)
           .single();
         if (meetingError) throw meetingError;
@@ -33,7 +33,7 @@ const MeetingConfirmation = () => {
 
         const { data: businessData, error: businessError } = await supabase
           .from('business_profile')
-          .select('business_name, address, unit, city, province, postal_code, phone')
+          .select('business_name, address, unit, city, province, postal_code, phone, time_zone') // Added time_zone
           .eq('user_id', meetingData.user_id);
         if (businessError) throw businessError;
 
@@ -68,7 +68,7 @@ const MeetingConfirmation = () => {
       'CALSCALE:GREGORIAN',
       'METHOD:PUBLISH',
       'BEGIN:VEVENT',
-      `SUMMARY:${meeting.service_type} with ${business.business_name}`, // Updated summary with service_type
+      `SUMMARY:${meeting.service_type} with ${business.business_name}`,
       `DTSTART:${formatDate(startDate)}`,
       `DTEND:${formatDate(endDate)}`,
       `LOCATION:${business.address}${business.unit ? ', ' + business.unit : ''}, ${business.city}, ${business.province} ${business.postal_code}`,
@@ -104,7 +104,7 @@ const MeetingConfirmation = () => {
     const endStr = endDate.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
 
     const googleUrl = `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(
-      `${meeting.service_type} with ${business.business_name}` // Updated with service_type
+      `${meeting.service_type} with ${business.business_name}`
     )}&dates=${startStr}/${endStr}&details=${encodeURIComponent(
       `Meeting with ${meeting.client_name} (${meeting.client_email}). Contact: ${business.phone}`
     )}&location=${encodeURIComponent(
@@ -138,6 +138,7 @@ const MeetingConfirmation = () => {
     ? `${business.address}${business.unit ? ', ' + business.unit : ''}, ${business.city}, ${business.province} ${business.postal_code}`
     : 'To be provided';
   const phone = business ? business.phone : 'To be provided';
+  const timeZone = business ? business.time_zone.split('/')[1].replace('_', ' ') : 'TBD'; // Simplify display (e.g., "New York")
 
   return (
     <div className={container}>
@@ -146,10 +147,10 @@ const MeetingConfirmation = () => {
         You’re scheduled with <strong>{businessName}</strong>.
       </p>
       <div className="space-y-2">
-        <p className={text}><strong>Service:</strong> {meeting.service_type}</p> {/* Added service_type */}
+        <p className={text}><strong>Service:</strong> {meeting.service_type}</p>
         <p className={text}><strong>Client:</strong> {meeting.client_name} ({meeting.client_email})</p>
         <p className={text}><strong>Date:</strong> {meeting.meeting_date}</p>
-        <p className={text}><strong>Time:</strong> {meeting.meeting_time}</p>
+        <p className={text}><strong>Time:</strong> {meeting.meeting_time} ({timeZone})</p> {/* Added time zone */}
         <p className={text}><strong>Duration:</strong> {meeting.duration} minutes</p>
         <p className={text}><strong>Location:</strong> {location}</p>
         <p className={text}><strong>Contact:</strong> {phone}</p>

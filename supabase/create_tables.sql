@@ -14,6 +14,7 @@ CREATE TABLE business_profile (
   province TEXT NOT NULL,
   postal_code TEXT NOT NULL,
   logo TEXT,
+  time_zone TEXT NOT NULL DEFAULT 'America/New_York', -- Added time zone with default
   FOREIGN KEY (user_id) REFERENCES auth.users(id)
 );
 
@@ -26,6 +27,6 @@ CREATE TABLE meetings (
   meeting_time TIME NOT NULL,
   duration INTEGER NOT NULL,
   service_type TEXT NOT NULL,
-  status TEXT NOT NULL DEFAULT 'Confirmed', -- Added status column with default
+  status TEXT NOT NULL DEFAULT 'Confirmed',
   FOREIGN KEY (user_id) REFERENCES auth.users(id)
 );

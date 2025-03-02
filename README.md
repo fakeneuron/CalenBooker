@@ -67,9 +67,9 @@ Request the following files to understand and work on this project:
        - `Login.js`: Login screen with signup link and resend confirmation option for unconfirmed emails.
        - `AuthConfirm.js`: Handles email confirmation redirect to `/dashboard` (`/auth/confirm`).
        - `Dashboard.js`: Dashboard screen with meetings table, default post-login page (`/dashboard`), left-aligned names, centered data columns.
-       - `BusinessProfile.js`: Business profile screen (`/business-profile`) with form for business details and auto-populate sample data.
+       - `BusinessProfile.js`: Business profile screen (`/business-profile`) with form for business details, auto-populate sample data, and a time zone dropdown (e.g., "America/New_York") saved to `time_zone` column in `business_profile`.
        - `MeetingScheduler.js`: Scheduling screen with meeting URL generation (`/meeting-scheduler`), profile check, and auto-populate sample data. Includes a "Service Type" dropdown with preset options ("Haircut," "Consultation," "Shave") and an "Other" option with manual text entry; saves `service_type` to the `meetings` table. Added a "Status" dropdown ("Confirmed," "Pending," "Cancelled") with "Confirmed" as default, saving to `status` column.
-       - `MeetingConfirmation.js`: Client-facing meeting confirmation page (`/meeting-confirmation/:id`) with meeting/business details (including `service_type`) and calendar integration (`.ics`, Google Calendar, Outlook).
+       - `MeetingConfirmation.js`: Client-facing meeting confirmation page (`/meeting-confirmation/:id`) with meeting/business details (including `service_type` and `time_zone` displayed with the meeting time) and calendar integration (`.ics`, Google Calendar, Outlook).
      - `frontend/src/components/`:
        - `Navbar.js`: Navigation bar for protected routes (dashboard, profile, scheduling, logout), redirects to `/` on logout.
        - `MeetingsTable.js`: Reusable table displaying user’s meetings with sortable columns (date/time ascending). Includes "Service Type" and "Status" columns with `status` shown in colors (green for "Confirmed," yellow for "Pending," red for "Cancelled").
@@ -93,12 +93,12 @@ Request the following files to understand and work on this project:
 
 4. **Supabase SQL Snippets**:
 
-   - Tables: `business_profile` (business details), `meetings` (meeting records with `service_type` and `status` columns for tracking).
+   - Tables: `business_profile` (business details with `time_zone` column for scheduling clarity), `meetings` (meeting records with `service_type` and `status` columns for tracking).
    - Views: `users_view` for email checks.
    - RLS policies for secure data access (`auth.users` linked).
    - Storage: `Calenbooker/supabase/`—source of truth, duplicated in SQL Editor (sync script pending).
    - Snippets:
-     - `create_tables.sql`: Defines `business_profile` and `meetings` tables (updated with `service_type TEXT NOT NULL` and `status TEXT NOT NULL DEFAULT 'Confirmed'` in `meetings`) linked to `auth.users`.
+     - `create_tables.sql`: Defines `business_profile` (updated with `time_zone TEXT NOT NULL DEFAULT 'America/New_York'`) and `meetings` tables (updated with `service_type TEXT NOT NULL` and `status TEXT NOT NULL DEFAULT 'Confirmed'`) linked to `auth.users`.
      - `rls.sql`: Enables RLS and defines policies for `INSERT`, `UPDATE`, `SELECT` on tables.
      - `users_view_setup.sql`: Creates `users_view` and grants Anon Key `SELECT` access for email checks.
 
@@ -139,6 +139,7 @@ Request the following files to understand and work on this project:
 7. **Meeting Scheduler Enhancements**:
    - Added a "Service Type" field to `MeetingScheduler.js` with preset options and manual "Other" entry, displayed in `MeetingConfirmation.js` and `MeetingsTable.js`, with `service_type` column added to the `meetings` table.
    - Added "Status" indicators to `MeetingScheduler.js` (dropdown with "Confirmed," "Pending," "Cancelled") and `MeetingsTable.js` (color-coded display), with `status` column added to the `meetings` table.
+   - Added a "Time Zone" field to `BusinessProfile.js`, stored in `business_profile` as `time_zone`, and displayed on `MeetingConfirmation.js` with the meeting time for clarity.
 
 ### To-Dos
 
@@ -148,8 +149,6 @@ Request the following files to understand and work on this project:
 
 - **Business Profile Preview**
   - Add a preview button in `BusinessProfile.js` to show how clients will see the profile, enhancing transparency.
-- **Business Time Zone**
-  - Add a time zone field to `BusinessProfile.js`, store it in the `business_profile` table, and display it on `MeetingConfirmation.js` (e.g., "EST") to clarify meeting times.
 - **Professional Landing Page**
   - Redesign `Home.js` with a polished, enterprise-level look (e.g., hero section, feature highlights, signup CTA).
 - **Improved Navigation**
