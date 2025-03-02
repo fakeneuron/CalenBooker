@@ -101,8 +101,12 @@ Request the following files to understand and work on this project:
      - `users_view_setup.sql`: Creates `users_view` and grants Anon Key `SELECT` access for email checks.
 
 5. **Client Meeting Notification System**:
+
    - `ScheduleMeeting.js`: Generates meeting URLs (e.g., `/meeting-confirmation/<id>`), enforces profile check with clickable link to `/business-profile`.
-   - `MeetingConfirmation.js`: Displays meeting/business details with `.ics`, Google Calendar, and Outlook integration.
+   - `MeetingConfirmation.js`: Displays meeting/business details with `.ics`, Google Calendar, and Outlook integration (public access).
+
+6. **Deployment**:
+   - Deployed frontend to Netlify with HTTPS at `https://delparte.com`, configured Supabase auth redirects with local (`http://localhost:4000/auth/confirm`) and live (`https://delparte.com/auth/confirm`) options; confirmed HTTPS post-DNS propagation.
 
 ### Progress (Completed)
 
@@ -127,19 +131,7 @@ Request the following files to understand and work on this project:
    - Added meeting scheduling with profile check and calendar integration; removed unused dependencies.
 
 6. **Deployment**:
-   - Deployed frontend to Netlify with HTTPS at `https://delparte.com`, configured Supabase auth redirects.
-
-### Remaining (v1)
-
-1. **Client Meeting Notification System**:
-   - **Purpose**: Enable businesses to schedule meetings and automatically generate a client-facing notification with appointment details and calendar integration options (e.g., `.ics` download, Google Calendar link, Outlook integration).
-   - **Progress**:
-     - URL generation added to `ScheduleMeeting.js` (e.g., `/meeting-confirmation/<id>`).
-     - `MeetingConfirmation.js` displays meeting and business details (public access for v1) with `.ics`, Google Calendar, and Outlook integration completed.
-     - Business profile check implemented in `ScheduleMeeting.js`.
-   - **To-Do**: None remaining—all v1 tasks completed.
-2. **Domain Hosting**:
-   - Confirm HTTPS on `delparte.com` post-DNS propagation (verified via Netlify deployment).
+   - Deployed frontend to Netlify with HTTPS and configured auth redirects.
 
 ### v2 To-Dos
 
