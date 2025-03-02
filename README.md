@@ -37,7 +37,7 @@ To run the project locally:
 
 Request the following files to understand and work on this project:
 
-- **Frontend Pages**: `frontend/src/pages/*.js` (Home.js, Signup.js, SignupSuccess.js, Login.js, AuthConfirm.js, Dashboard.js, BusinessProfile.js, ScheduleMeeting.js, MeetingConfirmation.js)
+- **Frontend Pages**: `frontend/src/pages/*.js` (Home.js, Signup.js, SignupSuccess.js, Login.js, AuthConfirm.js, Dashboard.js, BusinessProfile.js, MeetingScheduler.js, MeetingConfirmation.js)
 - **Frontend Components**: `frontend/src/components/*.js` (Navbar.js, MeetingsTable.js)
 - **Frontend Core**: `frontend/src/App.js`, `frontend/src/index.js`, `frontend/src/styles.js`, `frontend/src/supabaseClient.js`, `frontend/src/index.css`
 - **Frontend Public**: `frontend/public/index.html`, `frontend/public/_redirects`
@@ -68,7 +68,7 @@ Request the following files to understand and work on this project:
        - `AuthConfirm.js`: Handles email confirmation redirect to `/dashboard` (`/auth/confirm`).
        - `Dashboard.js`: Dashboard screen with meetings table, default post-login page (`/dashboard`), left-aligned names, centered data columns.
        - `BusinessProfile.js`: Business profile screen (`/business-profile`) with form for business details and auto-populate sample data.
-       - `ScheduleMeeting.js`: Scheduling screen with meeting URL generation (`/schedule-meeting`), profile check, and auto-populate sample data.
+       - `MeetingScheduler.js`: Scheduling screen with meeting URL generation (`/meeting-scheduler`), profile check, and auto-populate sample data.
        - `MeetingConfirmation.js`: Client-facing meeting confirmation page (`/meeting-confirmation/:id`) with meeting/business details and calendar integration (`.ics`, Google Calendar, Outlook).
      - `frontend/src/components/`:
        - `Navbar.js`: Navigation bar for protected routes (dashboard, profile, scheduling, logout), redirects to `/` on logout.
@@ -102,7 +102,7 @@ Request the following files to understand and work on this project:
 
 5. **Client Meeting Notification System**:
 
-   - `ScheduleMeeting.js`: Generates meeting URLs (e.g., `/meeting-confirmation/<id>`), enforces profile check with clickable link to `/business-profile`.
+   - `MeetingScheduler.js`: Generates meeting URLs (e.g., `/meeting-confirmation/<id>`), enforces profile check with clickable link to `/business-profile`.
    - `MeetingConfirmation.js`: Displays meeting/business details with `.ics`, Google Calendar, and Outlook integration (public access).
 
 6. **Deployment**:
