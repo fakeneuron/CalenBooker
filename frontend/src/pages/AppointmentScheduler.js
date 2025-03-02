@@ -14,16 +14,16 @@ import {
   label,
 } from '../styles';
 
-const MeetingScheduler = () => {
+const AppointmentScheduler = () => {
   const [formData, setFormData] = useState({
     clientName: '',
     clientEmail: '',
     meetingDate: '',
     meetingTime: '',
-    duration: '30', // Default in minutes
-    serviceType: 'Consultation', // Default service type
+    duration: '30',
+    serviceType: 'Consultation',
     customServiceType: '',
-    status: 'Confirmed', // Default status
+    status: 'Confirmed',
   });
   const [error, setError] = useState('');
   const [confirmationUrl, setConfirmationUrl] = useState('');
@@ -37,7 +37,7 @@ const MeetingScheduler = () => {
     e.preventDefault();
     const { data: { session } } = await supabase.auth.getSession();
     if (!session?.user) {
-      setError('Please log in to schedule a meeting.');
+      setError('Please log in to schedule an appointment.');
       return;
     }
 
@@ -50,7 +50,7 @@ const MeetingScheduler = () => {
     if (profileError || !profileData) {
       setError(
         <span>
-          Please complete your <Link to="/business-profile" className={link}>Business Profile</Link> before scheduling a meeting.
+          Please complete your <Link to="/business-profile" className={link}>Business Profile</Link> before scheduling an appointment.
         </span>
       );
       return;
@@ -64,7 +64,7 @@ const MeetingScheduler = () => {
       }
 
       const { data, error } = await supabase
-        .from('meetings')
+        .from('appointments') // Will update table name in Sub-Step 3
         .insert({
           user_id: session.user.id,
           client_name: formData.clientName,
@@ -73,14 +73,14 @@ const MeetingScheduler = () => {
           meeting_time: formData.meetingTime,
           duration: parseInt(formData.duration, 10),
           service_type: serviceTypeToSave,
-          status: formData.status, // Added status
+          status: formData.status,
         })
         .select('id')
         .single();
       if (error) throw error;
 
-      const meetingId = data.id;
-      const url = `${window.location.origin}/meeting-confirmation/${meetingId}`;
+      const appointmentId = data.id; // Updated variable name
+      const url = `${window.location.origin}/appointment-confirmation/${appointmentId}`; // Updated URL
       setConfirmationUrl(url);
       setFormData({
         clientName: '',
@@ -90,11 +90,11 @@ const MeetingScheduler = () => {
         duration: '30',
         serviceType: 'Consultation',
         customServiceType: '',
-        status: 'Confirmed', // Reset to default
+        status: 'Confirmed',
       });
       setError('');
     } catch (error) {
-      setError('Error scheduling meeting: ' + error.message);
+      setError('Error scheduling appointment: ' + error.message); // Updated text
     }
   };
 
@@ -107,14 +107,14 @@ const MeetingScheduler = () => {
       duration: '30',
       serviceType: 'Haircut',
       customServiceType: '',
-      status: 'Confirmed', // Default for sample
+      status: 'Confirmed',
     });
     setError('');
   };
 
   return (
     <div className={container}>
-      <h2 className={heading}>Meeting Scheduler</h2>
+      <h2 className={heading}>Appointment Scheduler</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label className={label}>Client Name</label>
@@ -139,7 +139,7 @@ const MeetingScheduler = () => {
           />
         </div>
         <div>
-          <label className={label}>Meeting Date</label>
+          <label className={label}>Appointment Date</label> {/* Updated label */}
           <input
             type="date"
             name="meetingDate"
@@ -150,7 +150,7 @@ const MeetingScheduler = () => {
           />
         </div>
         <div>
-          <label className={label}>Meeting Time</label>
+          <label className={label}>Appointment Time</label> {/* Updated label */}
           <input
             type="time"
             name="meetingTime"
@@ -219,7 +219,7 @@ const MeetingScheduler = () => {
         </div>
         {error && <p className={errorText}>{error}</p>}
         <button type="submit" className={buttonPrimary}>
-          Schedule Meeting
+          Schedule Appointment {/* Updated text */}
         </button>
         <button type="button" onClick={handleAutoPopulate} className={buttonSecondary}>
           Fill Sample Data
@@ -228,7 +228,7 @@ const MeetingScheduler = () => {
       {confirmationUrl && (
         <div className={successBox}>
           <p className={successText}>
-            Meeting scheduled successfully! Share this link with your client:
+            Appointment scheduled successfully! Share this link with your client: {/* Updated text */}
           </p>
           <p className="mt-2 text-blue-600 break-all">
             <a href={confirmationUrl} target="_blank" rel="noopener noreferrer" className={link}>
@@ -241,4 +241,4 @@ const MeetingScheduler = () => {
   );
 };
 
-export default MeetingScheduler;
+export default AppointmentScheduler;

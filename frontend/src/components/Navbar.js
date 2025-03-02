@@ -17,7 +17,7 @@ const Navbar = () => {
       return;
     }
     console.log('Logged out successfully, navigating to /');
-    setIsDropdownOpen(false); // Close dropdown on logout
+    setIsDropdownOpen(false);
     navigate('/');
   };
 
@@ -53,7 +53,7 @@ const Navbar = () => {
           </Link>
         </div>
         <div className="flex items-center space-x-4">
-          <Link to="/meeting-scheduler" className={navbarLink}>
+          <Link to="/appointment-scheduler" className={navbarLink}> {/* Updated route */}
             Schedule Appointment
           </Link>
           <div className="relative" ref={dropdownRef}>

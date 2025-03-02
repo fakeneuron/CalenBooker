@@ -8,8 +8,8 @@ import Login from './pages/Login';
 import AuthConfirm from './pages/AuthConfirm';
 import Dashboard from './pages/Dashboard';
 import BusinessProfile from './pages/BusinessProfile';
-import MeetingScheduler from './pages/MeetingScheduler';
-import MeetingConfirmation from './pages/MeetingConfirmation';
+import AppointmentScheduler from './pages/AppointmentScheduler'; // Updated import
+import AppointmentConfirmation from './pages/AppointmentConfirmation'; // Updated import
 import Navbar from './components/Navbar';
 
 function App() {
@@ -42,9 +42,9 @@ function App() {
         <Route path="/login" element={!session ? <Login /> : <Navigate to="/dashboard" />} />
         <Route path="/dashboard" element={session ? <Dashboard /> : <Navigate to="/login" />} />
         <Route path="/business-profile" element={session ? <BusinessProfile /> : <Navigate to="/login" />} />
-        <Route path="/meeting-scheduler" element={session ? <MeetingScheduler /> : <Navigate to="/login" />} />
+        <Route path="/appointment-scheduler" element={session ? <AppointmentScheduler /> : <Navigate to="/login" />} /> {/* Updated route */}
         <Route path="/auth/confirm" element={<AuthConfirm />} />
-        <Route path="/meeting-confirmation/:id" element={<MeetingConfirmation />} />
+        <Route path="/appointment-confirmation/:id" element={<AppointmentConfirmation />} /> {/* Updated route */}
       </Routes>
     </div>
   );
