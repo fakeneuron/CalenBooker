@@ -49,7 +49,7 @@ const Signup = () => {
         email: formData.email,
         password: formData.password,
         options: {
-          emailRedirectTo: 'https://delparte.com/auth/confirm', // Updated to correct live URL
+          emailRedirectTo: process.env.REACT_APP_AUTH_REDIRECT || 'http://localhost:4000/auth/confirm',
         },
       });
 
@@ -80,7 +80,7 @@ const Signup = () => {
           <input
             type="password"
             name="password"
-            value={formData.password}
+            value={formData.password} // Fixed from formData.email
             onChange={handleChange}
             className={`w-full p-2 border rounded ${passwordError ? 'border-red-500' : ''}`}
             required

@@ -8,7 +8,9 @@ As a beginner, I may need explanations of certain concepts or technologies. Plea
 Encourage me to follow best practices, such as writing clean and readable code, using version control (e.g., Git), and adhering to coding standards relevant to the technologies in this project, but only make suggestions after all files are collected.
 The README.md file is attached for your review. After reviewing it, please ask me for the first project file you need based on the project’s current progress. Once you’ve requested and received all the files, check with me to confirm there’s nothing missing. After that, we’ll figure out what to prioritize next and proceed together.
 
-POST FILE UPDATES
+POST FILE UPLOADS
+\*\*\*We will plan to continue to update the .md file as we go - better to capture the full progress and overall function of the files in the project. As we go, we should try to be more inclusive in the .md without having too much detail
+
 Let's start by cleaning up the backend. Once tested, we will move on to the cleanup sql scripts. . I'd like to highlight that i'm a novice coder and leaning to code by using AI while developing this app. Please proceed slowly and deliberately so that I can keep up. When possible, include the full code for files rather than just pieces for manual insert (however it is nice to know which code is being changed explicitly). Don't move too fast or provide too many updates at once. i rather deal with smaller pieces of information and update before proceeding to the next stage.
 
 Specifics on the meeting invitation notification
