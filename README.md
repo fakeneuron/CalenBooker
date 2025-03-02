@@ -61,7 +61,7 @@ Request the following files to understand and work on this project:
    - Tailwind CSS via local dependency (`3.4.17`) in `index.css`.
    - Structure:
      - `frontend/src/pages/`:
-       - `Home.js`: Landing page for unauthenticated users (`/`) with signup/login links.
+       - `Home.js`: Professional landing page for unauthenticated users (`/`) with a Kawaii-styled hero section, feature highlights, and signup/login links; features a pastel gradient hero, animated feature cards, and a subtle hover-effect signup button.
        - `Signup.js`: Signup screen with email/password form, login link, and email confirmation trigger.
        - `SignupSuccess.js`: Confirmation screen after signup (`/signup-success`) with login link.
        - `Login.js`: Login screen with signup link and resend confirmation option for unconfirmed emails.
@@ -71,13 +71,13 @@ Request the following files to understand and work on this project:
        - `MeetingScheduler.js`: Scheduling screen with meeting URL generation (`/meeting-scheduler`), profile check, and auto-populate sample data. Includes a "Service Type" dropdown with preset options ("Haircut," "Consultation," "Shave") and an "Other" option with manual text entry; saves `service_type` to the `meetings` table. Added a "Status" dropdown ("Confirmed," "Pending," "Cancelled") with "Confirmed" as default, saving to `status` column.
        - `MeetingConfirmation.js`: Client-facing meeting confirmation page (`/meeting-confirmation/:id`) with meeting/business details (including `service_type` and `time_zone` displayed with the meeting time) and calendar integration (`.ics`, Google Calendar, Outlook).
      - `frontend/src/components/`:
-       - `Navbar.js`: Navigation bar for protected routes (dashboard, profile, scheduling, logout), redirects to `/` on logout.
+       - `Navbar.js`: Navigation bar for protected routes with a Kawaii-styled user icon dropdown (hover/click) for "Business Profile," "Settings," and "Logout," and a top-level "Schedule Appointment" link; redirects to `/` on logout.
        - `MeetingsTable.js`: Reusable table displaying user’s meetings with sortable columns (date/time ascending). Includes "Service Type" and "Status" columns with `status` shown in colors (green for "Confirmed," yellow for "Pending," red for "Cancelled").
      - `frontend/src/`:
        - `App.js`: Root component with routing and Supabase auth state management.
        - `index.js`: Entry point rendering `App.js` with routing.
-       - `index.css`: Tailwind CSS setup (placeholder for custom styles).
-       - `styles.js`: Centralized reusable Tailwind classes for all pages and components.
+       - `index.css`: Tailwind CSS setup with custom animation keyframes (e.g., fade-in).
+       - `styles.js`: Centralized reusable Tailwind classes for all pages and components, updated with Kawaii-inspired styles (pastel colors, rounded shapes, playful shadows) applied app-wide for a consistent, cute aesthetic.
        - `supabaseClient.js`: Supabase client initialization with Anon Key from `.env`.
    - Routing with `react-router-dom@7.2.0`.
    - Dependencies in `frontend/package.json`: `react@19.0.0`, `@supabase/supabase-js@2.49.1`, etc.
@@ -140,6 +140,8 @@ Request the following files to understand and work on this project:
    - Added a "Service Type" field to `MeetingScheduler.js` with preset options and manual "Other" entry, displayed in `MeetingConfirmation.js` and `MeetingsTable.js`, with `service_type` column added to the `meetings` table.
    - Added "Status" indicators to `MeetingScheduler.js` (dropdown with "Confirmed," "Pending," "Cancelled") and `MeetingsTable.js` (color-coded display), with `status` column added to the `meetings` table.
    - Added a "Time Zone" field to `BusinessProfile.js`, stored in `business_profile` as `time_zone`, and displayed on `MeetingConfirmation.js` with the meeting time for clarity.
+   - Redesigned `Home.js` into a professional landing page with a Kawaii aesthetic, featuring a hero section, feature highlights, and updated app-wide styles in `styles.js` for a cohesive cute look.
+   - Enhanced `Navbar.js` with a Kawaii-styled user icon dropdown for "Business Profile," "Settings," and "Logout," and a top-level "Schedule Appointment" link, with click-outside collapse functionality.
 
 ### To-Dos
 
@@ -149,10 +151,6 @@ Request the following files to understand and work on this project:
 
 - **Business Profile Preview**
   - Add a preview button in `BusinessProfile.js` to show how clients will see the profile, enhancing transparency.
-- **Professional Landing Page**
-  - Redesign `Home.js` with a polished, enterprise-level look (e.g., hero section, feature highlights, signup CTA).
-- **Improved Navigation**
-  - Enhance `Navbar.js` with better grouping or dropdowns for protected routes (e.g., dashboard, profile, scheduling).
 
 ##### Complex
 

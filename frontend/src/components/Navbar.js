@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import supabase from '../supabaseClient';
-import { navbar, navbarContainer, navbarLink } from '../styles';
+import { navbar, navbarContainer, navbarLink, navbarUserIcon, navbarDropdown, navbarDropdownItem } from '../styles';
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
 
   const handleLogout = async () => {
     console.log('Attempting logout...');
@@ -15,8 +17,29 @@ const Navbar = () => {
       return;
     }
     console.log('Logged out successfully, navigating to /');
+    setIsDropdownOpen(false); // Close dropdown on logout
     navigate('/');
   };
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen((prev) => !prev);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    if (isDropdownOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isDropdownOpen]);
 
   return (
     <nav className={navbar}>
@@ -29,16 +52,28 @@ const Navbar = () => {
             CalenBooker
           </Link>
         </div>
-        <div className="space-x-4">
-          <Link to="/business-profile" className={navbarLink}>
-            Business Profile
-          </Link>
+        <div className="flex items-center space-x-4">
           <Link to="/meeting-scheduler" className={navbarLink}>
-            Meeting Scheduler
+            Schedule Appointment
           </Link>
-          <button onClick={handleLogout} className={navbarLink}>
-            Logout
-          </button>
+          <div className="relative" ref={dropdownRef}>
+            <button onClick={toggleDropdown} className={navbarUserIcon}>
+              👤
+            </button>
+            {isDropdownOpen && (
+              <div className={navbarDropdown}>
+                <Link to="/business-profile" className={navbarDropdownItem} onClick={() => setIsDropdownOpen(false)}>
+                  Business Profile
+                </Link>
+                <Link to="/settings" className={navbarDropdownItem} onClick={() => setIsDropdownOpen(false)}>
+                  Settings
+                </Link>
+                <button onClick={handleLogout} className={navbarDropdownItem}>
+                  Logout
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </nav>
