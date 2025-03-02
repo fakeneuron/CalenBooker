@@ -8,14 +8,49 @@
 
 - **Coder**: Novice, using Terminal, VS Code, Node.js v20.18.0, npm v11.1.0, Git on Mac OS.
 
-## Project Coding Overview
+## Project Setup
 
-### Progress (Completed)
+To run the project locally:
+
+- **Clone the Repo**: `git clone https://github.com/fakeneuron/CalenBooker.git`
+- **Frontend**:
+  - Navigate: `cd frontend`
+  - Install: `npm install`
+  - Create `frontend/.env` with:
+    ```
+    REACT_APP_SUPABASE_URL=https://your-project.supabase.co
+    REACT_APP_SUPABASE_ANON_KEY=your-anon-key
+    REACT_APP_AUTH_REDIRECT=http://localhost:4000/auth/confirm
+    ```
+  - Run: `npm start` (opens `http://localhost:4000`)
+- **Dependencies**: Managed via `frontend/package.json`.
+- **Supabase**: Ensure your Supabase project is set up with tables from `supabase/` snippets.
+- **Netlify**: Env vars are set in the dashboard (see Deployment).
+- **Note**: `.env` is excluded from Git via `.gitignore` for security.
+
+## Technical Approach
+
+- **Frontend**: React (`19.0.0`), Tailwind CSS (`3.4.17`), Supabase client.
+- **Backend**: Node.js/Express (`4.21.2`), Supabase client.
+
+## Instructions for AI
+
+Request the following files to understand and work on this project:
+
+- **Frontend Pages**: `frontend/src/pages/*.js` (Home.js, Signup.js, SignupSuccess.js, Login.js, AuthConfirm.js, Dashboard.js, BusinessProfile.js, ScheduleMeeting.js, MeetingConfirmation.js)
+- **Frontend Components**: `frontend/src/components/*.js` (Navbar.js, MeetingsTable.js)
+- **Frontend Core**: `frontend/src/App.js`, `frontend/src/index.js`, `frontend/src/styles.js`, `frontend/src/supabaseClient.js`, `frontend/src/index.css`
+- **Frontend Public**: `frontend/public/index.html`, `frontend/public/_redirects`
+- **Backend**: `backend/server.js`
+- **Supabase SQL**: `supabase/create_tables.sql`, `supabase/rls.sql`, `supabase/users_view_setup.sql`
+- **Root**: `README.md`, `frontend/package.json`, `backend/package.json`
+
+## Project Structure and Functionality
 
 1. **Initialize Project**:
 
    - Git repository: `github.com/fakeneuron/CalenBooker` (branch: `master`).
-   - Project structure:
+   - Structure:
      - `Calenbooker/frontend`: React app (port 4000) with `react-scripts@5.0.1`.
      - `Calenbooker/backend`: Express app (port 4001, minimal setup for future v2 features).
      - `Calenbooker/supabase/`: Local SQL snippets (source of truth).
@@ -23,21 +58,21 @@
 
 2. **Frontend Setup**:
 
-   - Tailwind CSS via local dependency (`3.4.17`) in `index.css`; removed CDN (`2.2.19`) from `public/index.html` to streamline styling.
-   - **Structure**:
+   - Tailwind CSS via local dependency (`3.4.17`) in `index.css`.
+   - Structure:
      - `frontend/src/pages/`:
-       - `Home.js`: Landing page for unauthenticated users (`/`).
-       - `Signup.js`: Signup screen with login link (`/signup`).
-       - `SignupSuccess.js`: Confirmation screen after signup (`/signup-success`).
-       - `Login.js`: Login screen with signup link (`/login`).
+       - `Home.js`: Landing page for unauthenticated users (`/`) with signup/login links.
+       - `Signup.js`: Signup screen with email/password form, login link, and email confirmation trigger.
+       - `SignupSuccess.js`: Confirmation screen after signup (`/signup-success`) with login link.
+       - `Login.js`: Login screen with signup link and resend confirmation option for unconfirmed emails.
        - `AuthConfirm.js`: Handles email confirmation redirect to `/dashboard` (`/auth/confirm`).
-       - `Dashboard.js`: Dashboard screen with meetings table, default post-login page (`/dashboard`).
-       - `BusinessProfile.js`: Business profile screen (`/business-profile`).
-       - `ScheduleMeeting.js`: Scheduling screen with meeting URL generation (`/schedule-meeting`).
-       - `MeetingConfirmation.js`: Client-facing meeting confirmation page (`/meeting-confirmation/:id`).
+       - `Dashboard.js`: Dashboard screen with meetings table, default post-login page (`/dashboard`), left-aligned names, centered data columns.
+       - `BusinessProfile.js`: Business profile screen (`/business-profile`) with form for business details and auto-populate sample data.
+       - `ScheduleMeeting.js`: Scheduling screen with meeting URL generation (`/schedule-meeting`), profile check, and auto-populate sample data.
+       - `MeetingConfirmation.js`: Client-facing meeting confirmation page (`/meeting-confirmation/:id`) with meeting/business details and calendar integration (`.ics`, Google Calendar, Outlook).
      - `frontend/src/components/`:
-       - `Navbar.js`: Navigation bar for protected routes, redirects to `/` on logout.
-       - `MeetingsTable.js`: Reusable table displaying user’s meetings.
+       - `Navbar.js`: Navigation bar for protected routes (dashboard, profile, scheduling, logout), redirects to `/` on logout.
+       - `MeetingsTable.js`: Reusable table displaying user’s meetings with sortable columns (date/time ascending).
      - `frontend/src/`:
        - `App.js`: Root component with routing and Supabase auth state management.
        - `index.js`: Entry point rendering `App.js` with routing.
@@ -50,37 +85,49 @@
 
 3. **Backend Setup**:
 
-   - Minimal Express app in `backend/server.js` with Supabase client (Anon Key from `backend/.env`).
-   - Runs on port 4001, responds with a hello message, reserved for v2 features (e.g., email notifications).
+   - `backend/server.js`: Minimal Express app with Supabase client (Anon Key from `backend/.env`), responds with a hello message, reserved for v2 features.
    - Dependencies in `backend/package.json`: `express@4.21.2`, `@supabase/supabase-js@2.49.1`, `cors@2.8.5`, `dotenv@16.4.7`.
+   - Runs on port 4001.
 
 4. **Supabase SQL Snippets**:
 
-   - Tables: `business_profile`, `meetings`.
+   - Tables: `business_profile` (business details), `meetings` (meeting records).
    - Views: `users_view` for email checks.
-   - RLS policies for secure data access.
+   - RLS policies for secure data access (`auth.users` linked).
+   - Storage: `Calenbooker/supabase/`—source of truth, duplicated in SQL Editor (sync script pending).
+   - Snippets:
+     - `create_tables.sql`: Defines `business_profile` and `meetings` tables linked to `auth.users`.
+     - `rls.sql`: Enables RLS and defines policies for `INSERT`, `UPDATE`, `SELECT` on tables.
+     - `users_view_setup.sql`: Creates `users_view` and grants Anon Key `SELECT` access for email checks.
+
+5. **Client Meeting Notification System**:
+   - `ScheduleMeeting.js`: Generates meeting URLs (e.g., `/meeting-confirmation/<id>`), enforces profile check with clickable link to `/business-profile`.
+   - `MeetingConfirmation.js`: Displays meeting/business details with `.ics`, Google Calendar, and Outlook integration.
+
+### Progress (Completed)
+
+1. **Initialize Project**:
+
+   - Established Git repository and project structure.
+
+2. **Frontend Setup**:
+
+   - Built React frontend with routing, Tailwind CSS (`3.4.17`), and centralized styles.
+
+3. **Backend Setup**:
+
+   - Set up minimal Express backend for future v2 expansion.
+
+4. **Supabase SQL Snippets**:
+
+   - Implemented database tables, views, and RLS policies.
 
 5. **Client Meeting Notification System**:
 
-   - URL generation added to `ScheduleMeeting.js` (e.g., `/meeting-confirmation/<id>`).
-   - `MeetingConfirmation.js` displays meeting and business details with calendar integration (`.ics`, Google Calendar, Outlook) using manual `.ics` file generation, removing dependency on `ics` library to resolve `runes` error.
-   - Removed unused `ics` and `runes` dependencies from `frontend/package.json`.
-   - Added check in `ScheduleMeeting.js` to require a completed `business_profile` before scheduling, prompting users with a clickable 'Business Profile' link to `/business-profile` if missing.
+   - Added meeting scheduling with profile check and calendar integration; removed unused dependencies.
 
 6. **Deployment**:
-   - Built and deployed frontend to Netlify, redirected to https://delparte.com with HTTPS enabled.
-   - Added `REACT_APP_SUPABASE_URL` and `REACT_APP_SUPABASE_ANON_KEY` to Netlify environment variables for secure configuration, keeping `.env` out of GitHub with `.gitignore`.
-   - Updated `Signup.js` to use `REACT_APP_AUTH_REDIRECT` environment variable for `emailRedirectTo` (defaults to `http://localhost:4000/auth/confirm` locally).
-   - Added `REACT_APP_AUTH_REDIRECT=https://delparte.com/auth/confirm` to Netlify environment variables for live site.
-   - Updated Supabase Authentication Settings: Set Site URL to `https://delparte.com/auth/confirm` and added `http://localhost:4000/auth/confirm` and `https://delparte.com/auth/confirm` to Additional Redirect URLs for local and live flexibility.
-
-### Supabase SQL Snippets
-
-- **Storage**: `Calenbooker/supabase/`—source of truth, duplicated in SQL Editor (sync script pending).
-- **Snippets**:
-  - **`create_tables.sql`**: Defines `business_profile` and `meetings` tables linked to `auth.users`.
-  - **`rls.sql`**: Enables RLS and defines policies for `INSERT`, `UPDATE`, `SELECT` on tables.
-  - **`users_view_setup.sql`**: Creates `users_view` and grants Anon Key `SELECT` access for email checks.
+   - Deployed frontend to Netlify with HTTPS at `https://delparte.com`, configured Supabase auth redirects.
 
 ### Remaining (v1)
 
@@ -94,42 +141,14 @@
 2. **Domain Hosting**:
    - Confirm HTTPS on `delparte.com` post-DNS propagation (verified via Netlify deployment).
 
-### v2 Considerations
+### v2 To-Dos
 
-- Automate client notification emails with MailerSend integration.
-- Real-time password feedback in `Signup.js`.
-- Self-scheduling for clients.
-- Multi-employee support.
-- Analytics dashboard.
-- **Move sensitive operations (e.g., email notifications, data writes) to the backend with a Supabase Service Key** to reduce Anon Key exposure in the frontend.
-- **Add server-side input validation in the backend** to sanitize data before it hits Supabase, enhancing security beyond frontend checks.
-- **Implement rate limiting or CAPTCHA** on signup/login endpoints to prevent abuse or spam.
-- **Use Supabase edge functions** for lightweight backend logic (e.g., rate limiting, notifications) if avoiding a full backend expansion.
-
-### Technical Approach
-
-- **Frontend**:
-
-  - React (`19.0.0`) with `react-router-dom@7.2.0`.
-  - Tailwind CSS (`3.4.17` local via `index.css`).
-  - Supabase client with Anon Key from `.env`.
-  - Runs on port 4000.
-
-- **Backend**:
-  - Node.js/Express (`4.21.2`).
-  - Supabase client with Anon Key.
-  - Runs on port 4001 (minimal setup for v2 expansion).
-
-### Action Items and Next Steps
-
-1. **Client Meeting Notification System**:
-
-   - Update `ScheduleMeeting.js` to require a completed `business_profile` before submission (completed).
-   - Add auto-populate buttons to `BusinessProfile.js` and `ScheduleMeeting.js` forms for testing purposes (already implemented).
-
-2. **Confirm HTTPS Setup**:
-
-   - Verify `delparte.com` serves HTTPS (completed via Netlify deployment).
-
-3. **Plan for v2**:
-   - Prioritize features based on user feedback, starting with email notifications or other listed considerations.
+- Automate client notification emails with MailerSend integration (e.g., post-signup, meeting confirmation).
+- Add real-time password feedback in `Signup.js` (e.g., strength meter).
+- Implement self-scheduling for clients (e.g., public booking page).
+- Support multi-employee scheduling (e.g., assign meetings to staff).
+- Build an analytics dashboard (e.g., meeting stats).
+- Move sensitive operations (e.g., email notifications, data writes) to the backend with a Supabase Service Key to reduce Anon Key exposure in the frontend.
+- Add server-side input validation in the backend to sanitize data before it hits Supabase, enhancing security beyond frontend checks.
+- Implement rate limiting or CAPTCHA on signup/login endpoints to prevent abuse or spam.
+- Use Supabase edge functions for lightweight backend logic (e.g., rate limiting, notifications) if avoiding a full backend expansion.
