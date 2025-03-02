@@ -65,6 +65,7 @@
    - URL generation added to `ScheduleMeeting.js` (e.g., `/meeting-confirmation/<id>`).
    - `MeetingConfirmation.js` displays meeting and business details with calendar integration (`.ics`, Google Calendar, Outlook) using manual `.ics` file generation, removing dependency on `ics` library to resolve `runes` error.
    - Removed unused `ics` and `runes` dependencies from `frontend/package.json`.
+   - Added check in `ScheduleMeeting.js` to require a completed `business_profile` before scheduling, prompting users to complete it at `/business-profile` if missing.
 
 6. **Deployment**:
    - Built and deployed frontend to Netlify, redirected to https://delparte.com with HTTPS enabled.
@@ -88,8 +89,8 @@
    - **Progress**:
      - URL generation added to `ScheduleMeeting.js` (e.g., `/meeting-confirmation/<id>`).
      - `MeetingConfirmation.js` displays meeting and business details (public access for v1) with `.ics`, Google Calendar, and Outlook integration completed.
-   - **To-Do**:
-     - Require a completed `business_profile` before allowing meeting scheduling in `ScheduleMeeting.js`.
+     - Business profile check implemented in `ScheduleMeeting.js`.
+   - **To-Do**: None remaining—all v1 tasks completed.
 2. **Domain Hosting**:
    - Confirm HTTPS on `delparte.com` post-DNS propagation (verified via Netlify deployment).
 
@@ -123,7 +124,7 @@
 
 1. **Client Meeting Notification System**:
 
-   - Update `ScheduleMeeting.js` to require a completed `business_profile` before submission.
+   - Update `ScheduleMeeting.js` to require a completed `business_profile` before submission (completed).
    - Add auto-populate buttons to `BusinessProfile.js` and `ScheduleMeeting.js` forms for testing purposes (already implemented).
 
 2. **Confirm HTTPS Setup**:

@@ -1,5 +1,5 @@
-// Calenbooker/frontend/src/pages/ScheduleMeeting.js
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom'; // Added import for Link
 import supabase from '../supabaseClient';
 
 const ScheduleMeeting = () => {
@@ -23,6 +23,22 @@ const ScheduleMeeting = () => {
     const { data: { session } } = await supabase.auth.getSession();
     if (!session?.user) {
       setError('Please log in to schedule a meeting.');
+      return;
+    }
+
+    // Check for business profile
+    const { data: profileData, error: profileError } = await supabase
+      .from('business_profile')
+      .select('user_id')
+      .eq('user_id', session.user.id)
+      .single();
+
+    if (profileError || !profileData) {
+      setError(
+        <span>
+          Please complete your <Link to="/business-profile" className="text-blue-600 hover:underline">Business Profile</Link> before scheduling a meeting.
+        </span>
+      );
       return;
     }
 
