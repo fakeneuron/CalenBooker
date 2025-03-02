@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import supabase from '../supabaseClient';
 import { useNavigate, Link } from 'react-router-dom';
+import { container, input, buttonPrimary, errorText, heading, link, label } from '../styles'; // Import styles
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -24,14 +25,14 @@ const Login = () => {
         password: formData.password,
       });
       if (error) throw error;
-      navigate('/dashboard'); // Updated redirect
+      navigate('/dashboard');
     } catch (error) {
       if (error.message === 'Email not confirmed') {
         setErrorMessage('Your email isn’t confirmed yet. Please check your inbox (and spam/junk folder) for the confirmation link.');
       } else {
         setErrorMessage(error.message);
       }
-      setResendMessage(''); // Clear resend message on new attempt
+      setResendMessage('');
     }
   };
 
@@ -43,63 +44,60 @@ const Login = () => {
       });
       if (error) throw error;
       setResendMessage('Confirmation email resent! Check your inbox.');
-      setErrorMessage(''); // Clear error message on success
+      setErrorMessage('');
     } catch (error) {
       setResendMessage('Failed to resend confirmation email: ' + error.message);
     }
   };
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-white shadow-md rounded-lg">
-      <h2 className="text-2xl font-bold mb-4">CalenBooker Login</h2>
+    <div className={container}>
+      <h2 className={heading}>CalenBooker Login</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block text-sm font-medium">Email</label>
+          <label className={label}>Email</label>
           <input
             type="email"
             name="email"
             value={formData.email}
             onChange={handleChange}
-            className="w-full p-2 border rounded"
+            className={input}
             required
           />
         </div>
         <div>
-          <label className="block text-sm font-medium">Password</label>
+          <label className={label}>Password</label>
           <input
             type="password"
             name="password"
             value={formData.password}
             onChange={handleChange}
-            className="w-full p-2 border rounded"
+            className={input}
             required
           />
         </div>
         {errorMessage && (
-          <div className="text-sm text-red-500">
+          <div className={errorText}>
             {errorMessage}
             {errorMessage.includes('confirmed') && (
               <button
                 type="button"
                 onClick={handleResendConfirmation}
-                className="ml-2 text-blue-600 hover:underline"
+                className={`${link} ml-2`}
               >
                 Resend Confirmation Email
               </button>
             )}
           </div>
         )}
-        {resendMessage && <p className="text-sm text-green-500">{resendMessage}</p>}
-        <button
-          type="submit"
-          className="w-full p-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-        >
+        {resendMessage && <p className="text-green-500 text-sm">{resendMessage}</p>}
+        <button type="submit" className={buttonPrimary}>
           Log In
         </button>
       </form>
       <p className="mt-4 text-center text-sm text-gray-600">
         Don't have an account?{' '}
-        <Link to="/signup" className="text-blue-600 hover:underline">
+        <Link to="/signup" className={link}>
           Sign up
         </Link>
       </p>

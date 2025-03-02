@@ -1,19 +1,19 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { container, heading, successTextCenter, centeredButton, centered } from '../styles'; // Updated imports
 
 const SignupSuccess = () => {
   return (
-    <div className="max-w-md mx-auto p-6 bg-white shadow-md rounded-lg text-center">
-      <h2 className="text-2xl font-bold mb-4 text-green-600">Registration Successful!</h2>
-      <p className="text-gray-600 mb-6">
+    <div className={container}>
+      <h2 className={`${heading} ${successTextCenter}`}>Registration Successful!</h2>
+      <p className="text-gray-600 mb-6 text-center">
         Please check your email to confirm your account. You’ll be able to log in once confirmed.
       </p>
-      <Link
-        to="/login"
-        className="inline-block p-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-      >
-        Log In
-      </Link>
+      <div className={centered}>
+        <Link to="/login" className={centeredButton}>
+          Log In
+        </Link>
+      </div>
     </div>
   );
 };

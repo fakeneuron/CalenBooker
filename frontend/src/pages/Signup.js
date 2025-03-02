@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import supabase from '../supabaseClient';
 import { useNavigate, Link } from 'react-router-dom';
+import { container, input, buttonPrimary, errorText, heading, link, label } from '../styles';
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -61,42 +62,39 @@ const Signup = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-white shadow-md rounded-lg">
-      <h2 className="text-2xl font-bold mb-4">CalenBooker Signup</h2>
+    <div className={container}>
+      <h2 className={heading}>CalenBooker Signup</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block text-sm font-medium">Email</label>
+          <label className={label}>Email</label>
           <input
             type="email"
             name="email"
             value={formData.email}
             onChange={handleChange}
-            className="w-full p-2 border rounded"
+            className={input}
             required
           />
         </div>
         <div>
-          <label className="block text-sm font-medium">Password</label>
+          <label className={label}>Password</label>
           <input
             type="password"
             name="password"
-            value={formData.password} // Fixed from formData.email
+            value={formData.password}
             onChange={handleChange}
-            className={`w-full p-2 border rounded ${passwordError ? 'border-red-500' : ''}`}
+            className={`${input} ${passwordError ? 'border-red-500' : ''}`}
             required
           />
-          {passwordError && <p className="text-sm text-red-500 mt-1">{passwordError}</p>}
+          {passwordError && <p className={errorText}>{passwordError}</p>}
         </div>
-        <button
-          type="submit"
-          className="w-full p-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-        >
+        <button type="submit" className={buttonPrimary}>
           Sign Up
         </button>
       </form>
       <p className="mt-4 text-center text-sm text-gray-600">
         Already have an account?{' '}
-        <Link to="/login" className="text-blue-600 hover:underline">
+        <Link to="/login" className={link}>
           Log in
         </Link>
       </p>

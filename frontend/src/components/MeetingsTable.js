@@ -1,6 +1,15 @@
-// Calenbooker/frontend/src/components/MeetingsTable.js
 import React, { useState, useEffect } from 'react';
 import supabase from '../supabaseClient';
+import {
+  errorText,
+  table,
+  tableHeader,
+  tableHeaderCellLeft,
+  tableHeaderCellCenter,
+  tableRowHover,
+  tableCellLeft,
+  tableCellCenter,
+} from '../styles'; // Updated imports
 
 const MeetingsTable = () => {
   const [meetings, setMeetings] = useState([]);
@@ -22,7 +31,7 @@ const MeetingsTable = () => {
 
         const { data, error } = await supabase
           .from('meetings')
-          .select('client_name, client_email, meeting_date, meeting_time, duration') // Removed id
+          .select('client_name, client_email, meeting_date, meeting_time, duration')
           .eq('user_id', session.user.id)
           .order('meeting_date', { ascending: true })
           .order('meeting_time', { ascending: true });
@@ -58,21 +67,21 @@ const MeetingsTable = () => {
   if (error) {
     return (
       <div className="text-center p-4">
-        <p className="text-red-500">{error}</p>
+        <p className={errorText}>{error}</p>
       </div>
     );
   }
 
   return (
     <div className="overflow-x-auto">
-      <table className="min-w-full bg-white border border-gray-200">
-        <thead className="bg-blue-900 text-white">
+      <table className={table}>
+        <thead className={tableHeader}>
           <tr>
-            <th className="py-2 px-4 border-b">Name</th>
-            <th className="py-2 px-4 border-b">Email</th>
-            <th className="py-2 px-4 border-b">Date</th>
-            <th className="py-2 px-4 border-b">Time</th>
-            <th className="py-2 px-4 border-b">Duration (min)</th>
+            <th className={tableHeaderCellLeft}>Name</th>
+            <th className={tableHeaderCellCenter}>Email</th>
+            <th className={tableHeaderCellCenter}>Date</th>
+            <th className={tableHeaderCellCenter}>Time</th>
+            <th className={tableHeaderCellCenter}>Duration (min)</th>
           </tr>
         </thead>
         <tbody>
@@ -83,13 +92,13 @@ const MeetingsTable = () => {
               </td>
             </tr>
           ) : (
-            meetings.map((meeting, index) => ( // Use index as key since id is removed
-              <tr key={index} className="hover:bg-gray-100">
-                <td className="py-2 px-4 border-b">{meeting.client_name}</td>
-                <td className="py-2 px-4 border-b">{meeting.client_email}</td>
-                <td className="py-2 px-4 border-b">{meeting.meeting_date}</td>
-                <td className="py-2 px-4 border-b">{meeting.meeting_time}</td>
-                <td className="py-2 px-4 border-b">{meeting.duration}</td>
+            meetings.map((meeting, index) => (
+              <tr key={index} className={tableRowHover}>
+                <td className={tableCellLeft}>{meeting.client_name}</td>
+                <td className={tableCellCenter}>{meeting.client_email}</td>
+                <td className={tableCellCenter}>{meeting.meeting_date}</td>
+                <td className={tableCellCenter}>{meeting.meeting_time}</td>
+                <td className={tableCellCenter}>{meeting.duration}</td>
               </tr>
             ))
           )}

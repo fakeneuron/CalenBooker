@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import supabase from '../supabaseClient';
+import { container, heading, subText } from '../styles'; // Import styles
 
 const AuthConfirm = () => {
   const navigate = useNavigate();
@@ -26,9 +27,9 @@ const AuthConfirm = () => {
   }, [navigate]);
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-white shadow-md rounded-lg">
-      <h2 className="text-2xl font-bold mb-4">Confirming Your Account...</h2>
-      <p className="text-gray-600">Please wait while we verify your email.</p>
+    <div className={container}>
+      <h2 className={heading}>Confirming Your Account...</h2>
+      <p className={subText}>Please wait while we verify your email.</p>
     </div>
   );
 };

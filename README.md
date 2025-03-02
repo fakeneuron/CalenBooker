@@ -23,7 +23,7 @@
 
 2. **Frontend Setup**:
 
-   - Tailwind CSS via CDN (`2.2.19`) in `public/index.html` and local dependency (`3.4.17`).
+   - Tailwind CSS via local dependency (`3.4.17`) in `index.css`; removed CDN (`2.2.19`) from `public/index.html` to streamline styling.
    - **Structure**:
      - `frontend/src/pages/`:
        - `Home.js`: Landing page for unauthenticated users (`/`).
@@ -42,10 +42,10 @@
        - `App.js`: Root component with routing and Supabase auth state management.
        - `index.js`: Entry point rendering `App.js` with routing.
        - `index.css`: Tailwind CSS setup (placeholder for custom styles).
+       - `styles.js`: Centralized reusable Tailwind classes for all pages and components.
        - `supabaseClient.js`: Supabase client initialization with Anon Key from `.env`.
    - Routing with `react-router-dom@7.2.0`.
    - Dependencies in `frontend/package.json`: `react@19.0.0`, `@supabase/supabase-js@2.49.1`, etc.
-   - `frontend/public/index.html`: Includes Tailwind CSS CDN.
    - Added `frontend/public/_redirects` to handle SPA routing on Netlify (`/* /index.html 200`).
 
 3. **Backend Setup**:
@@ -105,14 +105,13 @@
 - **Add server-side input validation in the backend** to sanitize data before it hits Supabase, enhancing security beyond frontend checks.
 - **Implement rate limiting or CAPTCHA** on signup/login endpoints to prevent abuse or spam.
 - **Use Supabase edge functions** for lightweight backend logic (e.g., rate limiting, notifications) if avoiding a full backend expansion.
-- **Refactor CSS to reduce duplication and improve reusability**: Consolidate repeated Tailwind classes into reusable class names or components (e.g., via a `styles.js` file), remove Tailwind CDN, and rely solely on local Tailwind 3.4.17.
 
 ### Technical Approach
 
 - **Frontend**:
 
   - React (`19.0.0`) with `react-router-dom@7.2.0`.
-  - Tailwind CSS (`3.4.17` local via `index.css`, `2.2.19` CDN in `index.html`).
+  - Tailwind CSS (`3.4.17` local via `index.css`).
   - Supabase client with Anon Key from `.env`.
   - Runs on port 4000.
 
@@ -133,4 +132,4 @@
    - Verify `delparte.com` serves HTTPS (completed via Netlify deployment).
 
 3. **Plan for v2**:
-   - Prioritize features based on user feedback, starting with CSS refactoring for reusability.
+   - Prioritize features based on user feedback, starting with email notifications or other listed considerations.

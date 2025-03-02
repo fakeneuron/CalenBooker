@@ -9,7 +9,11 @@ Encourage me to follow best practices, such as writing clean and readable code, 
 The README.md file is attached for your review. After reviewing it, please ask me for the first project file you need based on the project’s current progress. Once you’ve requested and received all the files, check with me to confirm there’s nothing missing. After that, we’ll figure out what to prioritize next and proceed together.
 
 POST FILE UPLOADS
-\*\*\*We will plan to continue to update the .md file as we go - better to capture the full progress and overall function of the files in the project. As we go, we should try to be more inclusive in the .md without having too much detail
+We will plan to continue to update the .md file as we go - better to capture the full progress and overall function of the files in the project. As we go, we should try to be more inclusive in the .md without having too much detail. Capturing this much detail may be a bit unconventional for a README.md but this is what i want to capture in this project.
+
+Do not commit every tiny step to git. Only moderate steps should be committed. Only commit once a step has been completed and the progress has been captured in the .md file.
+
+The purpose of the .md file is both for the user's tracking of progress and documentation of overall functionality of the app but also to make sure that an AI can read the file and get a full scope of the project. By reading this .md file, an AI will be able to request all the required files for the project before moving forward.
 
 Let's start by cleaning up the backend. Once tested, we will move on to the cleanup sql scripts. . I'd like to highlight that i'm a novice coder and leaning to code by using AI while developing this app. Please proceed slowly and deliberately so that I can keep up. When possible, include the full code for files rather than just pieces for manual insert (however it is nice to know which code is being changed explicitly). Don't move too fast or provide too many updates at once. i rather deal with smaller pieces of information and update before proceeding to the next stage.
 

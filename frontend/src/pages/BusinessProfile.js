@@ -1,6 +1,6 @@
-// Calenbooker/frontend/src/pages/BusinessProfile.js
 import React, { useState, useEffect } from 'react';
 import supabase from '../supabaseClient';
+import { container, input, buttonPrimary, buttonSecondary, errorText, heading, label } from '../styles'; // Import styles
 
 const BusinessProfile = () => {
   const [formData, setFormData] = useState({
@@ -96,108 +96,101 @@ const BusinessProfile = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-white shadow-md rounded-lg">
-      <h2 className="text-2xl font-bold mb-4">Business Profile</h2>
+    <div className={container}>
+      <h2 className={heading}>Business Profile</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block text-sm font-medium">Business Email</label>
+          <label className={label}>Business Email</label>
           <input
             type="email"
             name="email"
             value={formData.email}
             onChange={handleChange}
-            className="w-full p-2 border rounded"
+            className={input}
             required
           />
         </div>
         <div>
-          <label className="block text-sm font-medium">Business Name</label>
+          <label className={label}>Business Name</label>
           <input
             type="text"
             name="businessName"
             value={formData.businessName}
             onChange={handleChange}
-            className="w-full p-2 border rounded"
+            className={input}
             required
           />
         </div>
         <div>
-          <label className="block text-sm font-medium">Phone</label>
+          <label className={label}>Phone</label>
           <input
             type="tel"
             name="phone"
             value={formData.phone}
             onChange={handleChange}
-            className="w-full p-2 border rounded"
+            className={input}
             required
           />
         </div>
         <div>
-          <label className="block text-sm font-medium">Address</label>
+          <label className={label}>Address</label>
           <input
             type="text"
             name="address"
             value={formData.address}
             onChange={handleChange}
-            className="w-full p-2 border rounded"
+            className={input}
             required
           />
         </div>
         <div>
-          <label className="block text-sm font-medium">Unit</label>
+          <label className={label}>Unit</label>
           <input
             type="text"
             name="unit"
             value={formData.unit}
             onChange={handleChange}
-            className="w-full p-2 border rounded"
+            className={input}
           />
         </div>
         <div>
-          <label className="block text-sm font-medium">City</label>
+          <label className={label}>City</label>
           <input
             type="text"
             name="city"
             value={formData.city}
             onChange={handleChange}
-            className="w-full p-2 border rounded"
+            className={input}
             required
           />
         </div>
         <div>
-          <label className="block text-sm font-medium">Province</label>
+          <label className={label}>Province</label>
           <input
             type="text"
             name="province"
             value={formData.province}
             onChange={handleChange}
-            className="w-full p-2 border rounded"
+            className={input}
             required
           />
         </div>
         <div>
-          <label className="block text-sm font-medium">Postal Code</label>
+          <label className={label}>Postal Code</label>
           <input
             type="text"
             name="postalCode"
             value={formData.postalCode}
             onChange={handleChange}
-            className="w-full p-2 border rounded"
+            className={input}
             required
           />
         </div>
-        {error && <p className="text-red-500 mt-2">{error}</p>}
-        <button
-          type="submit"
-          className="w-full p-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-        >
+        {error && <p className={errorText}>{error}</p>}
+        <button type="submit" className={buttonPrimary}>
           Save Profile
         </button>
-        <button
-          type="button"
-          onClick={handleAutoPopulate}
-          className="w-full p-2 bg-gray-600 text-white rounded hover:bg-gray-700 mt-2"
-        >
+        <button type="button" onClick={handleAutoPopulate} className={buttonSecondary}>
           Fill Sample Data
         </button>
       </form>

@@ -1,6 +1,18 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom'; // Added import for Link
+import { Link } from 'react-router-dom';
 import supabase from '../supabaseClient';
+import {
+  container,
+  input,
+  buttonPrimary,
+  buttonSecondary,
+  errorText,
+  heading,
+  link,
+  successBox,
+  successText,
+  label, // Added import
+} from '../styles';
 
 const ScheduleMeeting = () => {
   const [formData, setFormData] = useState({
@@ -8,7 +20,7 @@ const ScheduleMeeting = () => {
     clientEmail: '',
     meetingDate: '',
     meetingTime: '',
-    duration: '30', // Default in minutes
+    duration: '30',
   });
   const [error, setError] = useState('');
   const [confirmationUrl, setConfirmationUrl] = useState('');
@@ -26,7 +38,6 @@ const ScheduleMeeting = () => {
       return;
     }
 
-    // Check for business profile
     const { data: profileData, error: profileError } = await supabase
       .from('business_profile')
       .select('user_id')
@@ -36,7 +47,7 @@ const ScheduleMeeting = () => {
     if (profileError || !profileData) {
       setError(
         <span>
-          Please complete your <Link to="/business-profile" className="text-blue-600 hover:underline">Business Profile</Link> before scheduling a meeting.
+          Please complete your <Link to="/business-profile" className={link}>Business Profile</Link> before scheduling a meeting.
         </span>
       );
       return;
@@ -85,60 +96,60 @@ const ScheduleMeeting = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-white shadow-md rounded-lg">
-      <h2 className="text-2xl font-bold mb-4">Schedule a Meeting</h2>
+    <div className={container}>
+      <h2 className={heading}>Schedule a Meeting</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block text-sm font-medium">Client Name</label>
+          <label className={label}>Client Name</label>
           <input
             type="text"
             name="clientName"
             value={formData.clientName}
             onChange={handleChange}
-            className="w-full p-2 border rounded"
+            className={input}
             required
           />
         </div>
         <div>
-          <label className="block text-sm font-medium">Client Email</label>
+          <label className={label}>Client Email</label>
           <input
             type="email"
             name="clientEmail"
             value={formData.clientEmail}
             onChange={handleChange}
-            className="w-full p-2 border rounded"
+            className={input}
             required
           />
         </div>
         <div>
-          <label className="block text-sm font-medium">Meeting Date</label>
+          <label className={label}>Meeting Date</label>
           <input
             type="date"
             name="meetingDate"
             value={formData.meetingDate}
             onChange={handleChange}
-            className="w-full p-2 border rounded"
+            className={input}
             required
           />
         </div>
         <div>
-          <label className="block text-sm font-medium">Meeting Time</label>
+          <label className={label}>Meeting Time</label>
           <input
             type="time"
             name="meetingTime"
             value={formData.meetingTime}
             onChange={handleChange}
-            className="w-full p-2 border rounded"
+            className={input}
             required
           />
         </div>
         <div>
-          <label className="block text-sm font-medium">Duration (minutes)</label>
+          <label className={label}>Duration (minutes)</label>
           <select
             name="duration"
             value={formData.duration}
             onChange={handleChange}
-            className="w-full p-2 border rounded"
+            className={input}
           >
             <option value="15">15</option>
             <option value="30">30</option>
@@ -146,28 +157,21 @@ const ScheduleMeeting = () => {
             <option value="60">60</option>
           </select>
         </div>
-        {error && <p className="text-red-500 mt-2">{error}</p>}
-        <button
-          type="submit"
-          className="w-full p-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-        >
+        {error && <p className={errorText}>{error}</p>}
+        <button type="submit" className={buttonPrimary}>
           Schedule Meeting
         </button>
-        <button
-          type="button"
-          onClick={handleAutoPopulate}
-          className="w-full p-2 bg-gray-600 text-white rounded hover:bg-gray-700 mt-2"
-        >
+        <button type="button" onClick={handleAutoPopulate} className={buttonSecondary}>
           Fill Sample Data
         </button>
       </form>
       {confirmationUrl && (
-        <div className="mt-4 p-4 bg-green-100 rounded">
-          <p className="text-green-700">
+        <div className={successBox}>
+          <p className={successText}>
             Meeting scheduled successfully! Share this link with your client:
           </p>
           <p className="mt-2 text-blue-600 break-all">
-            <a href={confirmationUrl} target="_blank" rel="noopener noreferrer">
+            <a href={confirmationUrl} target="_blank" rel="noopener noreferrer" className={link}>
               {confirmationUrl}
             </a>
           </p>
