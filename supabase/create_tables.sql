@@ -25,5 +25,6 @@ CREATE TABLE meetings (
   meeting_date DATE NOT NULL,
   meeting_time TIME NOT NULL,
   duration INTEGER NOT NULL,
+  service_type TEXT NOT NULL, -- Added column for service type
   FOREIGN KEY (user_id) REFERENCES auth.users(id)
 );

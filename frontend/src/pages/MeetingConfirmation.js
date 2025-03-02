@@ -11,7 +11,7 @@ import {
   successText,
   text,
   buttonGroup,
-} from '../styles'; // Import styles
+} from '../styles';
 
 const MeetingConfirmation = () => {
   const { id } = useParams();
@@ -25,7 +25,7 @@ const MeetingConfirmation = () => {
       try {
         const { data: meetingData, error: meetingError } = await supabase
           .from('meetings')
-          .select('client_name, client_email, meeting_date, meeting_time, duration, user_id')
+          .select('client_name, client_email, meeting_date, meeting_time, duration, service_type, user_id') // Added service_type
           .eq('id', id)
           .single();
         if (meetingError) throw meetingError;
@@ -68,7 +68,7 @@ const MeetingConfirmation = () => {
       'CALSCALE:GREGORIAN',
       'METHOD:PUBLISH',
       'BEGIN:VEVENT',
-      `SUMMARY:Appointment with ${business.business_name}`,
+      `SUMMARY:${meeting.service_type} with ${business.business_name}`, // Updated summary with service_type
       `DTSTART:${formatDate(startDate)}`,
       `DTEND:${formatDate(endDate)}`,
       `LOCATION:${business.address}${business.unit ? ', ' + business.unit : ''}, ${business.city}, ${business.province} ${business.postal_code}`,
@@ -104,7 +104,7 @@ const MeetingConfirmation = () => {
     const endStr = endDate.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
 
     const googleUrl = `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(
-      `Appointment with ${business.business_name}`
+      `${meeting.service_type} with ${business.business_name}` // Updated with service_type
     )}&dates=${startStr}/${endStr}&details=${encodeURIComponent(
       `Meeting with ${meeting.client_name} (${meeting.client_email}). Contact: ${business.phone}`
     )}&location=${encodeURIComponent(
@@ -146,6 +146,7 @@ const MeetingConfirmation = () => {
         You’re scheduled with <strong>{businessName}</strong>.
       </p>
       <div className="space-y-2">
+        <p className={text}><strong>Service:</strong> {meeting.service_type}</p> {/* Added service_type */}
         <p className={text}><strong>Client:</strong> {meeting.client_name} ({meeting.client_email})</p>
         <p className={text}><strong>Date:</strong> {meeting.meeting_date}</p>
         <p className={text}><strong>Time:</strong> {meeting.meeting_time}</p>

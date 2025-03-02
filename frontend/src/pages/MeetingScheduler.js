@@ -21,6 +21,8 @@ const MeetingScheduler = () => {
     meetingDate: '',
     meetingTime: '',
     duration: '30', // Default in minutes
+    serviceType: 'Consultation', // Default service type
+    customServiceType: '', // New field for manual entry
   });
   const [error, setError] = useState('');
   const [confirmationUrl, setConfirmationUrl] = useState('');
@@ -54,6 +56,12 @@ const MeetingScheduler = () => {
     }
 
     try {
+      const serviceTypeToSave = formData.serviceType === 'Other' ? formData.customServiceType : formData.serviceType;
+      if (formData.serviceType === 'Other' && !formData.customServiceType) {
+        setError('Please specify a service type for "Other".');
+        return;
+      }
+
       const { data, error } = await supabase
         .from('meetings')
         .insert({
@@ -62,7 +70,8 @@ const MeetingScheduler = () => {
           client_email: formData.clientEmail,
           meeting_date: formData.meetingDate,
           meeting_time: formData.meetingTime,
-          duration: parseInt(formData.duration, 10)
+          duration: parseInt(formData.duration, 10),
+          service_type: serviceTypeToSave, // Use custom value if "Other"
         })
         .select('id')
         .single();
@@ -76,7 +85,9 @@ const MeetingScheduler = () => {
         clientEmail: '',
         meetingDate: '',
         meetingTime: '',
-        duration: '30'
+        duration: '30',
+        serviceType: 'Consultation',
+        customServiceType: '', // Reset custom field
       });
       setError('');
     } catch (error) {
@@ -90,7 +101,9 @@ const MeetingScheduler = () => {
       clientEmail: 'john.smith@example.com',
       meetingDate: '2025-03-25',
       meetingTime: '14:00',
-      duration: '30'
+      duration: '30',
+      serviceType: 'Haircut',
+      customServiceType: '',
     });
     setError('');
   };
@@ -157,6 +170,35 @@ const MeetingScheduler = () => {
             <option value="60">60</option>
           </select>
         </div>
+        <div>
+          <label className={label}>Service Type</label>
+          <select
+            name="serviceType"
+            value={formData.serviceType}
+            onChange={handleChange}
+            className={input}
+            required
+          >
+            <option value="Haircut">Haircut</option>
+            <option value="Consultation">Consultation</option>
+            <option value="Shave">Shave</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        {formData.serviceType === 'Other' && (
+          <div>
+            <label className={label}>Specify Other Service</label>
+            <input
+              type="text"
+              name="customServiceType"
+              value={formData.customServiceType}
+              onChange={handleChange}
+              className={input}
+              required
+              placeholder="Enter custom service type"
+            />
+          </div>
+        )}
         {error && <p className={errorText}>{error}</p>}
         <button type="submit" className={buttonPrimary}>
           Schedule Meeting

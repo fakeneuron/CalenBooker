@@ -68,11 +68,11 @@ Request the following files to understand and work on this project:
        - `AuthConfirm.js`: Handles email confirmation redirect to `/dashboard` (`/auth/confirm`).
        - `Dashboard.js`: Dashboard screen with meetings table, default post-login page (`/dashboard`), left-aligned names, centered data columns.
        - `BusinessProfile.js`: Business profile screen (`/business-profile`) with form for business details and auto-populate sample data.
-       - `MeetingScheduler.js`: Scheduling screen with meeting URL generation (`/meeting-scheduler`), profile check, and auto-populate sample data.
-       - `MeetingConfirmation.js`: Client-facing meeting confirmation page (`/meeting-confirmation/:id`) with meeting/business details and calendar integration (`.ics`, Google Calendar, Outlook).
+       - `MeetingScheduler.js`: Scheduling screen with meeting URL generation (`/meeting-scheduler`), profile check, and auto-populate sample data. Now includes a "Service Type" dropdown with preset options ("Haircut," "Consultation," "Shave") and an "Other" option with manual text entry; saves `service_type` to the `meetings` table.
+       - `MeetingConfirmation.js`: Client-facing meeting confirmation page (`/meeting-confirmation/:id`) with meeting/business details (including `service_type`) and calendar integration (`.ics`, Google Calendar, Outlook).
      - `frontend/src/components/`:
        - `Navbar.js`: Navigation bar for protected routes (dashboard, profile, scheduling, logout), redirects to `/` on logout.
-       - `MeetingsTable.js`: Reusable table displaying user’s meetings with sortable columns (date/time ascending).
+       - `MeetingsTable.js`: Reusable table displaying user’s meetings with sortable columns (date/time ascending). Now includes a "Service Type" column showing the `service_type` for each meeting.
      - `frontend/src/`:
        - `App.js`: Root component with routing and Supabase auth state management.
        - `index.js`: Entry point rendering `App.js` with routing.
@@ -82,6 +82,8 @@ Request the following files to understand and work on this project:
    - Routing with `react-router-dom@7.2.0`.
    - Dependencies in `frontend/package.json`: `react@19.0.0`, `@supabase/supabase-js@2.49.1`, etc.
    - Added `frontend/public/_redirects` to handle SPA routing on Netlify (`/* /index.html 200`).
+   - `frontend/postcss.config.js`: Configures PostCSS with `tailwindcss` and `autoprefixer` plugins to process Tailwind CSS in `index.css`.
+   - `frontend/scripts/checkEnv.js`: Utility script to verify `REACT_APP_SUPABASE_URL` and `REACT_APP_SUPABASE_ANON_KEY` environment variables from `frontend/.env` during development.
 
 3. **Backend Setup**:
 
@@ -91,12 +93,12 @@ Request the following files to understand and work on this project:
 
 4. **Supabase SQL Snippets**:
 
-   - Tables: `business_profile` (business details), `meetings` (meeting records).
+   - Tables: `business_profile` (business details), `meetings` (meeting records with `service_type` column added for service type tracking).
    - Views: `users_view` for email checks.
    - RLS policies for secure data access (`auth.users` linked).
    - Storage: `Calenbooker/supabase/`—source of truth, duplicated in SQL Editor (sync script pending).
    - Snippets:
-     - `create_tables.sql`: Defines `business_profile` and `meetings` tables linked to `auth.users`.
+     - `create_tables.sql`: Defines `business_profile` and `meetings` tables (updated with `service_type TEXT NOT NULL` in `meetings`) linked to `auth.users`.
      - `rls.sql`: Enables RLS and defines policies for `INSERT`, `UPDATE`, `SELECT` on tables.
      - `users_view_setup.sql`: Creates `users_view` and grants Anon Key `SELECT` access for email checks.
 
@@ -116,7 +118,7 @@ Request the following files to understand and work on this project:
 
 2. **Frontend Setup**:
 
-   - Built React frontend with routing, Tailwind CSS (`3.4.17`), and centralized styles.
+   - Built React frontend with routing, Tailwind CSS (`3.4.17`), centralized styles, PostCSS configuration for Tailwind processing, and a utility script (`checkEnv.js`) for environment variable debugging.
 
 3. **Backend Setup**:
 
@@ -131,7 +133,11 @@ Request the following files to understand and work on this project:
    - Added meeting scheduling with profile check and calendar integration; removed unused dependencies.
 
 6. **Deployment**:
+
    - Deployed frontend to Netlify with HTTPS and configured auth redirects.
+
+7. **Meeting Scheduler Enhancements**:
+   - Added a "Service Type" field to `MeetingScheduler.js` with preset options and manual "Other" entry, displayed in `MeetingConfirmation.js` and `MeetingsTable.js`, with `service_type` column added to the `meetings` table.
 
 ### To-Dos
 
@@ -139,8 +145,6 @@ Request the following files to understand and work on this project:
 
 ##### Simple
 
-- **Meeting Scheduler Rename and Service Type**
-  - Rename `ScheduleMeeting.js` to `MeetingScheduler.js` and add a "service type" field (e.g., haircut, consultation) to clarify meeting purposes.
 - **Meeting Status Indicators**
   - Add visual cues (e.g., "Confirmed," "Pending," "Cancelled") with color coding to `MeetingsTable.js` for quick status recognition.
 - **Business Profile Preview**
@@ -191,3 +195,5 @@ Request the following files to understand and work on this project:
   - Expand integrations to include Apple Calendar and other platforms beyond Google/Outlook.
 - **Enterprise-Level Security Audits**
   - Conduct regular security audits, encrypt sensitive data, and ensure compliance with privacy regulations (e.g., GDPR, CCPA).
+- **Custom Service Types in Business Profile**
+  - Allow businesses to define their own service types in `BusinessProfile.js`, stored in the `business_profile` table, and dynamically populate the `MeetingScheduler.js` dropdown with these options.

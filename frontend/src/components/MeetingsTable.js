@@ -9,7 +9,7 @@ import {
   tableRowHover,
   tableCellLeft,
   tableCellCenter,
-} from '../styles'; // Updated imports
+} from '../styles';
 
 const MeetingsTable = () => {
   const [meetings, setMeetings] = useState([]);
@@ -31,7 +31,7 @@ const MeetingsTable = () => {
 
         const { data, error } = await supabase
           .from('meetings')
-          .select('client_name, client_email, meeting_date, meeting_time, duration')
+          .select('client_name, client_email, meeting_date, meeting_time, duration, service_type') // Added service_type
           .eq('user_id', session.user.id)
           .order('meeting_date', { ascending: true })
           .order('meeting_time', { ascending: true });
@@ -82,12 +82,13 @@ const MeetingsTable = () => {
             <th className={tableHeaderCellCenter}>Date</th>
             <th className={tableHeaderCellCenter}>Time</th>
             <th className={tableHeaderCellCenter}>Duration (min)</th>
+            <th className={tableHeaderCellCenter}>Service Type</th> {/* Added column */}
           </tr>
         </thead>
         <tbody>
           {meetings.length === 0 ? (
             <tr>
-              <td colSpan="5" className="py-4 px-4 text-center text-gray-500">
+              <td colSpan="6" className="py-4 px-4 text-center text-gray-500"> {/* Updated colSpan */}
                 No meetings scheduled yet.
               </td>
             </tr>
@@ -99,6 +100,7 @@ const MeetingsTable = () => {
                 <td className={tableCellCenter}>{meeting.meeting_date}</td>
                 <td className={tableCellCenter}>{meeting.meeting_time}</td>
                 <td className={tableCellCenter}>{meeting.duration}</td>
+                <td className={tableCellCenter}>{meeting.service_type}</td> {/* Added column */}
               </tr>
             ))
           )}
