@@ -53,7 +53,7 @@ const Navbar = () => {
           </Link>
         </div>
         <div className="flex items-center space-x-4">
-          <Link to="/appointment-scheduler" className={navbarLink}> {/* Updated route */}
+          <Link to="/appointment-scheduler" className={navbarLink}>
             Schedule Appointment
           </Link>
           <div className="relative" ref={dropdownRef}>
@@ -64,9 +64,6 @@ const Navbar = () => {
               <div className={navbarDropdown}>
                 <Link to="/business-profile" className={navbarDropdownItem} onClick={() => setIsDropdownOpen(false)}>
                   Business Profile
-                </Link>
-                <Link to="/settings" className={navbarDropdownItem} onClick={() => setIsDropdownOpen(false)}>
-                  Settings
                 </Link>
                 <button onClick={handleLogout} className={navbarDropdownItem}>
                   Logout
