@@ -6,13 +6,21 @@ This file tracks granular tasks and completed progress for CalenBooker developme
 
 [x] **Footer**
 
-- Added a Kawaii-styled footer with Terms of Service (`/terms`), Privacy Policy (`/privacy`), Support (`/support`), About (`/about`), and social links.
+- Added a footer with Terms of Service (`/terms`), Privacy Policy (`/privacy`), Support (`/support`), About (`/about`), and social links.
 - Effort: ~2-3 hours
 - Priority: High - Quick win, improves site professionalism and trust.
   [ ] **Navigation Enhancements**
 - Add "Home" link to `Navbar.js` for logged-in users; refine public page nav (`/`, `/signup`, `/login`).
 - Effort: ~1 hour
 - Priority: High - Simple, enhances user flow.
+  [ ] **Create Footer Pages**
+- Build static pages for Terms of Service (`/terms`), Privacy Policy (`/privacy`), Support (`/support`), and About (`/about`), linked from the footer.
+- Effort: ~1-2 hours
+- Priority: High - Quick, foundational for trust and promotion.
+  [ ] **Terms Agreement on Signup**
+- Add a required terms and conditions checkbox to `Signup.js`, linking to `/terms` and `/privacy`.
+- Effort: ~1-2 hours
+- Priority: High - Enhances compliance and trust, ties into footer pages.
   [ ] **Client List**
 - Create a running list of clients in `AppointmentScheduler.js` to track returning clients and auto-populate forms using `appointments` data.
 - Effort: ~3-4 hours
@@ -176,10 +184,10 @@ This file tracks granular tasks and completed progress for CalenBooker developme
    - Added a "Service Type" field to `AppointmentScheduler.js` with preset options and manual "Other" entry, displayed in `AppointmentConfirmation.js` and `AppointmentsTable.js`, with `service_type` column added to the `appointments` table.
    - Added "Status" indicators to `AppointmentScheduler.js` (dropdown with "Confirmed," "Pending," "Cancelled") and `AppointmentsTable.js` (color-coded display), with `status` column added to the `appointments` table.
    - Added a "Time Zone" field to `BusinessProfile.js`, stored in `business_profile` as `time_zone`, and displayed on `AppointmentConfirmation.js` with the appointment time for clarity.
-   - Redesigned `Home.js` into a professional landing page with a Kawaii aesthetic, featuring a hero section, feature highlights, and updated app-wide styles in `styles.js` for a cohesive cute look.
-   - Enhanced `Navbar.js` with a Kawaii-styled user icon dropdown for "Business Profile," "Settings," and "Logout," and a top-level "Schedule Appointment" link, with click-outside collapse functionality.
+   - Redesigned `Home.js` into a professional landing page with a hero section, feature highlights, and updated app-wide styles in `styles.js` for a cohesive cute look.
+   - Enhanced `Navbar.js` with a user icon dropdown for "Business Profile" and "Logout," and a top-level "Schedule Appointment" link, with click-outside collapse functionality.
    - Refactored nomenclature from "Meeting" to "Appointment" across all frontend files, UI text, Supabase table (`meetings` to `appointments`), and documentation for consistency.
-   - Added a "Preview" button to `BusinessProfile.js` displaying a Kawaii-styled preview of the profile, enhancing transparency for business owners.
+   - Added a "Preview" button to `BusinessProfile.js` displaying a preview of the profile, enhancing transparency for business owners.
    - Removed unused "Settings" option from the `Navbar.js` dropdown for a cleaner UI.
    - Refactored `BusinessProfile.js` and `AppointmentScheduler.js` to use a reusable `<FormField>` component, reducing file size and improving maintainability.
    - Enhanced `AppointmentConfirmation.js` with centered Google, Outlook, and Apple calendar logos for a polished UI.
