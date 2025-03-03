@@ -38,12 +38,12 @@ To run the project locally:
 Request the following files to understand and work on this project:
 
 - **Frontend Pages**: `frontend/src/pages/*.js` (Home.js, Signup.js, SignupSuccess.js, Login.js, AuthConfirm.js, Dashboard.js, BusinessProfile.js, AppointmentScheduler.js, AppointmentConfirmation.js)
-- **Frontend Components**: `frontend/src/components/*.js` (Navbar.js, AppointmentsTable.js)
+- **Frontend Components**: `frontend/src/components/*.js` (Navbar.js, AppointmentsTable.js, FormField.js)
 - **Frontend Core**: `frontend/src/App.js`, `frontend/src/index.js`, `frontend/src/styles.js`, `frontend/src/supabaseClient.js`, `frontend/src/index.css`
 - **Frontend Public**: `frontend/public/index.html`, `frontend/public/_redirects`
 - **Backend**: `backend/server.js`
 - **Supabase SQL**: `supabase/create_tables.sql`, `supabase/rls.sql`, `supabase/users_view_setup.sql`
-- **Root**: `README.md`, `frontend/package.json`, `backend/package.json`
+- **Root**: `README.md`, `Roadmap.md`, `frontend/package.json`, `backend/package.json`
 
 ## Project Structure and Functionality
 
@@ -55,6 +55,7 @@ Request the following files to understand and work on this project:
      - `Calenbooker/backend`: Express app (port 4001, minimal setup for future v2 features).
      - `Calenbooker/supabase/`: Local SQL snippets (source of truth).
      - `Calenbooker/README.md`: Main project documentation (root-level).
+     - `Calenbooker/Roadmap.md`: Detailed task list, roadmap, and completed progress.
 
 2. **Frontend Setup**:
 
@@ -67,12 +68,13 @@ Request the following files to understand and work on this project:
        - `Login.js`: Login screen with signup link and resend confirmation option for unconfirmed emails.
        - `AuthConfirm.js`: Handles email confirmation redirect to `/dashboard` (`/auth/confirm`).
        - `Dashboard.js`: Dashboard screen with appointments table, default post-login page (`/dashboard`), left-aligned names, centered data columns.
-       - `BusinessProfile.js`: Business profile screen (`/business-profile`) with form for business details, auto-populate sample data, a time zone dropdown (e.g., "America/New_York") saved to `time_zone` column in `business_profile`, and a "Preview" button to display a Kawaii-styled preview of the profile as clients would see it.
-       - `AppointmentScheduler.js`: Scheduling screen with appointment URL generation (`/appointment-scheduler`), profile check, and auto-populate sample data. Includes a "Service Type" dropdown with preset options ("Haircut," "Consultation," "Shave") and an "Other" option with manual text entry; saves `service_type` to the `appointments` table. Added a "Status" dropdown ("Confirmed," "Pending," "Cancelled") with "Confirmed" as default, saving to `status` column.
-       - `AppointmentConfirmation.js`: Client-facing appointment confirmation page (`/appointment-confirmation/:id`) with appointment/business details (including `service_type` and `time_zone` displayed with the appointment time) and calendar integration (`.ics`, Google Calendar, Outlook).
+       - `BusinessProfile.js`: Business profile screen (`/business-profile`) with form for business details (using `FormField`), auto-populate sample data, a time zone dropdown (e.g., "America/New_York") saved to `time_zone` column in `business_profile`, and a "Preview" button to display a Kawaii-styled preview of the profile as clients would see it.
+       - `AppointmentScheduler.js`: Scheduling screen with appointment URL generation (`/appointment-scheduler`), profile check, and auto-populate sample data. Includes a "Service Type" dropdown with preset options ("Haircut," "Consultation," "Shave") and an "Other" option with manual text entry (using `FormField`); saves `service_type` to the `appointments` table. Added a "Status" dropdown ("Confirmed," "Pending," "Cancelled") with "Confirmed" as default, saving to `status` column.
+       - `AppointmentConfirmation.js`: Client-facing appointment confirmation page (`/appointment-confirmation/:id`) with appointment/business details (including `service_type` and `time_zone` displayed with the appointment time) and calendar integration (`.ics`, Google Calendar, Outlook) using centered branded logos.
      - `frontend/src/components/`:
        - `Navbar.js`: Navigation bar for protected routes with a Kawaii-styled user icon dropdown (hover/click) for "Business Profile" and "Logout," and a top-level "Schedule Appointment" link; redirects to `/` on logout.
        - `AppointmentsTable.js`: Reusable table displaying user’s appointments with sortable columns (date/time ascending). Includes "Service Type" and "Status" columns with `status` shown in colors (green for "Confirmed," yellow for "Pending," red for "Cancelled").
+       - `FormField.js`: Reusable form field component for text inputs and dropdowns, used in `BusinessProfile.js` and `AppointmentScheduler.js` to simplify form markup and reduce file size.
      - `frontend/src/`:
        - `App.js`: Root component with routing and Supabase auth state management.
        - `index.js`: Entry point rendering `App.js` with routing.
@@ -105,85 +107,11 @@ Request the following files to understand and work on this project:
 5. **Client Appointment Notification System**:
 
    - `AppointmentScheduler.js`: Generates appointment URLs (e.g., `/appointment-confirmation/<id>`), enforces profile check with clickable link to `/business-profile`.
-   - `AppointmentConfirmation.js`: Displays appointment/business details with `.ics`, Google Calendar, and Outlook integration (public access).
+   - `AppointmentConfirmation.js`: Displays appointment/business details with `.ics`, Google Calendar, and Outlook integration (public access) using branded logos.
 
 6. **Deployment**:
    - Deployed frontend to Netlify with HTTPS at `https://delparte.com`, configured Supabase auth redirects with local (`http://localhost:4000/auth/confirm`) and live (`https://delparte.com/auth/confirm`) options; confirmed HTTPS post-DNS propagation.
 
-### Progress (Completed)
+### Roadmap
 
-1. **Initialize Project**:
-
-   - Established Git repository and project structure.
-
-2. **Frontend Setup**:
-
-   - Built React frontend with routing, Tailwind CSS (`3.4.17`), centralized styles, PostCSS configuration for Tailwind processing, and a utility script (`checkEnv.js`) for environment variable debugging.
-
-3. **Backend Setup**:
-
-   - Set up minimal Express backend for future expansion.
-
-4. **Supabase SQL Snippets**:
-
-   - Implemented database tables, views, and RLS policies.
-
-5. **Client Appointment Notification System**:
-
-   - Added appointment scheduling with profile check and calendar integration; removed unused dependencies.
-
-6. **Deployment**:
-
-   - Deployed frontend to Netlify with HTTPS and configured auth redirects.
-
-7. **Appointment Scheduler Enhancements**:
-   - Added a "Service Type" field to `AppointmentScheduler.js` with preset options and manual "Other" entry, displayed in `AppointmentConfirmation.js` and `AppointmentsTable.js`, with `service_type` column added to the `appointments` table.
-   - Added "Status" indicators to `AppointmentScheduler.js` (dropdown with "Confirmed," "Pending," "Cancelled") and `AppointmentsTable.js` (color-coded display), with `status` column added to the `appointments` table.
-   - Added a "Time Zone" field to `BusinessProfile.js`, stored in `business_profile` as `time_zone`, and displayed on `AppointmentConfirmation.js` with the appointment time for clarity.
-   - Redesigned `Home.js` into a professional landing page with a Kawaii aesthetic, featuring a hero section, feature highlights, and updated app-wide styles in `styles.js` for a cohesive cute look.
-   - Enhanced `Navbar.js` with a Kawaii-styled user icon dropdown for "Business Profile," "Settings," and "Logout," and a top-level "Schedule Appointment" link, with click-outside collapse functionality.
-   - Refactored nomenclature from "Meeting" to "Appointment" across all frontend files, UI text, Supabase table (`meetings` to `appointments`), and documentation for consistency.
-   - Added a "Preview" button to `BusinessProfile.js` displaying a Kawaii-styled preview of the profile, enhancing transparency for business owners.
-   - Removed unused "Settings" option from the `Navbar.js` dropdown for a cleaner UI.
-   - Refactored `BusinessProfile.js` and `AppointmentScheduler.js` to use a reusable `<FormField>` component, reducing file size and improving maintainability.
-
-### To-Dos
-
-- **Messages Section**
-  - Add a "Messages" section for customizable appointment invites (e.g., booking confirmations, cancellations, instructions).
-- **Client List**
-  - Create a running list of clients in `AppointmentScheduler.js` to track returning clients and auto-populate forms.
-- **Automate Client Notification Emails**
-  - Integrate MailerSend to send automated emails (e.g., welcome messages, appointment confirmations).
-- **Move Sensitive Operations to Backend**
-  - Shift email notifications and data writes to `backend/server.js` using a Supabase Service Key for enhanced security.
-- **Server-Side Input Validation**
-  - Add backend validation in `backend/server.js` to sanitize data before it reaches Supabase.
-- **Rate Limiting or CAPTCHA**
-  - Implement rate limiting or CAPTCHA on signup/login endpoints to prevent abuse and improve security.
-- **Self-Scheduling for Clients**
-  - Build a public booking page where clients can schedule appointments directly, reducing business workload.
-- **Multi-Employee Scheduling**
-  - Enable appointment assignments to specific staff members for team-based operations.
-- **Analytics Dashboard**
-  - Create a dashboard in `Dashboard.js` to display appointment statistics (e.g., bookings per week, client retention).
-- **Client Portal**
-  - Develop a client login system to view and manage bookings, enhancing client engagement.
-- **Recurring Appointments**
-  - Allow scheduling of recurring appointments (e.g., weekly sessions) in `AppointmentScheduler.js`.
-- **Availability Calendar**
-  - Add a calendar view in `AppointmentScheduler.js` showing open slots based on business availability.
-- **Two-Factor Authentication (2FA)**
-  - Implement 2FA for business accounts to bolster security.
-- **Data Export Options**
-  - Add functionality to export appointments and client data (e.g., CSV, PDF) for reporting purposes.
-- **Advanced Filtering and Sorting**
-  - Enhance `AppointmentsTable.js` with filters (e.g., date range, status) and multi-column sorting.
-- **Calendar App Integrations**
-  - Expand integrations to include Apple Calendar and other platforms beyond Google/Outlook.
-- **Enterprise-Level Security Audits**
-  - Conduct regular security audits, encrypt sensitive data, and ensure compliance with privacy regulations (e.g., GDPR, CCPA).
-- **Custom Service Types in Business Profile**
-  - Allow businesses to define their own service types in `BusinessProfile.js`, stored in the `business_profile` table, and dynamically populate the `AppointmentScheduler.js` dropdown with these options.
-- **Client Confirmation Workflow**
-  - Enhance appointment scheduling to default to "Pending," send an email to the client with details and links to confirm or cancel, updating the `status` based on client action; requires email integration and backend updates.
+See `Roadmap.md` in the root directory for a detailed list of pending tasks, feature ideas, and completed progress.
