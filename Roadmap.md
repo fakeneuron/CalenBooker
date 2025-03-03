@@ -16,7 +16,23 @@ This file tracks granular tasks and completed progress for CalenBooker developme
   [ ] **Client List**
 - Create a running list of clients in `AppointmentScheduler.js` to track returning clients and auto-populate forms using `appointments` data.
 - Effort: ~3-4 hours
-- Priority: High - Practical, immediate value for scheduling efficiency.
+- Priority: High - Practical, immediate value for scheduling efficiency; supports marketing pitch.
+  [ ] **Owner Calendar Sync**
+- Add 2-way sync for business owners’ calendars (e.g., Google Calendar API) in `AppointmentScheduler.js`.
+- Effort: ~6-8 hours
+- Priority: High - Seamless workflow integration, critical for user adoption.
+  [ ] **Marketing Landing Page**
+- Enhance `Home.js` with a strong CTA (“Sign Up Free”), testimonials, and a demo video for promotion.
+- Effort: ~2-3 hours
+- Priority: High - Boosts initial user acquisition.
+  [ ] **Referral Program**
+- Add a “Refer a Friend” link in `Dashboard.js` with a social shoutout reward.
+- Effort: ~2-3 hours
+- Priority: High - Drives word-of-mouth growth.
+  [ ] **SEO Optimization**
+- Add meta tags, keywords, and sitemap to improve discoverability on search engines; optimize `Home.js` content.
+- Effort: ~2-3 hours
+- Priority: High - Essential for organic user acquisition.
   [ ] **Messages Section**
 - Add a "Messages" section in `AppointmentScheduler.js` for customizable appointment invites (e.g., confirmations, instructions), stored in `appointments`.
 - Effort: ~3-4 hours
@@ -37,10 +53,10 @@ This file tracks granular tasks and completed progress for CalenBooker developme
 - Limit free tier to 5 appointments/month, offer premium with unlimited appointments and extras (e.g., reminders, feedback).
 - Effort: ~6-8 hours (without payment integration)
 - Priority: High - Sets up monetization, scalable model; long-term due to potential payment setup.
-  [ ] **Sync Appointments with User’s Local Calendar**
-- Add a "Sync to My Calendar" option for business owners (e.g., Google Calendar API).
+  [ ] **Payment Integration**
+- Add Stripe or PayPal for booking payments, enhancing monetization and appeal.
 - Effort: ~6-8 hours
-- Priority: High - Workflow integration, but API adds complexity.
+- Priority: High - Standard feature, supports premium tier; long-term due to external tool integration.
   [ ] **Appointment Reminders (Pre-Email)**
 - Add in-app reminders on `/dashboard` using a new `reminders` table until email integration is ready.
 - Effort: ~4-6 hours
