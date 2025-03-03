@@ -12,6 +12,8 @@ export const featureContainer = 'max-w-4xl mx-auto grid gap-8 md:grid-cols-3'; /
 export const featureSection = 'py-12 px-4 bg-gray-100'; // Legacy, kept for compatibility
 export const featureText = 'text-gray-600';
 export const featureTitle = 'text-xl font-semibold mb-2'; // Legacy, kept for compatibility
+export const footer = 'w-full p-4 bg-pink-100 text-center border-t border-purple-200 fixed bottom-0 left-0';
+export const footerLink = 'text-purple-600 hover:text-purple-800 transition-colors text-sm font-medium';
 export const heading = 'text-2xl font-bold mb-4 text-purple-600';
 export const iconButton = 'p-2 bg-purple-500 text-white rounded-full hover:bg-purple-600 hover:scale-110 transition-all shadow-md w-12 h-12 flex items-center justify-center';export const input = 'w-full p-2 border border-blue-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 bg-pink-50';
 export const kawaiiButton = 'inline-block p-3 bg-purple-500 text-white rounded-full hover:bg-purple-600 hover:scale-105 transition-all shadow-md';

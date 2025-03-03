@@ -38,7 +38,7 @@ To run the project locally:
 Request the following files to understand and work on this project:
 
 - **Frontend Pages**: `frontend/src/pages/*.js` (Home.js, Signup.js, SignupSuccess.js, Login.js, AuthConfirm.js, Dashboard.js, BusinessProfile.js, AppointmentScheduler.js, AppointmentConfirmation.js)
-- **Frontend Components**: `frontend/src/components/*.js` (Navbar.js, AppointmentsTable.js, FormField.js)
+- **Frontend Components**: `frontend/src/components/*.js` (Navbar.js, AppointmentsTable.js, FormField.js, Footer.js)
 - **Frontend Core**: `frontend/src/App.js`, `frontend/src/index.js`, `frontend/src/styles.js`, `frontend/src/supabaseClient.js`, `frontend/src/index.css`
 - **Frontend Public**: `frontend/public/index.html`, `frontend/public/_redirects`
 - **Backend**: `backend/server.js`
@@ -75,8 +75,9 @@ Request the following files to understand and work on this project:
        - `Navbar.js`: Navigation bar for protected routes with a Kawaii-styled user icon dropdown (hover/click) for "Business Profile" and "Logout," and a top-level "Schedule Appointment" link; redirects to `/` on logout.
        - `AppointmentsTable.js`: Reusable table displaying user’s appointments with sortable columns (date/time ascending). Includes "Service Type" and "Status" columns with `status` shown in colors (green for "Confirmed," yellow for "Pending," red for "Cancelled").
        - `FormField.js`: Reusable form field component for text inputs and dropdowns, used in `BusinessProfile.js` and `AppointmentScheduler.js` to simplify form markup and reduce file size.
+       - `Footer.js`: Kawaii-styled footer displayed across all pages with links to Terms of Service, Privacy Policy, Support, and About sections.
      - `frontend/src/`:
-       - `App.js`: Root component with routing and Supabase auth state management.
+       - `App.js`: Root component with routing and Supabase auth state management, includes global footer.
        - `index.js`: Entry point rendering `App.js` with routing.
        - `index.css`: Tailwind CSS setup with custom animation keyframes (e.g., fade-in).
        - `styles.js`: Centralized reusable Tailwind classes for all pages and components, updated with Kawaii-inspired styles (pastel colors, rounded shapes, playful shadows) applied app-wide for a consistent, cute aesthetic.
@@ -107,7 +108,7 @@ Request the following files to understand and work on this project:
 5. **Client Appointment Notification System**:
 
    - `AppointmentScheduler.js`: Generates appointment URLs (e.g., `/appointment-confirmation/<id>`), enforces profile check with clickable link to `/business-profile`.
-   - `AppointmentConfirmation.js`: Displays appointment/business details with `.ics`, Google Calendar, and Outlook integration (public access) using branded logos.
+   - `AppointmentConfirmation.js`: Displays appointment/business details with `.ics`, Google Calendar, and Outlook integration (public access).
 
 6. **Deployment**:
    - Deployed frontend to Netlify with HTTPS at `https://delparte.com`, configured Supabase auth redirects with local (`http://localhost:4000/auth/confirm`) and live (`https://delparte.com/auth/confirm`) options; confirmed HTTPS post-DNS propagation.

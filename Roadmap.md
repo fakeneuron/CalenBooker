@@ -4,9 +4,9 @@ This file tracks granular tasks and completed progress for CalenBooker developme
 
 ## Short-Term Tasks
 
-[ ] **Footer**
+[x] **Footer**
 
-- Add a Kawaii-styled footer with Terms of Service (`/terms`), Privacy Policy (`/privacy`), Support (`/support`), About (`/about`), and social links.
+- Added a Kawaii-styled footer with Terms of Service (`/terms`), Privacy Policy (`/privacy`), Support (`/support`), About (`/about`), and social links.
 - Effort: ~2-3 hours
 - Priority: High - Quick win, improves site professionalism and trust.
   [ ] **Navigation Enhancements**

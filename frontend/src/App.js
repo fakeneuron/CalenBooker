@@ -8,9 +8,10 @@ import Login from './pages/Login';
 import AuthConfirm from './pages/AuthConfirm';
 import Dashboard from './pages/Dashboard';
 import BusinessProfile from './pages/BusinessProfile';
-import AppointmentScheduler from './pages/AppointmentScheduler'; // Updated import
-import AppointmentConfirmation from './pages/AppointmentConfirmation'; // Updated import
+import AppointmentScheduler from './pages/AppointmentScheduler';
+import AppointmentConfirmation from './pages/AppointmentConfirmation';
 import Navbar from './components/Navbar';
+import Footer from './components/Footer'; // Add this import
 
 function App() {
   const [session, setSession] = useState(null);
@@ -33,19 +34,22 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
+    <div className="App min-h-screen flex flex-col">
       {session && <Navbar />}
-      <Routes>
-        <Route path="/" element={!session ? <Home /> : <Navigate to="/dashboard" />} />
-        <Route path="/signup" element={!session ? <Signup /> : <Navigate to="/dashboard" />} />
-        <Route path="/signup-success" element={!session ? <SignupSuccess /> : <Navigate to="/dashboard" />} />
-        <Route path="/login" element={!session ? <Login /> : <Navigate to="/dashboard" />} />
-        <Route path="/dashboard" element={session ? <Dashboard /> : <Navigate to="/login" />} />
-        <Route path="/business-profile" element={session ? <BusinessProfile /> : <Navigate to="/login" />} />
-        <Route path="/appointment-scheduler" element={session ? <AppointmentScheduler /> : <Navigate to="/login" />} /> {/* Updated route */}
-        <Route path="/auth/confirm" element={<AuthConfirm />} />
-        <Route path="/appointment-confirmation/:id" element={<AppointmentConfirmation />} /> {/* Updated route */}
-      </Routes>
+      <main className="flex-grow">
+        <Routes>
+          <Route path="/" element={!session ? <Home /> : <Navigate to="/dashboard" />} />
+          <Route path="/signup" element={!session ? <Signup /> : <Navigate to="/dashboard" />} />
+          <Route path="/signup-success" element={!session ? <SignupSuccess /> : <Navigate to="/dashboard" />} />
+          <Route path="/login" element={!session ? <Login /> : <Navigate to="/dashboard" />} />
+          <Route path="/dashboard" element={session ? <Dashboard /> : <Navigate to="/login" />} />
+          <Route path="/business-profile" element={session ? <BusinessProfile /> : <Navigate to="/login" />} />
+          <Route path="/appointment-scheduler" element={session ? <AppointmentScheduler /> : <Navigate to="/login" />} />
+          <Route path="/auth/confirm" element={<AuthConfirm />} />
+          <Route path="/appointment-confirmation/:id" element={<AppointmentConfirmation />} />
+        </Routes>
+      </main>
+      <Footer />
     </div>
   );
 }
