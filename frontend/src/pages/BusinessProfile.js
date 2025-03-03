@@ -2,17 +2,16 @@ import React, { useState, useEffect } from 'react';
 import supabase from '../supabaseClient';
 import { 
   container, 
-  input, 
   buttonPrimary, 
   buttonSecondary, 
   errorText, 
   heading, 
-  label, 
   previewButton, 
   previewContainer, 
   previewText, 
   previewTitle 
 } from '../styles';
+import FormField from '../components/FormField';
 
 const BusinessProfile = () => {
   const [formData, setFormData] = useState({
@@ -27,7 +26,7 @@ const BusinessProfile = () => {
     timeZone: 'America/New_York',
   });
   const [error, setError] = useState('');
-  const [showPreview, setShowPreview] = useState(false); // New state for preview visibility
+  const [showPreview, setShowPreview] = useState(false);
 
   useEffect(() => {
     const fetchBusinessProfile = async () => {
@@ -113,116 +112,92 @@ const BusinessProfile = () => {
   };
 
   const handlePreview = () => {
-    setShowPreview(!showPreview); // Toggle preview visibility
+    setShowPreview(!showPreview);
   };
+
+  const timeZoneOptions = [
+    { value: 'America/New_York', label: 'Eastern Time (ET)' },
+    { value: 'America/Chicago', label: 'Central Time (CT)' },
+    { value: 'America/Denver', label: 'Mountain Time (MT)' },
+    { value: 'America/Los_Angeles', label: 'Pacific Time (PT)' },
+    { value: 'America/Toronto', label: 'Eastern Time (Toronto)' },
+  ];
 
   return (
     <div className={container}>
       <h2 className={heading}>Business Profile</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label className={label}>Business Email</label>
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            className={input}
-            required
-          />
-        </div>
-        <div>
-          <label className={label}>Business Name</label>
-          <input
-            type="text"
-            name="businessName"
-            value={formData.businessName}
-            onChange={handleChange}
-            className={input}
-            required
-          />
-        </div>
-        <div>
-          <label className={label}>Phone</label>
-          <input
-            type="tel"
-            name="phone"
-            value={formData.phone}
-            onChange={handleChange}
-            className={input}
-            required
-          />
-        </div>
-        <div>
-          <label className={label}>Address</label>
-          <input
-            type="text"
-            name="address"
-            value={formData.address}
-            onChange={handleChange}
-            className={input}
-            required
-          />
-        </div>
-        <div>
-          <label className={label}>Unit</label>
-          <input
-            type="text"
-            name="unit"
-            value={formData.unit}
-            onChange={handleChange}
-            className={input}
-          />
-        </div>
-        <div>
-          <label className={label}>City</label>
-          <input
-            type="text"
-            name="city"
-            value={formData.city}
-            onChange={handleChange}
-            className={input}
-            required
-          />
-        </div>
-        <div>
-          <label className={label}>Province</label>
-          <input
-            type="text"
-            name="province"
-            value={formData.province}
-            onChange={handleChange}
-            className={input}
-            required
-          />
-        </div>
-        <div>
-          <label className={label}>Postal Code</label>
-          <input
-            type="text"
-            name="postalCode"
-            value={formData.postalCode}
-            onChange={handleChange}
-            className={input}
-            required
-          />
-        </div>
-        <div>
-          <label className={label}>Time Zone</label>
-          <select
-            name="timeZone"
-            value={formData.timeZone}
-            onChange={handleChange}
-            className={input}
-            required
-          >
-            <option value="America/New_York">Eastern Time (ET)</option>
-            <option value="America/Chicago">Central Time (CT)</option>
-            <option value="America/Denver">Mountain Time (MT)</option>
-            <option value="America/Los_Angeles">Pacific Time (PT)</option>
-            <option value="America/Toronto">Eastern Time (Toronto)</option>
-          </select>
-        </div>
+        <FormField
+          type="email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+          labelText="Business Email"
+          required
+        />
+        <FormField
+          type="text"
+          name="businessName"
+          value={formData.businessName}
+          onChange={handleChange}
+          labelText="Business Name"
+          required
+        />
+        <FormField
+          type="tel"
+          name="phone"
+          value={formData.phone}
+          onChange={handleChange}
+          labelText="Phone"
+          required
+        />
+        <FormField
+          type="text"
+          name="address"
+          value={formData.address}
+          onChange={handleChange}
+          labelText="Address"
+          required
+        />
+        <FormField
+          type="text"
+          name="unit"
+          value={formData.unit}
+          onChange={handleChange}
+          labelText="Unit"
+        />
+        <FormField
+          type="text"
+          name="city"
+          value={formData.city}
+          onChange={handleChange}
+          labelText="City"
+          required
+        />
+        <FormField
+          type="text"
+          name="province"
+          value={formData.province}
+          onChange={handleChange}
+          labelText="Province"
+          required
+        />
+        <FormField
+          type="text"
+          name="postalCode"
+          value={formData.postalCode}
+          onChange={handleChange}
+          labelText="Postal Code"
+          required
+        />
+        <FormField
+          name="timeZone"
+          value={formData.timeZone}
+          onChange={handleChange}
+          labelText="Time Zone"
+          required
+          options={timeZoneOptions}
+        />
         {error && <p className={errorText}>{error}</p>}
         <div className="flex space-x-4">
           <button type="submit" className={buttonPrimary}>
@@ -237,7 +212,6 @@ const BusinessProfile = () => {
         </div>
       </form>
 
-      {/* Preview Section */}
       {showPreview && (
         <div className={previewContainer}>
           <h3 className={previewTitle}>Business Profile Preview</h3>

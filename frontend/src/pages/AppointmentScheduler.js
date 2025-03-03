@@ -1,18 +1,17 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import supabase from '../supabaseClient';
-import {
-  container,
-  input,
-  buttonPrimary,
-  buttonSecondary,
-  errorText,
-  heading,
-  link,
-  successBox,
-  successText,
-  label,
+import { 
+  container, 
+  buttonPrimary, 
+  buttonSecondary, 
+  errorText, 
+  heading, 
+  link, 
+  successBox, 
+  successText 
 } from '../styles';
+import FormField from '../components/FormField';
 
 const AppointmentScheduler = () => {
   const [formData, setFormData] = useState({
@@ -64,7 +63,7 @@ const AppointmentScheduler = () => {
       }
 
       const { data, error } = await supabase
-        .from('appointments') // Will update table name in Sub-Step 3
+        .from('appointments')
         .insert({
           user_id: session.user.id,
           client_name: formData.clientName,
@@ -79,8 +78,8 @@ const AppointmentScheduler = () => {
         .single();
       if (error) throw error;
 
-      const appointmentId = data.id; // Updated variable name
-      const url = `${window.location.origin}/appointment-confirmation/${appointmentId}`; // Updated URL
+      const appointmentId = data.id;
+      const url = `${window.location.origin}/appointment-confirmation/${appointmentId}`;
       setConfirmationUrl(url);
       setFormData({
         clientName: '',
@@ -94,7 +93,7 @@ const AppointmentScheduler = () => {
       });
       setError('');
     } catch (error) {
-      setError('Error scheduling appointment: ' + error.message); // Updated text
+      setError('Error scheduling appointment: ' + error.message);
     }
   };
 
@@ -112,114 +111,99 @@ const AppointmentScheduler = () => {
     setError('');
   };
 
+  const serviceTypeOptions = [
+    { value: 'Haircut', label: 'Haircut' },
+    { value: 'Consultation', label: 'Consultation' },
+    { value: 'Shave', label: 'Shave' },
+    { value: 'Other', label: 'Other' },
+  ];
+
+  const durationOptions = [
+    { value: '15', label: '15' },
+    { value: '30', label: '30' },
+    { value: '45', label: '45' },
+    { value: '60', label: '60' },
+  ];
+
+  const statusOptions = [
+    { value: 'Confirmed', label: 'Confirmed' },
+    { value: 'Pending', label: 'Pending' },
+    { value: 'Cancelled', label: 'Cancelled' },
+  ];
+
   return (
     <div className={container}>
       <h2 className={heading}>Appointment Scheduler</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label className={label}>Client Name</label>
-          <input
-            type="text"
-            name="clientName"
-            value={formData.clientName}
-            onChange={handleChange}
-            className={input}
-            required
-          />
-        </div>
-        <div>
-          <label className={label}>Client Email</label>
-          <input
-            type="email"
-            name="clientEmail"
-            value={formData.clientEmail}
-            onChange={handleChange}
-            className={input}
-            required
-          />
-        </div>
-        <div>
-          <label className={label}>Appointment Date</label> {/* Updated label */}
-          <input
-            type="date"
-            name="meetingDate"
-            value={formData.meetingDate}
-            onChange={handleChange}
-            className={input}
-            required
-          />
-        </div>
-        <div>
-          <label className={label}>Appointment Time</label> {/* Updated label */}
-          <input
-            type="time"
-            name="meetingTime"
-            value={formData.meetingTime}
-            onChange={handleChange}
-            className={input}
-            required
-          />
-        </div>
-        <div>
-          <label className={label}>Duration (minutes)</label>
-          <select
-            name="duration"
-            value={formData.duration}
-            onChange={handleChange}
-            className={input}
-          >
-            <option value="15">15</option>
-            <option value="30">30</option>
-            <option value="45">45</option>
-            <option value="60">60</option>
-          </select>
-        </div>
-        <div>
-          <label className={label}>Service Type</label>
-          <select
-            name="serviceType"
-            value={formData.serviceType}
-            onChange={handleChange}
-            className={input}
-            required
-          >
-            <option value="Haircut">Haircut</option>
-            <option value="Consultation">Consultation</option>
-            <option value="Shave">Shave</option>
-            <option value="Other">Other</option>
-          </select>
-        </div>
+        <FormField
+          type="text"
+          name="clientName"
+          value={formData.clientName}
+          onChange={handleChange}
+          labelText="Client Name"
+          required
+        />
+        <FormField
+          type="email"
+          name="clientEmail"
+          value={formData.clientEmail}
+          onChange={handleChange}
+          labelText="Client Email"
+          required
+        />
+        <FormField
+          type="date"
+          name="meetingDate"
+          value={formData.meetingDate}
+          onChange={handleChange}
+          labelText="Appointment Date"
+          required
+        />
+        <FormField
+          type="time"
+          name="meetingTime"
+          value={formData.meetingTime}
+          onChange={handleChange}
+          labelText="Appointment Time"
+          required
+        />
+        <FormField
+          name="duration"
+          value={formData.duration}
+          onChange={handleChange}
+          labelText="Duration (minutes)"
+          options={durationOptions}
+        />
+        <FormField
+          name="serviceType"
+          value={formData.serviceType}
+          onChange={handleChange}
+          labelText="Service Type"
+          required
+          options={serviceTypeOptions}
+        />
         {formData.serviceType === 'Other' && (
-          <div>
-            <label className={label}>Specify Other Service</label>
-            <input
-              type="text"
-              name="customServiceType"
-              value={formData.customServiceType}
-              onChange={handleChange}
-              className={input}
-              required
-              placeholder="Enter custom service type"
-            />
-          </div>
-        )}
-        <div>
-          <label className={label}>Status</label>
-          <select
-            name="status"
-            value={formData.status}
+          <FormField
+            type="text"
+            name="customServiceType"
+            value={formData.customServiceType}
             onChange={handleChange}
-            className={input}
+            labelText="Specify Other Service"
             required
-          >
-            <option value="Confirmed">Confirmed</option>
-            <option value="Pending">Pending</option>
-            <option value="Cancelled">Cancelled</option>
-          </select>
-        </div>
+            placeholder="Enter custom service type"
+          />
+        )}
+        <FormField
+          name="status"
+          value={formData.status}
+          onChange={handleChange}
+          labelText="Status"
+          required
+          options={statusOptions}
+        />
         {error && <p className={errorText}>{error}</p>}
         <button type="submit" className={buttonPrimary}>
-          Schedule Appointment {/* Updated text */}
+          Schedule Appointment
         </button>
         <button type="button" onClick={handleAutoPopulate} className={buttonSecondary}>
           Fill Sample Data
@@ -228,7 +212,7 @@ const AppointmentScheduler = () => {
       {confirmationUrl && (
         <div className={successBox}>
           <p className={successText}>
-            Appointment scheduled successfully! Share this link with your client: {/* Updated text */}
+            Appointment scheduled successfully! Share this link with your client:
           </p>
           <p className="mt-2 text-blue-600 break-all">
             <a href={confirmationUrl} target="_blank" rel="noopener noreferrer" className={link}>

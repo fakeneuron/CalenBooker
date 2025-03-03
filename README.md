@@ -71,7 +71,7 @@ Request the following files to understand and work on this project:
        - `AppointmentScheduler.js`: Scheduling screen with appointment URL generation (`/appointment-scheduler`), profile check, and auto-populate sample data. Includes a "Service Type" dropdown with preset options ("Haircut," "Consultation," "Shave") and an "Other" option with manual text entry; saves `service_type` to the `appointments` table. Added a "Status" dropdown ("Confirmed," "Pending," "Cancelled") with "Confirmed" as default, saving to `status` column.
        - `AppointmentConfirmation.js`: Client-facing appointment confirmation page (`/appointment-confirmation/:id`) with appointment/business details (including `service_type` and `time_zone` displayed with the appointment time) and calendar integration (`.ics`, Google Calendar, Outlook).
      - `frontend/src/components/`:
-       - `Navbar.js`: Navigation bar for protected routes with a Kawaii-styled user icon dropdown (hover/click) for "Business Profile," "Settings," and "Logout," and a top-level "Schedule Appointment" link; redirects to `/` on logout.
+       - `Navbar.js`: Navigation bar for protected routes with a Kawaii-styled user icon dropdown (hover/click) for "Business Profile" and "Logout," and a top-level "Schedule Appointment" link; redirects to `/` on logout.
        - `AppointmentsTable.js`: Reusable table displaying user’s appointments with sortable columns (date/time ascending). Includes "Service Type" and "Status" columns with `status` shown in colors (green for "Confirmed," yellow for "Pending," red for "Cancelled").
      - `frontend/src/`:
        - `App.js`: Root component with routing and Supabase auth state management.
@@ -144,17 +144,10 @@ Request the following files to understand and work on this project:
    - Enhanced `Navbar.js` with a Kawaii-styled user icon dropdown for "Business Profile," "Settings," and "Logout," and a top-level "Schedule Appointment" link, with click-outside collapse functionality.
    - Refactored nomenclature from "Meeting" to "Appointment" across all frontend files, UI text, Supabase table (`meetings` to `appointments`), and documentation for consistency.
    - Added a "Preview" button to `BusinessProfile.js` displaying a Kawaii-styled preview of the profile, enhancing transparency for business owners.
+   - Removed unused "Settings" option from the `Navbar.js` dropdown for a cleaner UI.
+   - Refactored `BusinessProfile.js` and `AppointmentScheduler.js` to use a reusable `<FormField>` component, reducing file size and improving maintainability.
 
 ### To-Dos
-
-#### Short-Term Implementations
-
-##### Simple
-
-- **Business Profile Preview**
-  - Add a preview button in `BusinessProfile.js` to show how clients will see the profile, enhancing transparency.
-
-##### Complex
 
 - **Messages Section**
   - Add a "Messages" section for customizable appointment invites (e.g., booking confirmations, cancellations, instructions).
@@ -168,9 +161,6 @@ Request the following files to understand and work on this project:
   - Add backend validation in `backend/server.js` to sanitize data before it reaches Supabase.
 - **Rate Limiting or CAPTCHA**
   - Implement rate limiting or CAPTCHA on signup/login endpoints to prevent abuse and improve security.
-
-#### Long-Term Implementations (Complex)
-
 - **Self-Scheduling for Clients**
   - Build a public booking page where clients can schedule appointments directly, reducing business workload.
 - **Multi-Employee Scheduling**
