@@ -3,13 +3,13 @@ import { useParams } from 'react-router-dom';
 import supabase from '../supabaseClient';
 import {
   container,
-  buttonPrimary,
   errorText,
   heading,
   successBox,
   successText,
   text,
   buttonGroup,
+  iconButton,
 } from '../styles';
 
 const AppointmentConfirmation = () => {
@@ -156,15 +156,15 @@ const AppointmentConfirmation = () => {
       </div>
       <div className={successBox}>
         <h3 className="text-lg font-semibold">Add to Your Calendar:</h3>
-        <div className={buttonGroup}>
-          <button onClick={handleICalendarDownload} className={buttonPrimary}>
-            Add to iCalendar
+        <div className={`${buttonGroup} space-x-4`}>
+          <button onClick={handleGoogleCalendar} className={iconButton} title="Add to Google Calendar">
+            📅
           </button>
-          <button onClick={handleGoogleCalendar} className={buttonPrimary}>
-            Add to Google Calendar
+          <button onClick={handleOutlookCalendar} className={iconButton} title="Add to Outlook">
+            📧
           </button>
-          <button onClick={handleOutlookCalendar} className={buttonPrimary}>
-            Add to Outlook
+          <button onClick={handleICalendarDownload} className={iconButton} title="Add to iCalendar">
+            🗓️
           </button>
         </div>
       </div>

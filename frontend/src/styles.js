@@ -12,7 +12,7 @@ export const featureSection = 'py-12 px-4 bg-gray-100'; // Legacy, kept for comp
 export const featureText = 'text-gray-600';
 export const featureTitle = 'text-xl font-semibold mb-2'; // Legacy, kept for compatibility
 export const heading = 'text-2xl font-bold mb-4 text-purple-600';
-export const input = 'w-full p-2 border border-blue-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 bg-pink-50';
+export const iconButton = 'p-2 bg-purple-500 text-white rounded-full hover:bg-purple-600 hover:scale-110 transition-all shadow-md w-12 h-12 flex items-center justify-center';export const input = 'w-full p-2 border border-blue-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 bg-pink-50';
 export const kawaiiButton = 'inline-block p-3 bg-purple-500 text-white rounded-full hover:bg-purple-600 hover:scale-105 transition-all shadow-md';
 export const kawaiiFeatureCard = 'bg-pink-100 p-6 rounded-xl shadow-md text-center transform hover:scale-105 transition-transform';
 export const kawaiiFeatureContainer = 'max-w-5xl mx-auto grid gap-6 md:grid-cols-3';
