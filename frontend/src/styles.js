@@ -1,6 +1,7 @@
-export const buttonGroup = 'flex space-x-2';
+export const buttonGroup = 'flex space-x-4 justify-center';
 export const buttonPrimary = 'w-full p-2 bg-purple-500 text-white rounded-full hover:bg-purple-600 hover:scale-105 transition-all shadow-md';
 export const buttonSecondary = 'w-full p-2 bg-blue-400 text-white rounded-full hover:bg-blue-500 hover:scale-105 transition-all shadow-md';
+export const calendarIcon = 'w-12 h-12 hover:scale-110 transition-transform cursor-pointer';
 export const centered = 'text-center';
 export const centeredButton = 'inline-block p-2 bg-purple-500 text-white rounded-full hover:bg-purple-600 hover:scale-105 transition-all';
 export const centeredContent = 'bg-pink-50 flex items-center justify-center min-h-screen';

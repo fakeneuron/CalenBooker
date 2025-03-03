@@ -9,7 +9,7 @@ import {
   successText,
   text,
   buttonGroup,
-  iconButton,
+  calendarIcon,
 } from '../styles';
 
 const AppointmentConfirmation = () => {
@@ -155,17 +155,29 @@ const AppointmentConfirmation = () => {
         <p className={text}><strong>Contact:</strong> {phone}</p>
       </div>
       <div className={successBox}>
-        <h3 className="text-lg font-semibold">Add to Your Calendar:</h3>
-        <div className={`${buttonGroup} space-x-4`}>
-          <button onClick={handleGoogleCalendar} className={iconButton} title="Add to Google Calendar">
-            📅
-          </button>
-          <button onClick={handleOutlookCalendar} className={iconButton} title="Add to Outlook">
-            📧
-          </button>
-          <button onClick={handleICalendarDownload} className={iconButton} title="Add to iCalendar">
-            🗓️
-          </button>
+        <h3 className="text-lg font-semibold text-center">Add to Your Calendar:</h3>
+        <div className={buttonGroup}>
+          <img 
+            src="/google-calendar96.png" 
+            alt="Google Calendar" 
+            className={calendarIcon} 
+            onClick={handleGoogleCalendar} 
+            title="Add to Google Calendar" 
+          />
+          <img 
+            src="/outlook96.png" 
+            alt="Outlook" 
+            className={calendarIcon} 
+            onClick={handleOutlookCalendar} 
+            title="Add to Outlook" 
+          />
+          <img 
+            src="/apple96.png" 
+            alt="Apple Calendar" 
+            className={calendarIcon} 
+            onClick={handleICalendarDownload} 
+            title="Add to Apple Calendar" 
+          />
         </div>
       </div>
       <p className="mt-4 text-sm text-gray-600">
