@@ -22,7 +22,7 @@ This file tracks granular tasks and completed progress for CalenBooker developme
 - Integrate login and signup forms into `Home.js`, replacing separate pages with inline components toggled by "Login" and "Get Started" buttons.
 - Effort: ~2-3 hours
 - Priority: High - Streamlines onboarding UX, reduces navigation steps.
-- **Completed**: Converted `Login.js` and `Signup.js` to `LoginForm.js` and `SignupForm.js`, updated `Home.js` with centered buttons and forms, removed `/login` and `/signup` routes, fixed logout redirect and dashboard hydration error.
+- **Completed**: Converted `Login.js` and `Signup.js` to `LoginForm.js` and `SignupForm.js`, updated `Home.js` with centered buttons and forms, removed `/login`, `/signup`, and `/signup-success` routes, added autologin via `AuthConfirm.js`, fixed logout redirect and dashboard hydration error.
 
 [ ] **Create Footer Pages**
 
@@ -274,4 +274,4 @@ This file tracks granular tasks and completed progress for CalenBooker developme
    - Added "Home" link to `/dashboard` in `Navbar.js` for logged-in users; confirmed public pages (`/`, `/signup`, `/login`) rely on individual page links for navigation, with no navbar for unauthenticated users.
 
 9. **Inline Login/Signup on Landing Page**:
-   - Integrated login and signup into `Home.js` with reusable `LoginForm.js` and `SignupForm.js` components, removed separate pages, added responsive buttons and fade-in forms, fixed logout redirect to `/` and dashboard hydration error.
+   - Integrated login and signup into `Home.js` with reusable `LoginForm.js` and `SignupForm.js` components, removed separate `Login.js`, `Signup.js`, and `SignupSuccess.js` pages, added responsive buttons and fade-in forms, implemented autologin via `AuthConfirm.js` using Supabase tokens, fixed logout redirect to `/` and dashboard hydration error.
