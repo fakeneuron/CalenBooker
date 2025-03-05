@@ -1,26 +1,29 @@
 **_INITIAL PROMPT_**
-I have a web app project described in the attached README.md file. The project includes a frontend, Supabase SQL scripts, and a backend placeholder. The project is well on its way, and the coding environment is already set up. As a novice coder, I need your help to guide me through the remaining development process step by step.
-Please review the attached README.md file to understand the project structure, technologies used, and the overall goal of the application.
-To avoid overwhelming me, please request the project files one at a time. Start with the most fundamental file relevant to the current stage of development, and we’ll proceed from there. All these files are already committed to Git, and I’m sharing them so I can pick up where I left off. When receiving the files, take them in to understand the concepts without providing a comprehensive analysis or being overly descriptive in your responses. Do not make any suggestions for changes as I share these files. Ensure you have all the files before proceeding with suggestions for changes.
-The Supabase database is already set up. I’m sharing the .sql files only so you can understand the overall structure of the project.
-Guide me through the remaining development process incrementally. Ensure I complete and understand each step before moving on to the next. This includes writing code, testing, and debugging based on the project’s current state.
-As a beginner, I may need explanations of certain concepts or technologies. Please explain these in simple terms within our conversation.
-Encourage me to follow best practices, such as writing clean and readable code, using version control (e.g., Git), and adhering to coding standards relevant to the technologies in this project, but only make suggestions after all files are collected.
-The README.md file is attached for your review. After reviewing it, please ask me for the first project file you need based on the project’s current progress. Once you’ve requested and received all the files, check with me to confirm there’s nothing missing. After that, we’ll figure out what to prioritize next and proceed together.
+"I’m working on a web app project described in the attached README.md file, with a frontend, Supabase SQL scripts, and a backend placeholder. The project is well underway, and the coding environment is set up. As a novice coder, I need step-by-step guidance to continue development.
+Review the attached README.md to understand the project’s structure, technologies, and goals.
+Start by requesting the core files one at a time, as listed in the README.md 'Instructions for AI' section (frontend/src/App.js, frontend/src/supabaseClient.js, supabase/create_tables.sql, Roadmap.md). Later, as we address specific tasks, request additional files from the 'Project Structure and Functionality' section if needed. When I share files, review them to understand their purpose without a detailed breakdown. If they look fine, move to the next file; silently note any issues for later discussion. Don’t suggest changes until all files are collected.
+The Supabase database is set up, and I’m sharing .sql files only for project structure context.
+Guide me incrementally through the remaining development, ensuring I understand each step (coding, testing, debugging) before proceeding. Explain concepts or technologies in simple terms within our conversation.
+Encourage best practices (e.g., clean code, Git, coding standards) only after collecting all files.
+After reviewing the README.md, ask for the first core file. Once you have all files, confirm with me that nothing’s missing, then we’ll prioritize next steps together.
 
-\*\*no need to provide the a full code breakdown for each file. Just understand the file for yourself. If everything looks fine, move on to requesting the next file. Take note of anything that doesn't add up and we'll address later.
+\*\*
 
-**_POST FILE UPLOADS_**
-I’ve shared all the project files with you, including the README.md, frontend files, Supabase .sql files, and backend placeholder files. Now that you have everything, please take a holistic look at all the files to get a full picture of the app.
-Guide me through completing the tasks in the To-Do list from the README.md file, addressing one item at a time. Don’t move too fast—ensure I understand and complete each step before proceeding. When making changes to files, provide the full updated file content.
+**_POST FILE UPLOADS_ ---MANUALLY UPDATED----**
+I’ve shared the core project files with you. Now that you have everything, please take a holistic look at all the files to get a full picture of the app.
+
+Guide me through completing the tasks in the To-Do list from the README.md file, addressing one item at a time. Don’t move too fast—ensure I understand and complete each step before proceeding. When making changes to files, provide the specific part of the code being modified, added, or removed. Also for simplicity of implementation, provide the full updated file content.
+
 As we progress through each To-Do item:
 Update the 'Project Structure and Functionality' section of the README.md file with detailed changes and functionality added.
 
-Add broad strokes of accomplishments to the 'Progress (Completed)' section of the README.md file, keeping most details in the 'Project Structure and Functionality' section.
+Track accomplishments in the 'Progress (Completed)' section of the Roadmap.md file.
 
 Only suggest committing to Git once a full To-Do step is completed and confirmed functional. For complex tasks, break them into sub-steps if needed, and suggest Git commits for sub-steps only after they’re confirmed functional. Update the README.md file before any Git commits to reflect the progress and new functionality.
+
 When suggesting changes to .sql files (e.g., via snippets in the SQL editor), also provide the full updated .sql file in the Supabase folder to ensure it reflects the entire table structure for a single setup step.
-Keep explanations simple and concise, suitable for a novice coder. After reviewing the files, start by listing the To-Do items from the README.md and ask me which one we should tackle first.
+
+Keep explanations simple and concise, suitable for a novice coder. Now that you have an idea of the project structure, start by listing the To-Do items from the Roadmap.md and ask me which one we should tackle first.
 
 **_Specifics on the meeting invitation notification_**
 Before moving on to the .ics generation, let's give some greater consideration to the purpose of this. Generation of the .ics is just a component of the whole 'meeting generation' notification that we will be giving clients. Clients are those seeking services from the businesses - the main goal of this app is to create not only a .ics but a standard meeting invitation message to the client. Let's make this live on a webpage for now - you've probably seen this kind of thing before - where you make an appointment and you receive either an email or a link containing different options such as 'add to icalendar', 'add to outlook' download .ics (am i missing any popular ones?). Give this some deeper thought to better capture this kind of message to be sent to clients after scheduling meetings with the businesses. The goal is for the business to enter client details in the meetings form and the client automatically gets a notification with all the easy integrations to their calendars. Provide a more detailed and standardized overview of what i'm describing here before proceeding. Provide a sample of this type of notification (email, web link) to the client as part of the plan with all the relevant buttons to add to calendar. Consider the logic of how this might be executed.

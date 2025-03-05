@@ -11,7 +11,7 @@ import BusinessProfile from './pages/BusinessProfile';
 import AppointmentScheduler from './pages/AppointmentScheduler';
 import AppointmentConfirmation from './pages/AppointmentConfirmation';
 import Navbar from './components/Navbar';
-import Footer from './components/Footer'; // Add this import
+import Footer from './components/Footer';
 
 function App() {
   const [session, setSession] = useState(null);

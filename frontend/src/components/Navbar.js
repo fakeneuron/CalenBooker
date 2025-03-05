@@ -53,7 +53,7 @@ const Navbar = () => {
           </Link>
         </div>
         <div className="flex items-center space-x-4">
-          <Link to="/dashboard" className={navbarLink}>Home</Link> {/* Added Home link */}
+          <Link to="/dashboard" className={navbarLink}>Home</Link>
           <Link to="/appointment-scheduler" className={navbarLink}>
             Schedule Appointment
           </Link>

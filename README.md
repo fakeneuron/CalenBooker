@@ -35,15 +35,13 @@ To run the project locally:
 
 ## Instructions for AI
 
-Request the following files to understand and work on this project:
+To get a basic understanding of this project, start by requesting only the following core files. Additional files listed in 'Project Structure and Functionality' can be requested later as we work through the roadmap tasks. Review these files to grasp the project’s foundation without needing detailed feedback unless prompted:
 
-- **Frontend Pages**: `frontend/src/pages/*.js` (Home.js, Signup.js, SignupSuccess.js, Login.js, AuthConfirm.js, Dashboard.js, BusinessProfile.js, AppointmentScheduler.js, AppointmentConfirmation.js)
-- **Frontend Components**: `frontend/src/components/*.js` (Navbar.js, AppointmentsTable.js, FormField.js, Footer.js)
-- **Frontend Core**: `frontend/src/App.js`, `frontend/src/index.js`, `frontend/src/styles.js`, `frontend/src/supabaseClient.js`, `frontend/src/index.css`
-- **Frontend Public**: `frontend/public/index.html`, `frontend/public/_redirects`
-- **Backend**: `backend/server.js`
-- **Supabase SQL**: `supabase/create_tables.sql`, `supabase/rls.sql`, `supabase/users_view_setup.sql`
-- **Root**: `README.md`, `Roadmap.md`, `frontend/package.json`, `backend/package.json`
+- `README.md`: Project overview and setup.
+- `frontend/src/App.js`: Root component with routing and auth setup.
+- `frontend/src/supabaseClient.js`: Supabase client initialization.
+- `supabase/create_tables.sql`: Database table structure.
+- `Roadmap.md`: Task list, roadmap, and progress details.
 
 ## Project Structure and Functionality
 
@@ -72,7 +70,7 @@ Request the following files to understand and work on this project:
        - `AppointmentScheduler.js`: Scheduling screen with appointment URL generation (`/appointment-scheduler`), profile check, and auto-populate sample data. Includes a "Service Type" dropdown with preset options ("Haircut," "Consultation," "Shave") and an "Other" option with manual text entry (using `FormField`); saves `service_type` to the `appointments` table. Added a "Status" dropdown ("Confirmed," "Pending," "Cancelled") with "Confirmed" as default, saving to `status` column.
        - `AppointmentConfirmation.js`: Client-facing appointment confirmation page (`/appointment-confirmation/:id`) with appointment/business details (including `service_type` and `time_zone` displayed with the appointment time) and calendar integration (`.ics`, Google Calendar, Outlook) using centered branded logos.
      - `frontend/src/components/`:
-       - `Navbar.js`: Navigation bar for protected routes with a Kawaii-styled user icon dropdown (hover/click) for "Business Profile" and "Logout," and a top-level "Schedule Appointment" link; redirects to `/` on logout.
+       - `Navbar.js`: Navigation bar for authenticated (logged-in) users only, displayed via `App.js` conditional rendering (`{session && <Navbar />}`). Features a Kawaii-styled user icon dropdown (hover/click) with "Business Profile" and "Logout" options, and top-level links: "Home" (to `/dashboard`) and "Schedule Appointment" (to `/appointment-scheduler`). The "Home" link ensures logged-in users can easily return to the dashboard. Redirects to `/` on logout. Public pages (`/`, `/signup`, `/login`) rely on individual page links (e.g., signup/login buttons) for navigation, with no navbar displayed for unauthenticated users, preserving a clean landing page focus.
        - `AppointmentsTable.js`: Reusable table displaying user’s appointments with sortable columns (date/time ascending). Includes "Service Type" and "Status" columns with `status` shown in colors (green for "Confirmed," yellow for "Pending," red for "Cancelled").
        - `FormField.js`: Reusable form field component for text inputs and dropdowns, used in `BusinessProfile.js` and `AppointmentScheduler.js` to simplify form markup and reduce file size.
        - `Footer.js`: Kawaii-styled footer displayed across all pages with links to Terms of Service, Privacy Policy, Support, and About sections.
