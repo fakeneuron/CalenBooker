@@ -35,7 +35,7 @@ function Home() {
         <h1 className={kawaiiHeading}>CalenBooker</h1>
         <p className={kawaiiSubtext}>Streamline your appointment scheduling with ease.</p>
         {view === 'buttons' ? (
-          <div className={`${buttonGroup} flex-col md:flex-row`}>
+          <div className={`${buttonGroup} flex-col space-y-4 md:flex-row md:space-y-0`}>
             <button onClick={() => setView('login')} className={`${kawaiiButton} bg-gray-200 text-gray-800 hover:bg-gray-300`}>
               Login
             </button>
