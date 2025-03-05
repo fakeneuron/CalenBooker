@@ -12,14 +12,14 @@ import {
 } from '../styles';
 
 const AppointmentsTable = () => {
-  const [appointments, setAppointments] = useState([]); // Updated variable name
+  const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     let isMounted = true;
 
-    const fetchAppointments = async () => { // Updated function name
+    const fetchAppointments = async () => {
       try {
         const { data: { session } } = await supabase.auth.getSession();
         if (!session?.user) {
@@ -27,23 +27,23 @@ const AppointmentsTable = () => {
           return;
         }
 
-        console.log('Fetching appointments for user ID:', session.user.id); // Updated log
+        console.log('Fetching appointments for user ID:', session.user.id);
 
         const { data, error } = await supabase
-          .from('appointments') // Will update table name in Sub-Step 3
+          .from('appointments')
           .select('client_name, client_email, meeting_date, meeting_time, duration, service_type, status')
           .eq('user_id', session.user.id)
           .order('meeting_date', { ascending: true })
           .order('meeting_time', { ascending: true });
 
-        console.log('Fetched appointments:', data); // Updated log
+        console.log('Fetched appointments:', data);
         console.log('Fetch error:', error);
 
         if (error) throw error;
 
-        if (isMounted) setAppointments(data || []); // Updated variable name
+        if (isMounted) setAppointments(data || []);
       } catch (err) {
-        if (isMounted) setError('Failed to load appointments: ' + err.message); // Updated text
+        if (isMounted) setError('Failed to load appointments: ' + err.message);
       } finally {
         if (isMounted) setLoading(false);
       }
@@ -59,7 +59,7 @@ const AppointmentsTable = () => {
   if (loading) {
     return (
       <div className="text-center p-4">
-        <p className="text-gray-600">Loading appointments...</p> {/* Updated text */}
+        <p className="text-gray-600">Loading appointments...</p>
       </div>
     );
   }
@@ -100,23 +100,11 @@ const AppointmentsTable = () => {
           </tr>
         </thead>
         <tbody>
-          {appointments.length === 0 ? ( // Updated variable name
-            <tr>
-              <td colSpan="7" className="py-4 px-4 text-center text-gray-500">
-                No appointments scheduled yet. {/* Updated text */}
-              </td>
-            </tr>
+          {appointments.length === 0 ? (
+            <tr><td colSpan="7" className="py-4 px-4 text-center text-gray-500">No appointments scheduled yet.</td></tr>
           ) : (
-            appointments.map((appointment, index) => ( // Updated variable name
-              <tr key={index} className={tableRowHover}>
-                <td className={tableCellLeft}>{appointment.client_name}</td> {/* Updated reference */}
-                <td className={tableCellCenter}>{appointment.client_email}</td> {/* Updated reference */}
-                <td className={tableCellCenter}>{appointment.meeting_date}</td> {/* Updated reference */}
-                <td className={tableCellCenter}>{appointment.meeting_time}</td> {/* Updated reference */}
-                <td className={tableCellCenter}>{appointment.duration}</td> {/* Updated reference */}
-                <td className={tableCellCenter}>{appointment.service_type}</td> {/* Updated reference */}
-                <td className={`${tableCellCenter} ${getStatusClass(appointment.status)}`}>{appointment.status}</td> {/* Updated reference */}
-              </tr>
+            appointments.map((appointment, index) => (
+              <tr key={index} className={tableRowHover}><td className={tableCellLeft}>{appointment.client_name}</td><td className={tableCellCenter}>{appointment.client_email}</td><td className={tableCellCenter}>{appointment.meeting_date}</td><td className={tableCellCenter}>{appointment.meeting_time}</td><td className={tableCellCenter}>{appointment.duration}</td><td className={tableCellCenter}>{appointment.service_type}</td><td className={`${tableCellCenter} ${getStatusClass(appointment.status)}`}>{appointment.status}</td></tr>
             ))
           )}
         </tbody>

@@ -1,29 +1,26 @@
 import React, { useState } from 'react';
 import supabase from '../supabaseClient';
-import { useNavigate, Link } from 'react-router-dom';
-import { container, input, buttonPrimary, heading, link, label } from '../styles';
+import { container, input, buttonPrimary, label } from '../styles';
 
-const Signup = () => {
+const SignupForm = ({ onSignupSuccess }) => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   });
-  const [isPasswordValid, setIsPasswordValid] = useState(true); // Simplified error state
+  const [isPasswordValid, setIsPasswordValid] = useState(true);
   const [passwordCriteria, setPasswordCriteria] = useState({
-    length: false, // At least 8 characters
-    uppercase: false, // One uppercase letter
-    lowercase: false, // One lowercase letter
-    number: false, // One number
-    special: false, // One special character
+    length: false,
+    uppercase: false,
+    lowercase: false,
+    number: false,
+    special: false,
   });
-  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
 
     if (name === 'password') {
-      // Update criteria in real-time
       const criteria = {
         length: value.length >= 8,
         uppercase: /[A-Z]/.test(value),
@@ -32,8 +29,6 @@ const Signup = () => {
         special: /[@$!%*?&]/.test(value),
       };
       setPasswordCriteria(criteria);
-
-      // Validate full password for submission
       const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
       setIsPasswordValid(passwordRegex.test(value));
     }
@@ -67,7 +62,7 @@ const Signup = () => {
       });
 
       if (signUpError) throw signUpError;
-      navigate('/signup-success');
+      onSignupSuccess();
     } catch (error) {
       alert(error.message);
     }
@@ -75,7 +70,6 @@ const Signup = () => {
 
   return (
     <div className={container}>
-      <h2 className={heading}>CalenBooker Signup</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label className={label}>Email</label>
@@ -98,7 +92,6 @@ const Signup = () => {
             className={`${input} ${!isPasswordValid && formData.password.length > 0 ? 'border-red-500' : ''}`}
             required
           />
-          {/* Real-time password feedback */}
           <ul className="mt-2 text-sm">
             <li className={passwordCriteria.length ? 'text-green-600' : 'text-gray-600'}>
               {passwordCriteria.length ? '✔' : '✗'} At least 8 characters
@@ -121,14 +114,8 @@ const Signup = () => {
           Sign Up
         </button>
       </form>
-      <p className="mt-4 text-center text-sm text-gray-600">
-        Already have an account?{' '}
-        <Link to="/login" className={link}>
-          Log in
-        </Link>
-      </p>
     </div>
   );
 };
 
-export default Signup;
+export default SignupForm;

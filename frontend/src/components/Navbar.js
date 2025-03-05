@@ -18,7 +18,7 @@ const Navbar = () => {
     }
     console.log('Logged out successfully, navigating to /');
     setIsDropdownOpen(false);
-    navigate('/');
+    navigate('/', { replace: true });
   };
 
   const toggleDropdown = () => {

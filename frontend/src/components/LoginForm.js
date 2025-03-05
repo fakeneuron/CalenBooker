@@ -1,16 +1,14 @@
 import React, { useState } from 'react';
 import supabase from '../supabaseClient';
-import { useNavigate, Link } from 'react-router-dom';
-import { container, input, buttonPrimary, errorText, heading, link, label } from '../styles'; // Import styles
+import { container, input, buttonPrimary, errorText, link, label } from '../styles';
 
-const Login = () => {
+const LoginForm = ({ onLoginSuccess }) => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   });
   const [errorMessage, setErrorMessage] = useState('');
   const [resendMessage, setResendMessage] = useState('');
-  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -25,7 +23,7 @@ const Login = () => {
         password: formData.password,
       });
       if (error) throw error;
-      navigate('/dashboard');
+      onLoginSuccess();
     } catch (error) {
       if (error.message === 'Email not confirmed') {
         setErrorMessage('Your email isn’t confirmed yet. Please check your inbox (and spam/junk folder) for the confirmation link.');
@@ -52,7 +50,6 @@ const Login = () => {
 
   return (
     <div className={container}>
-      <h2 className={heading}>CalenBooker Login</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label className={label}>Email</label>
@@ -95,14 +92,8 @@ const Login = () => {
           Log In
         </button>
       </form>
-      <p className="mt-4 text-center text-sm text-gray-600">
-        Don't have an account?{' '}
-        <Link to="/signup" className={link}>
-          Sign up
-        </Link>
-      </p>
     </div>
   );
 };
 
-export default Login;
+export default LoginForm;
