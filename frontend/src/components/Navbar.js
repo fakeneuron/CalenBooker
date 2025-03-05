@@ -6,6 +6,7 @@ import { navbar, navbarContainer, navbarLink, navbarUserIcon, navbarDropdown, na
 const Navbar = () => {
   const navigate = useNavigate();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const dropdownRef = useRef(null);
 
   const handleLogout = async () => {
@@ -42,7 +43,7 @@ const Navbar = () => {
   }, [isDropdownOpen]);
 
   return (
-    <nav className={navbar}>
+    <nav className={`${navbar} fixed top-0 left-0 w-full z-10`}>
       <div className={navbarContainer}>
         <div className="flex items-center space-x-2">
           <Link to="/dashboard" className="flex items-center">
@@ -52,12 +53,25 @@ const Navbar = () => {
             CalenBooker
           </Link>
         </div>
-        <div className="flex items-center space-x-4">
-          <Link to="/dashboard" className={navbarLink}>Home</Link>
-          <Link to="/appointment-scheduler" className={navbarLink}>
-            Schedule Appointment
-          </Link>
-          <div className="relative" ref={dropdownRef}>
+        <div className="flex items-center">
+          {/* Hamburger Button (Mobile Only) */}
+          <button
+            className="md:hidden text-white text-2xl focus:outline-none"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            {isMenuOpen ? '✕' : '☰'}
+          </button>
+          {/* Collapsible Menu (Hidden on Mobile, Flex on Desktop) */}
+          <div className={`${isMenuOpen ? 'flex' : 'hidden'} md:flex flex-col md:flex-row absolute md:static top-12 left-0 w-full md:w-auto bg-purple-600 md:bg-transparent p-4 md:p-0 space-y-2 md:space-y-0 md:space-x-4`}>
+            <Link to="/dashboard" className={navbarLink} onClick={() => setIsMenuOpen(false)}>
+              Home
+            </Link>
+            <Link to="/appointment-scheduler" className={navbarLink} onClick={() => setIsMenuOpen(false)}>
+              Book Appointment
+            </Link>
+          </div>
+          {/* User Dropdown (Always Visible) */}
+          <div className="relative ml-4" ref={dropdownRef}>
             <button onClick={toggleDropdown} className={navbarUserIcon}>
               👤
             </button>

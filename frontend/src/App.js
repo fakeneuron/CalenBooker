@@ -31,7 +31,7 @@ function App() {
   }, []);
 
   return (
-    <div className="App min-h-screen flex flex-col">
+    <div className="App min-h-screen flex flex-col pt-16">
       {session && <Navbar />}
       <main className="flex-grow">
         <Routes>

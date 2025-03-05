@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import supabase from '../supabaseClient';
 import { 
@@ -26,6 +26,46 @@ const AppointmentScheduler = () => {
   });
   const [error, setError] = useState('');
   const [confirmationUrl, setConfirmationUrl] = useState('');
+
+  useEffect(() => {
+    const fetchRecentClient = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session?.user) return;
+
+      const { data, error } = await supabase
+        .from('appointments')
+        .select('client_name, client_email')
+        .eq('user_id', session.user.id)
+        .order('meeting_date', { ascending: false })
+        .limit(1)
+        .single();
+
+      if (error && error.code !== 'PGRST116') {
+        console.error('Error fetching recent client:', error.message);
+      }
+
+      if (data) {
+        setFormData(prev => ({
+          ...prev,
+          clientName: data.client_name || '',
+          clientEmail: data.client_email || '',
+        }));
+      } else {
+        setFormData({
+          clientName: 'John Smith',
+          clientEmail: 'john.smith@example.com',
+          meetingDate: '2025-03-25',
+          meetingTime: '14:00',
+          duration: '30',
+          serviceType: 'Haircut',
+          customServiceType: '',
+          status: 'Confirmed',
+        });
+      }
+    };
+
+    fetchRecentClient();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;

@@ -22,7 +22,7 @@ This file tracks granular tasks and completed progress for CalenBooker developme
 - Integrate login and signup forms into `Home.js`, replacing separate pages with inline components toggled by "Login" and "Get Started" buttons.
 - Effort: ~2-3 hours
 - Priority: High - Streamlines onboarding UX, reduces navigation steps.
-- **Completed**: Converted `Login.js` and `Signup.js` to `LoginForm.js` and `SignupForm.js`, updated `Home.js` with centered buttons and forms, removed `/login`, `/signup`, and `/signup-success` routes, added autologin via `AuthConfirm.js`, fixed logout redirect and dashboard hydration error.
+- **Completed**: Converted `Login.js` and `Signup.js` to `LoginForm.js` and `SignupForm.js`, updated `Home.js` with centered buttons and forms, removed `/login`, `/signup`, and `/signup-success` routes, added autologin via `AuthConfirm.js`, fixed logout redirect and dashboard hydration error, made navbar fixed with hamburger menu on mobile, made footer non-fixed, added autofill in `AppointmentScheduler.js`, updated "Schedule Appointment" to "Book Appointment".
 
 [ ] **Create Footer Pages**
 
@@ -262,7 +262,7 @@ This file tracks granular tasks and completed progress for CalenBooker developme
    - Added "Status" indicators to `AppointmentScheduler.js` (dropdown with "Confirmed," "Pending," "Cancelled") and `AppointmentsTable.js` (color-coded display), with `status` column added to the `appointments` table.
    - Added a "Time Zone" field to `BusinessProfile.js`, stored in `business_profile` as `time_zone`, and displayed on `AppointmentConfirmation.js` with the appointment time for clarity.
    - Redesigned `Home.js` into a professional landing page with a hero section, feature highlights, and updated app-wide styles in `styles.js` for a cohesive cute look.
-   - Enhanced `Navbar.js` with a user icon dropdown for "Business Profile" and "Logout," and a top-level "Schedule Appointment" link, with click-outside collapse functionality.
+   - Enhanced `Navbar.js` with a user icon dropdown for "Business Profile" and "Logout," and a top-level "Schedule Appointment" link (later renamed "Book Appointment"), with click-outside collapse functionality.
    - Refactored nomenclature from "Meeting" to "Appointment" across all frontend files, UI text, Supabase table (`meetings` to `appointments`), and documentation for consistency.
    - Added a "Preview" button to `BusinessProfile.js` displaying a preview of the profile, enhancing transparency for business owners.
    - Removed unused "Settings" option from the `Navbar.js` dropdown for a cleaner UI.
@@ -274,4 +274,4 @@ This file tracks granular tasks and completed progress for CalenBooker developme
    - Added "Home" link to `/dashboard` in `Navbar.js` for logged-in users; confirmed public pages (`/`, `/signup`, `/login`) rely on individual page links for navigation, with no navbar for unauthenticated users.
 
 9. **Inline Login/Signup on Landing Page**:
-   - Integrated login and signup into `Home.js` with reusable `LoginForm.js` and `SignupForm.js` components, removed separate `Login.js`, `Signup.js`, and `SignupSuccess.js` pages, added responsive buttons and fade-in forms, implemented autologin via `AuthConfirm.js` using Supabase tokens, fixed logout redirect to `/` and dashboard hydration error.
+   - Integrated login and signup into `Home.js` with reusable `LoginForm.js` and `SignupForm.js` components, removed separate `Login.js`, `Signup.js`, and `SignupSuccess.js` pages, added responsive buttons and fade-in forms, implemented autologin via `AuthConfirm.js` using Supabase tokens, fixed logout redirect to `/`, fixed dashboard hydration error, made navbar fixed with hamburger menu on mobile (renamed "Schedule Appointment" to "Book Appointment"), made footer non-fixed, added autofill in `AppointmentScheduler.js` on load with recent client data or sample fallback.
