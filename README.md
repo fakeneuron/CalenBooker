@@ -2,7 +2,7 @@
 
 ## Purpose and Vision
 
-"CalenBooker MVP" streamlines appointment scheduling for small businesses (e.g., barber shops), allowing owners to sign up, provide business profiles, and schedule client appointments with client notifications. Key features include minimal signup (email/password), email confirmation with autologin, business profile capture, and appointment scheduling with a shareable webpage displaying appointment details and calendar integration options (e.g., `.ics`, Google Calendar, Outlook); full email notifications are deferred to v2. The system leverages Supabase with Anon Key and RLS for authentication and data storage, hosted on `github.com/fakeneuron/CalenBooker` (branch: `master`).
+"CalenBooker MVP" streamlines appointment scheduling for small businesses (e.g., barber shops), allowing owners to sign up, provide business profiles, and schedule client appointments with client notifications. Key features include minimal signup (email/password) with terms agreement, email confirmation with autologin, business profile capture, and appointment scheduling with a shareable webpage displaying appointment details and calendar integration options (e.g., `.ics`, Google Calendar, Outlook); full email notifications are deferred to v2. The system leverages Supabase with Anon Key and RLS for authentication and data storage, hosted on `github.com/fakeneuron/CalenBooker` (branch: `master`).
 
 ## Coder Environment
 
@@ -41,7 +41,7 @@ To get a basic understanding of this project, start by requesting only the follo
 - `frontend/src/App.js`: Root component with routing and auth setup.
 - `frontend/src/supabaseClient.js`: Supabase client initialization.
 - `supabase/create_tables.sql`: Database table structure.
-- `Roadmap.md`: Task list, roadmap, and progress details.
+- `Roadmap.md`: Task list, roadmap, and completed progress.
 
 ## Project Structure and Functionality
 
@@ -66,8 +66,8 @@ To get a basic understanding of this project, start by requesting only the follo
        - `BusinessProfile.js`: Business profile screen (`/business-profile`) with form for business details (using `FormField`), auto-populates sample data on button click or fetches existing data on load, includes a time zone dropdown (e.g., "America/New_York") saved to `time_zone` column in `business_profile`, and a "Preview" button to display a Kawaii-styled preview of the profile as clients would see it.
        - `AppointmentScheduler.js`: Scheduling screen with appointment URL generation (`/appointment-scheduler`), profile check, and auto-populates sample data or recent client data on load. Includes a "Service Type" dropdown with preset options ("Haircut," "Consultation," "Shave") and an "Other" option with manual text entry (using `FormField`); saves `service_type` to the `appointments` table. Added a "Status" dropdown ("Confirmed," "Pending," "Cancelled") with "Confirmed" as default, saving to `status` column.
        - `AppointmentConfirmation.js`: Client-facing appointment confirmation page (`/appointment-confirmation/:id`) with appointment/business details (including `service_type` and `time_zone` displayed with the appointment time) and calendar integration (`.ics`, Google Calendar, Outlook) using centered branded logos.
-       - `Terms.js`: Static Terms of Service page (`/terms`) with standard legal phrasing, styled in Kawaii theme, linked from footer.
-       - `Privacy.js`: Static Privacy Policy page (`/privacy`) with standard data handling info, styled in Kawaii theme, linked from footer.
+       - `Terms.js`: Static Terms of Service page (`/terms`) with standard legal phrasing, styled in Kawaii theme, linked from footer and signup form.
+       - `Privacy.js`: Static Privacy Policy page (`/privacy`) with standard data handling info, styled in Kawaii theme, linked from footer and signup form.
        - `Support.js`: Static Support page (`/support`) with contact info (placeholder email) and FAQ, styled in Kawaii theme, linked from footer.
        - `About.js`: Static About page (`/about`) with mission and team placeholder, styled in Kawaii theme, linked from footer.
      - `frontend/src/components/`:
@@ -76,7 +76,7 @@ To get a basic understanding of this project, start by requesting only the follo
        - `FormField.js`: Reusable form field component for text inputs and dropdowns, used in `BusinessProfile.js` and `AppointmentScheduler.js` to simplify form markup and reduce file size.
        - `Footer.js`: Kawaii-styled footer displayed across all pages, scrolls with content (non-fixed), includes links to Terms of Service, Privacy Policy, Support, and About sections.
        - `LoginForm.js`: Reusable login form component with email/password input, Supabase auth, and error handling, embedded inline in `Home.js`.
-       - `SignupForm.js`: Reusable signup form component with email/password input, password validation, and Supabase auth, embedded inline in `Home.js`.
+       - `SignupForm.js`: Reusable signup form component with email/password input, password validation, Supabase auth, and a required terms agreement checkbox linking to `/terms` and `/privacy`, embedded inline in `Home.js`.
      - `frontend/src/`:
        - `App.js`: Root component with routing and Supabase auth state management, includes global footer and padding-top for fixed navbar.
        - `index.js`: Entry point rendering `App.js` with routing.

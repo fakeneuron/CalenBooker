@@ -31,17 +31,12 @@ This file tracks granular tasks and completed progress for CalenBooker developme
 - Priority: High - Quick, foundational for trust and promotion.
 - **Completed**: Added `Terms.js`, `Privacy.js`, `Support.js`, and `About.js` with standard phrasing, styled in Kawaii theme, accessible via footer links. Placeholder email (`support@calenbooker.com`) used, to be updated later.
 
-[ ] **Terms Agreement on Signup**
+[x] **Terms Agreement on Signup**
 
 - Add a required terms and conditions checkbox to `Signup.js`, linking to `/terms` and `/privacy`.
 - Effort: ~1-2 hours
 - Priority: High - Enhances compliance and trust, ties into footer pages.
-
-[ ] **Client List**
-
-- Create a running list of clients in `AppointmentScheduler.js` to track returning clients and auto-populate forms using `appointments` data.
-- Effort: ~3-4 hours
-- Priority: High - Practical, immediate value for scheduling efficiency; supports marketing pitch.
+- **Completed**: Added a mandatory checkbox to `SignupForm.js` with links to `/terms` and `/privacy`, disabling the submit button until checked.
 
 [ ] **Owner Calendar Sync**
 
@@ -279,4 +274,8 @@ This file tracks granular tasks and completed progress for CalenBooker developme
    - Integrated login and signup into `Home.js` with reusable `LoginForm.js` and `SignupForm.js` components, removed separate `Login.js`, `Signup.js`, and `SignupSuccess.js` pages, added responsive buttons with mobile padding and fade-in forms, implemented autologin via `AuthConfirm.js` using Supabase tokens, fixed logout redirect to `/`, fixed dashboard hydration error, made navbar fixed with hamburger menu on mobile (renamed "Schedule Appointment" to "Book Appointment"), made footer non-fixed, added autofill in `AppointmentScheduler.js` on load with recent client data or sample fallback.
 
 10. **Create Footer Pages**:
+
     - Added static pages: `Terms.js` (`/terms`) with legal terms, `Privacy.js` (`/privacy`) with data policies, `Support.js` (`/support`) with contact and FAQ, and `About.js` (`/about`) with mission and team info, all styled in Kawaii theme and linked from `Footer.js`. Placeholder email (`support@calenbooker.com`) used across pages, to be updated later.
+
+11. **Terms Agreement on Signup**:
+    - Added a required checkbox to `SignupForm.js` with links to `/terms` and `/privacy`, disabling the submit button until checked, enhancing compliance and trust.
