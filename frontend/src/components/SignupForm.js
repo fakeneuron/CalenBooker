@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom'; // Added for links
 import supabase from '../supabaseClient';
-import { container, input, buttonPrimary, label } from '../styles';
+import { container, input, buttonPrimary, label, subText, link } from '../styles';
 
 const SignupForm = ({ onSignupSuccess }) => {
   const [formData, setFormData] = useState({
@@ -15,6 +16,7 @@ const SignupForm = ({ onSignupSuccess }) => {
     number: false,
     special: false,
   });
+  const [termsAgreed, setTermsAgreed] = useState(false); // New state for checkbox
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -38,6 +40,10 @@ const SignupForm = ({ onSignupSuccess }) => {
     e.preventDefault();
     if (!isPasswordValid) {
       alert('Please meet all password criteria before submitting.');
+      return;
+    }
+    if (!termsAgreed) {
+      alert('Please agree to the Terms of Service and Privacy Policy.');
       return;
     }
 
@@ -110,7 +116,20 @@ const SignupForm = ({ onSignupSuccess }) => {
             </li>
           </ul>
         </div>
-        <button type="submit" className={buttonPrimary}>
+        <div className="flex items-center">
+          <input
+            type="checkbox"
+            id="terms"
+            checked={termsAgreed}
+            onChange={(e) => setTermsAgreed(e.target.checked)}
+            className="mr-2"
+          />
+          <label htmlFor="terms" className={subText}>
+            I agree to the <Link to="/terms" className={link}>Terms of Service</Link> and{' '}
+            <Link to="/privacy" className={link}>Privacy Policy</Link>
+          </label>
+        </div>
+        <button type="submit" className={buttonPrimary} disabled={!termsAgreed}>
           Sign Up
         </button>
       </form>
