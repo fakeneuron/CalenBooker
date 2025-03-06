@@ -7,6 +7,7 @@ import Dashboard from './pages/Dashboard';
 import BusinessProfile from './pages/BusinessProfile';
 import AppointmentScheduler from './pages/AppointmentScheduler';
 import AppointmentConfirmation from './pages/AppointmentConfirmation';
+import Terms from './pages/Terms'; // New import
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 
@@ -41,6 +42,7 @@ function App() {
           <Route path="/appointment-scheduler" element={session ? <AppointmentScheduler /> : <Navigate to="/" />} />
           <Route path="/auth/confirm" element={<AuthConfirm />} />
           <Route path="/appointment-confirmation/:id" element={<AppointmentConfirmation />} />
+          <Route path="/terms" element={<Terms />} />
         </Routes>
       </main>
       <Footer />
