@@ -7,7 +7,8 @@ import Dashboard from './pages/Dashboard';
 import BusinessProfile from './pages/BusinessProfile';
 import AppointmentScheduler from './pages/AppointmentScheduler';
 import AppointmentConfirmation from './pages/AppointmentConfirmation';
-import Terms from './pages/Terms'; // New import
+import Terms from './pages/Terms';
+import Privacy from './pages/Privacy'; // New import
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 
@@ -43,6 +44,7 @@ function App() {
           <Route path="/auth/confirm" element={<AuthConfirm />} />
           <Route path="/appointment-confirmation/:id" element={<AppointmentConfirmation />} />
           <Route path="/terms" element={<Terms />} />
+          <Route path="/privacy" element={<Privacy />} />
         </Routes>
       </main>
       <Footer />
