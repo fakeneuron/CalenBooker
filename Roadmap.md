@@ -22,13 +22,14 @@ This file tracks granular tasks and completed progress for CalenBooker developme
 - Integrate login and signup forms into `Home.js`, replacing separate pages with inline components toggled by "Login" and "Get Started" buttons.
 - Effort: ~2-3 hours
 - Priority: High - Streamlines onboarding UX, reduces navigation steps.
-- **Completed**: Converted `Login.js` and `Signup.js` to `LoginForm.js` and `SignupForm.js`, updated `Home.js` with centered buttons and forms, removed `/login`, `/signup`, and `/signup-success` routes, added autologin via `AuthConfirm.js`, fixed logout redirect and dashboard hydration error, made navbar fixed with hamburger menu on mobile, made footer non-fixed, added autofill in `AppointmentScheduler.js`, updated "Schedule Appointment" to "Book Appointment".
+- **Completed**: Converted `Login.js` and `Signup.js` to `LoginForm.js` and `SignupForm.js`, updated `Home.js` with centered buttons and forms (added mobile padding), removed `/login`, `/signup`, and `/signup-success` routes, added autologin via `AuthConfirm.js`, fixed logout redirect and dashboard hydration error, made navbar fixed with hamburger menu on mobile (renamed "Schedule Appointment" to "Book Appointment"), made footer non-fixed, added autofill in `AppointmentScheduler.js`.
 
-[ ] **Create Footer Pages**
+[x] **Create Footer Pages**
 
 - Build static pages for Terms of Service (`/terms`), Privacy Policy (`/privacy`), Support (`/support`), and About (`/about`), linked from the footer.
 - Effort: ~1-2 hours
 - Priority: High - Quick, foundational for trust and promotion.
+- **Completed**: Added `Terms.js`, `Privacy.js`, `Support.js`, and `About.js` with standard phrasing, styled in Kawaii theme, accessible via footer links. Placeholder email (`support@calenbooker.com`) used, to be updated later.
 
 [ ] **Terms Agreement on Signup**
 
@@ -274,4 +275,8 @@ This file tracks granular tasks and completed progress for CalenBooker developme
    - Added "Home" link to `/dashboard` in `Navbar.js` for logged-in users; confirmed public pages (`/`, `/signup`, `/login`) rely on individual page links for navigation, with no navbar for unauthenticated users.
 
 9. **Inline Login/Signup on Landing Page**:
-   - Integrated login and signup into `Home.js` with reusable `LoginForm.js` and `SignupForm.js` components, removed separate `Login.js`, `Signup.js`, and `SignupSuccess.js` pages, added responsive buttons and fade-in forms, implemented autologin via `AuthConfirm.js` using Supabase tokens, fixed logout redirect to `/`, fixed dashboard hydration error, made navbar fixed with hamburger menu on mobile (renamed "Schedule Appointment" to "Book Appointment"), made footer non-fixed, added autofill in `AppointmentScheduler.js` on load with recent client data or sample fallback.
+
+   - Integrated login and signup into `Home.js` with reusable `LoginForm.js` and `SignupForm.js` components, removed separate `Login.js`, `Signup.js`, and `SignupSuccess.js` pages, added responsive buttons with mobile padding and fade-in forms, implemented autologin via `AuthConfirm.js` using Supabase tokens, fixed logout redirect to `/`, fixed dashboard hydration error, made navbar fixed with hamburger menu on mobile (renamed "Schedule Appointment" to "Book Appointment"), made footer non-fixed, added autofill in `AppointmentScheduler.js` on load with recent client data or sample fallback.
+
+10. **Create Footer Pages**:
+    - Added static pages: `Terms.js` (`/terms`) with legal terms, `Privacy.js` (`/privacy`) with data policies, `Support.js` (`/support`) with contact and FAQ, and `About.js` (`/about`) with mission and team info, all styled in Kawaii theme and linked from `Footer.js`. Placeholder email (`support@calenbooker.com`) used across pages, to be updated later.
