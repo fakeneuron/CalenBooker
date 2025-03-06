@@ -38,6 +38,13 @@ This file tracks granular tasks and completed progress for CalenBooker developme
 - Priority: High - Enhances compliance and trust, ties into footer pages.
 - **Completed**: Added a mandatory checkbox to `SignupForm.js` with links to `/terms` and `/privacy`, disabling the submit button until checked.
 
+[x] **Error Pages**
+
+- Create a 404 "Appointment Not Found" page with a cute design and back-to-home button.
+- Effort: ~1-2 hours
+- Priority: Medium - Polishes UX, low effort.
+- **Completed**: Added `NotFound.js` with a Kawaii-styled 404 page, linked to `/` and `/support`, routed via `App.js` catch-all (`*`).
+
 [ ] **Owner Calendar Sync**
 
 - Add 2-way sync for business owners’ calendars (e.g., Google Calendar API) in `AppointmentScheduler.js`.
@@ -67,12 +74,6 @@ This file tracks granular tasks and completed progress for CalenBooker developme
 - Add a "Messages" section in `AppointmentScheduler.js` for customizable appointment invites (e.g., confirmations, instructions), stored in `appointments`.
 - Effort: ~3-4 hours
 - Priority: Medium - Enhances customization, builds on current UI.
-
-[ ] **Error Pages**
-
-- Create a 404 "Appointment Not Found" page with a cute design and back-to-home button.
-- Effort: ~1-2 hours
-- Priority: Medium - Polishes UX, low effort.
 
 [ ] **Client Feedback**
 
@@ -278,4 +279,8 @@ This file tracks granular tasks and completed progress for CalenBooker developme
     - Added static pages: `Terms.js` (`/terms`) with legal terms, `Privacy.js` (`/privacy`) with data policies, `Support.js` (`/support`) with contact and FAQ, and `About.js` (`/about`) with mission and team info, all styled in Kawaii theme and linked from `Footer.js`. Placeholder email (`support@calenbooker.com`) used across pages, to be updated later.
 
 11. **Terms Agreement on Signup**:
+
     - Added a required checkbox to `SignupForm.js` with links to `/terms` and `/privacy`, disabling the submit button until checked, enhancing compliance and trust.
+
+12. **Error Pages**:
+    - Added `NotFound.js` with a Kawaii-styled 404 page and back-to-home button, routed via `App.js` catch-all (`*`) for unmatched paths, improving site polish.

@@ -70,6 +70,7 @@ To get a basic understanding of this project, start by requesting only the follo
        - `Privacy.js`: Static Privacy Policy page (`/privacy`) with standard data handling info, styled in Kawaii theme, linked from footer and signup form.
        - `Support.js`: Static Support page (`/support`) with contact info (placeholder email) and FAQ, styled in Kawaii theme, linked from footer.
        - `About.js`: Static About page (`/about`) with mission and team placeholder, styled in Kawaii theme, linked from footer.
+       - `NotFound.js`: Static 404 error page with a cute Kawaii design and back-to-home button, displayed for unmatched routes.
      - `frontend/src/components/`:
        - `Navbar.js`: Navigation bar for authenticated (logged-in) users only, displayed via `App.js` conditional rendering (`{session && <Navbar />}`). Fixed at the top with content scrolling beneath, features a hamburger menu on mobile collapsing "Home" and "Book Appointment" links, and a Kawaii-styled user icon dropdown (hover/click) with "Business Profile" and "Logout" options. "Home" links to `/dashboard`, "Book Appointment" to `/appointment-scheduler`. Redirects to `/` on logout. Public pages rely on `Home.js` for navigation, with no navbar for unauthenticated users, preserving a clean landing page focus.
        - `AppointmentsTable.js`: Reusable table displaying user’s appointments with sortable columns (date/time ascending). Includes "Service Type" and "Status" columns with `status` shown in colors (green for "Confirmed," yellow for "Pending," red for "Cancelled").
@@ -78,7 +79,7 @@ To get a basic understanding of this project, start by requesting only the follo
        - `LoginForm.js`: Reusable login form component with email/password input, Supabase auth, and error handling, embedded inline in `Home.js`.
        - `SignupForm.js`: Reusable signup form component with email/password input, password validation, Supabase auth, and a required terms agreement checkbox linking to `/terms` and `/privacy`, embedded inline in `Home.js`.
      - `frontend/src/`:
-       - `App.js`: Root component with routing and Supabase auth state management, includes global footer and padding-top for fixed navbar.
+       - `App.js`: Root component with routing and Supabase auth state management, includes global footer and padding-top for fixed navbar, now with a 404 catch-all route.
        - `index.js`: Entry point rendering `App.js` with routing.
        - `index.css`: Tailwind CSS setup with custom animation keyframes (e.g., fade-in).
        - `styles.js`: Centralized reusable Tailwind classes for all pages and components, updated with Kawaii-inspired styles (pastel colors, rounded shapes, playful shadows) applied app-wide for a consistent, cute aesthetic.

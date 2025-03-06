@@ -10,7 +10,8 @@ import AppointmentConfirmation from './pages/AppointmentConfirmation';
 import Terms from './pages/Terms';
 import Privacy from './pages/Privacy';
 import Support from './pages/Support';
-import About from './pages/About'; // New import
+import About from './pages/About';
+import NotFound from './pages/NotFound'; // New import
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 
@@ -49,6 +50,7 @@ function App() {
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/support" element={<Support />} />
           <Route path="/about" element={<About />} />
+          <Route path="*" element={<NotFound />} /> {/* Catch-all for 404 */}
         </Routes>
       </main>
       <Footer />
