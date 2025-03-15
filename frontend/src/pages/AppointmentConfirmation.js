@@ -16,6 +16,8 @@ const AppointmentConfirmation = () => {
   const { id } = useParams();
   const [appointment, setAppointment] = useState(null);
   const [business, setBusiness] = useState(null);
+  const [message, setMessage] = useState('');
+  const [notes, setNotes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -32,12 +34,30 @@ const AppointmentConfirmation = () => {
 
         const { data: businessData, error: businessError } = await supabase
           .from('business_profile')
-          .select('business_name, address, unit, city, province, postal_code, phone, time_zone')
-          .eq('user_id', appointmentData.user_id);
+          .select('business_name, address, unit, city, province, postal_code, phone, time_zone, parking_instructions, office_directions, custom_info')
+          .eq('user_id', appointmentData.user_id)
+          .single();
         if (businessError) throw businessError;
 
+        const { data: messageData, error: messageError } = await supabase
+          .from('messages')
+          .select('default_message')
+          .eq('user_id', appointmentData.user_id)
+          .eq('event_type', 'scheduled')
+          .limit(1) // Ensure one row
+          .single(); // Expect exactly one
+        if (messageError) throw new Error('Failed to fetch confirmation message: ' + messageError.message);
+        if (!messageData) throw new Error('No scheduled message found');
+
         setAppointment(appointmentData);
-        setBusiness(businessData && businessData.length > 0 ? businessData[0] : null);
+        setBusiness(businessData);
+        setMessage(messageData.default_message);
+
+        const notesArray = [];
+        if (businessData?.parking_instructions) notesArray.push(`Parking: ${businessData.parking_instructions}`);
+        if (businessData?.office_directions) notesArray.push(`Directions: ${businessData.office_directions}`);
+        if (businessData?.custom_info) notesArray.push(`Info: ${businessData.custom_info}`);
+        setNotes(notesArray);
       } catch (err) {
         setError('Failed to load appointment details: ' + err.message);
       } finally {
@@ -61,6 +81,15 @@ const AppointmentConfirmation = () => {
       return date.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
     };
 
+    const description = [
+      message,
+      appointment.client_name ? `Client: ${appointment.client_name} (${appointment.client_email})` : '',
+      business.phone ? `Contact: ${business.phone}` : '',
+      notes.length > 0 ? '\nNotes:\n' + notes.join('\n') : ''
+    ].filter(Boolean).join('\n');
+
+    const location = `${business.business_name}, ${business.address}${business.unit ? ', ' + business.unit : ''}, ${business.city}, ${business.province} ${business.postal_code}`;
+
     const icsContent = [
       'BEGIN:VCALENDAR',
       'VERSION:2.0',
@@ -70,8 +99,8 @@ const AppointmentConfirmation = () => {
       `SUMMARY:${appointment.service_type} with ${business.business_name}`,
       `DTSTART:${formatDate(startDate)}`,
       `DTEND:${formatDate(endDate)}`,
-      `LOCATION:${business.address}${business.unit ? ', ' + business.unit : ''}, ${business.city}, ${business.province} ${business.postal_code}`,
-      `DESCRIPTION:Appointment with ${appointment.client_name} (${appointment.client_email}). Contact: ${business.phone}`,
+      `LOCATION:${location}`,
+      `DESCRIPTION:${description.replace(/\n/g, '\\n')}`,
       'STATUS:CONFIRMED',
       `ORGANIZER;CN=${business.business_name}:mailto:no-reply@calenbooker.com`,
       `ATTENDEE;CN=${appointment.client_name}:mailto:${appointment.client_email}`,
@@ -102,12 +131,21 @@ const AppointmentConfirmation = () => {
     const startStr = startDate.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
     const endStr = endDate.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
 
+    const description = [
+      message,
+      appointment.client_name ? `Client: ${appointment.client_name} (${appointment.client_email})` : '',
+      business.phone ? `Contact: ${business.phone}` : '',
+      notes.length > 0 ? '\nNotes:\n' + notes.join('\n') : ''
+    ].filter(Boolean).join('\n');
+
+    const location = `${business.business_name}, ${business.address}${business.unit ? ', ' + business.unit : ''}, ${business.city}, ${business.province} ${business.postal_code}`;
+
     const googleUrl = `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(
       `${appointment.service_type} with ${business.business_name}`
     )}&dates=${startStr}/${endStr}&details=${encodeURIComponent(
-      `Appointment with ${appointment.client_name} (${appointment.client_email}). Contact: ${business.phone}`
+      description
     )}&location=${encodeURIComponent(
-      `${business.address}${business.unit ? ', ' + business.unit : ''}, ${business.city}, ${business.province} ${business.postal_code}`
+      location
     )}`;
     window.open(googleUrl, '_blank');
   };
@@ -134,7 +172,7 @@ const AppointmentConfirmation = () => {
 
   const businessName = business ? business.business_name : 'Business TBD';
   const location = business
-    ? `${business.address}${business.unit ? ', ' + business.unit : ''}, ${business.city}, ${business.province} ${business.postal_code}`
+    ? `${business.business_name}, ${business.address}${business.unit ? ', ' + business.unit : ''}, ${business.city}, ${business.province} ${business.postal_code}`
     : 'To be provided';
   const phone = business ? business.phone : 'To be provided';
   const timeZone = business ? business.time_zone.split('/')[1].replace('_', ' ') : 'TBD';
@@ -142,9 +180,7 @@ const AppointmentConfirmation = () => {
   return (
     <div className={container}>
       <h2 className={`${heading} ${successText}`}>Appointment Confirmed!</h2>
-      <p className={text}>
-        You’re scheduled with <strong>{businessName}</strong>.
-      </p>
+      <p className={text}>{message}</p>
       <div className="space-y-2">
         <p className={text}><strong>Service:</strong> {appointment.service_type}</p>
         <p className={text}><strong>Client:</strong> {appointment.client_name} ({appointment.client_email})</p>
@@ -154,6 +190,16 @@ const AppointmentConfirmation = () => {
         <p className={text}><strong>Location:</strong> {location}</p>
         <p className={text}><strong>Contact:</strong> {phone}</p>
       </div>
+      {notes.length > 0 && (
+        <div className="mt-4">
+          <h3 className="text-lg font-semibold text-gray-700">Notes</h3>
+          <ul className="list-disc list-inside text-gray-600">
+            {notes.map((note, index) => (
+              <li key={index}>{note}</li>
+            ))}
+          </ul>
+        </div>
+      )}
       <div className={successBox}>
         <h3 className="text-lg font-semibold text-center">Add to Your Calendar:</h3>
         <div className={buttonGroup}>
@@ -180,9 +226,6 @@ const AppointmentConfirmation = () => {
           />
         </div>
       </div>
-      <p className="mt-4 text-sm text-gray-600">
-        {/* Note: Please arrive 5 minutes early. Contact the business to reschedule if needed. */}
-      </p>
     </div>
   );
 };

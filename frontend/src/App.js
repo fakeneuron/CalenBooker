@@ -11,7 +11,8 @@ import Terms from './pages/Terms';
 import Privacy from './pages/Privacy';
 import Support from './pages/Support';
 import About from './pages/About';
-import NotFound from './pages/NotFound'; // New import
+import NotFound from './pages/NotFound';
+import Messages from './pages/Messages'; // New import
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 
@@ -44,13 +45,14 @@ function App() {
           <Route path="/dashboard" element={session ? <Dashboard /> : <Navigate to="/" />} />
           <Route path="/business-profile" element={session ? <BusinessProfile /> : <Navigate to="/" />} />
           <Route path="/appointment-scheduler" element={session ? <AppointmentScheduler /> : <Navigate to="/" />} />
+          <Route path="/messages" element={session ? <Messages /> : <Navigate to="/" />} /> {/* New route */}
           <Route path="/auth/confirm" element={<AuthConfirm />} />
           <Route path="/appointment-confirmation/:id" element={<AppointmentConfirmation />} />
           <Route path="/terms" element={<Terms />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/support" element={<Support />} />
           <Route path="/about" element={<About />} />
-          <Route path="*" element={<NotFound />} /> {/* Catch-all for 404 */}
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
       <Footer />

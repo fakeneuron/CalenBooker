@@ -1,286 +1,204 @@
 # CalenBooker Roadmap
 
-This file tracks granular tasks and completed progress for CalenBooker development. Functional changes from completed tasks will update relevant sections in `README.md`, with broad milestones noted here.
+This file tracks tasks and progress for CalenBooker development. Functional changes from completed tasks are reflected in `README.md`, with broad milestones noted here. Last updated: March 15, 2025.
 
 ## Short-Term Tasks
 
-[x] **Footer**
-
-- Added a footer with Terms of Service (`/terms`), Privacy Policy (`/privacy`), Support (`/support`), About (`/about`), and social links.
-- Effort: ~2-3 hours
-- Priority: High - Quick win, improves site professionalism and trust.
-
-[x] **Navigation Enhancements**
-
-- Add "Home" link to `Navbar.js` for logged-in users; refine public page nav (`/`, `/signup`, `/login`).
-- Effort: ~1 hour
-- Priority: High - Simple, enhances user flow.
-- **Completed**: Added "Home" link to `/dashboard` in `Navbar.js` for logged-in users; public pages (`/`, `/signup`, `/login`) rely on individual page links for navigation, with no navbar for unauthenticated users.
-
-[x] **Inline Login/Signup on Landing Page**
-
-- Integrate login and signup forms into `Home.js`, replacing separate pages with inline components toggled by "Login" and "Get Started" buttons.
-- Effort: ~2-3 hours
-- Priority: High - Streamlines onboarding UX, reduces navigation steps.
-- **Completed**: Converted `Login.js` and `Signup.js` to `LoginForm.js` and `SignupForm.js`, updated `Home.js` with centered buttons and forms (added mobile padding), removed `/login`, `/signup`, and `/signup-success` routes, added autologin via `AuthConfirm.js`, fixed logout redirect and dashboard hydration error, made navbar fixed with hamburger menu on mobile (renamed "Schedule Appointment" to "Book Appointment"), made footer non-fixed, added autofill in `AppointmentScheduler.js`.
-
-[x] **Create Footer Pages**
-
-- Build static pages for Terms of Service (`/terms`), Privacy Policy (`/privacy`), Support (`/support`), and About (`/about`), linked from the footer.
-- Effort: ~1-2 hours
-- Priority: High - Quick, foundational for trust and promotion.
-- **Completed**: Added `Terms.js`, `Privacy.js`, `Support.js`, and `About.js` with standard phrasing, styled in Kawaii theme, accessible via footer links. Placeholder email (`support@calenbooker.com`) used, to be updated later.
-
-[x] **Terms Agreement on Signup**
-
-- Add a required terms and conditions checkbox to `Signup.js`, linking to `/terms` and `/privacy`.
-- Effort: ~1-2 hours
-- Priority: High - Enhances compliance and trust, ties into footer pages.
-- **Completed**: Added a mandatory checkbox to `SignupForm.js` with links to `/terms` and `/privacy`, disabling the submit button until checked.
-
-[x] **Error Pages**
-
-- Create a 404 "Appointment Not Found" page with a cute design and back-to-home button.
-- Effort: ~1-2 hours
-- Priority: Medium - Polishes UX, low effort.
-- **Completed**: Added `NotFound.js` with a Kawaii-styled 404 page, linked to `/` and `/support`, routed via `App.js` catch-all (`*`).
-
 [ ] **Owner Calendar Sync**
 
-- Add 2-way sync for business owners’ calendars (e.g., Google Calendar API) in `AppointmentScheduler.js`.
-- Effort: ~6-8 hours
-- Priority: High - Seamless workflow integration, critical for user adoption.
+- **Description**: Add 2-way sync for business owners’ calendars (e.g., Google Calendar API) in `AppointmentScheduler.js` or `Dashboard.js`.
+- **Effort**: ~6-8 hours
+- **Priority**: High - Seamless workflow integration, critical for adoption.
 
 [ ] **Marketing Landing Page**
 
-- Enhance `Home.js` with a strong CTA (“Sign Up Free”), testimonials, and a demo video for promotion.
-- Effort: ~2-3 hours
-- Priority: High - Boosts initial user acquisition.
+- **Description**: Enhance `Home.js` with a “Sign Up Free” CTA, testimonials, and demo video for promotion.
+- **Effort**: ~2-3 hours
+- **Priority**: High - Boosts user acquisition.
 
 [ ] **Referral Program**
 
-- Add a “Refer a Friend” link in `Dashboard.js` with a social shoutout reward.
-- Effort: ~2-3 hours
-- Priority: High - Drives word-of-mouth growth.
+- **Description**: Add a “Refer a Friend” link in `Dashboard.js` with a social shoutout reward.
+- **Effort**: ~2-3 hours
+- **Priority**: High - Drives word-of-mouth growth.
 
 [ ] **SEO Optimization**
 
-- Add meta tags, keywords, and sitemap to improve discoverability on search engines; optimize `Home.js` content.
-- Effort: ~2-3 hours
-- Priority: High - Essential for organic user acquisition.
+- **Description**: Add meta tags, keywords, and sitemap; optimize `Home.js` content for search engines.
+- **Effort**: ~2-3 hours
+- **Priority**: High - Essential for organic growth.
 
-[ ] **Messages Section**
+[x] **Messages Section**
 
-- Add a "Messages" section in `AppointmentScheduler.js` for customizable appointment invites (e.g., confirmations, instructions), stored in `appointments`.
-- Effort: ~3-4 hours
-- Priority: Medium - Enhances customization, builds on current UI.
+- **Description**: Add a "Messages" section in `Messages.js` (not `AppointmentScheduler.js`) for customizable global default messages, stored in `messages` table (`id`, `user_id`, `event_type`, `default_message`) with a trigger auto-populating on signup. Includes `scheduled` (used as intro in `AppointmentConfirmation.js`), `rescheduled`, `cancelled`, `no_show` (displayed as "No-Show"). Moved `parking_instructions`, `office_directions`, `custom_info` to `business_profile` (nullable, blank by default), shown in confirmation "Notes" (bulleted list) if populated, with business name in location fields.
+- **Effort**: ~4-6 hours
+- **Priority**: Medium - Enhances customization.
+- **Completed**: Implemented `Messages.js` with edit/revert, integrated into confirmation with notes and calendar events.
 
 [ ] **Client Feedback**
 
-- Add a "Feedback" link on `/appointment-confirmation/<id>` (public), store in a `feedback` table.
-- Effort: ~4-6 hours
-- Priority: Medium - Improves service quality, client engagement.
+- **Description**: Add a "Feedback" link on `/appointment-confirmation/<id>` (public), store in a `feedback` table.
+- **Effort**: ~4-6 hours
+- **Priority**: Medium - Improves service quality, client engagement.
 
 ## Long-Term Tasks
 
 [ ] **Premium Version**
 
-- Limit free tier to 5 appointments/month, offer premium with unlimited appointments and extras (e.g., reminders, feedback).
-- Effort: ~6-8 hours (without payment integration)
-- Priority: High - Sets up monetization, scalable model; long-term due to potential payment setup.
+- **Description**: Limit free tier to 5 appointments/month, offer premium with unlimited appointments and extras.
+- **Effort**: ~6-8 hours (without payment)
+- **Priority**: High - Sets up monetization.
 
 [ ] **Payment Integration**
 
-- Add Stripe or PayPal for booking payments, enhancing monetization and appeal.
-- Effort: ~6-8 hours
-- Priority: High - Standard feature, supports premium tier; long-term due to external tool integration.
+- **Description**: Add Stripe or PayPal for booking payments.
+- **Effort**: ~6-8 hours
+- **Priority**: High - Supports premium tier.
 
 [ ] **Appointment Reminders (Pre-Email)**
 
-- Add in-app reminders on `/dashboard` using a new `reminders` table until email integration is ready.
-- Effort: ~4-6 hours
-- Priority: Medium - Adds value, reduces no-shows, Supabase-only; long-term until email integration.
+- **Description**: Add in-app reminders on `/dashboard` using a `reminders` table.
+- **Effort**: ~4-6 hours
+- **Priority**: Medium - Reduces no-shows.
 
 [ ] **Self-Scheduling for Clients**
 
-- Build a public booking page where clients can schedule appointments directly.
-- Effort: ~8-10 hours
-- Priority: High - Major client-facing feature, broader scope.
+- **Description**: Build a public booking page for direct client scheduling.
+- **Effort**: ~8-10 hours
+- **Priority**: High - Major client feature.
 
 [ ] **Multi-Employee Scheduling**
 
-- Enable appointment assignments to staff via a `staff` table.
-- Effort: ~8-10 hours
-- Priority: High - Scales to teams, enterprise potential.
+- **Description**: Enable staff assignment via a `staff` table.
+- **Effort**: ~8-10 hours
+- **Priority**: High - Scales to teams.
 
 [ ] **Analytics Dashboard**
 
-- Create a dashboard in `Dashboard.js` for appointment statistics (e.g., bookings/week, retention).
-- Effort: ~6-8 hours
-- Priority: Medium - Valuable insights, but not core MVP.
+- **Description**: Add appointment stats in `Dashboard.js` (e.g., bookings/week).
+- **Effort**: ~6-8 hours
+- **Priority**: Medium - Provides insights.
 
 [ ] **Client Portal**
 
-- Develop a client login system to view/manage bookings.
-- Effort: ~10-12 hours
-- Priority: Medium - Enhances client experience, larger scope.
+- **Description**: Develop a client login to view/manage bookings.
+- **Effort**: ~10-12 hours
+- **Priority**: Medium - Enhances client experience.
 
 [ ] **Recurring Appointments**
 
-- Allow scheduling recurring appointments in `AppointmentScheduler.js`.
-- Effort: ~6-8 hours
-- Priority: Medium - Useful for regulars, adds complexity.
+- **Description**: Allow recurring scheduling in `AppointmentScheduler.js`.
+- **Effort**: ~6-8 hours
+- **Priority**: Medium - Useful for regulars.
 
 [ ] **Availability Calendar**
 
-- Add a calendar view in `AppointmentScheduler.js` showing open slots.
-- Effort: ~8-10 hours
-- Priority: Medium - Visual aid, UI-intensive.
+- **Description**: Add a calendar view in `AppointmentScheduler.js` for open slots.
+- **Effort**: ~8-10 hours
+- **Priority**: Medium - Visual aid.
 
 [ ] **Two-Factor Authentication (2FA)**
 
-- Implement 2FA for business accounts.
-- Effort: ~6-8 hours
-- Priority: Medium - Security boost, enterprise-grade.
+- **Description**: Implement 2FA for business accounts.
+- **Effort**: ~6-8 hours
+- **Priority**: Medium - Security boost.
 
 [ ] **Data Export Options**
 
-- Add export functionality for appointments (e.g., CSV, PDF).
-- Effort: ~6-8 hours
-- Priority: Medium - Reporting tool, not urgent.
+- **Description**: Add export for appointments (CSV, PDF).
+- **Effort**: ~6-8 hours
+- **Priority**: Medium - Reporting tool.
 
 [ ] **Advanced Filtering and Sorting**
 
-- Enhance `AppointmentsTable.js` with filters (e.g., date range, status).
-- Effort: ~4-6 hours
-- Priority: Medium - Improves table UX.
+- **Description**: Enhance `AppointmentsTable.js` with filters (date range, status).
+- **Effort**: ~4-6 hours
+- **Priority**: Medium - Improves UX.
 
 [ ] **Calendar App Integrations**
 
-- Expand integrations to include Apple Calendar and others beyond Google/Outlook.
-- Effort: ~4-6 hours
-- Priority: Medium - Broadens compatibility.
+- **Description**: Expand to Apple Calendar and others.
+- **Effort**: ~4-6 hours
+- **Priority**: Medium - Broadens compatibility.
 
 [ ] **Custom Service Types in Business Profile**
 
-- Allow custom service types in `BusinessProfile.js`, populate `AppointmentScheduler.js` dropdown.
-- Effort: ~4-6 hours
-- Priority: Medium - Personalization, builds on profile.
+- **Description**: Allow custom service types in `BusinessProfile.js` for `AppointmentScheduler.js`.
+- **Effort**: ~4-6 hours
+- **Priority**: Medium - Personalization.
 
 [ ] **Client Confirmation Workflow**
 
-- Default appointments to "Pending," send email with confirm/cancel links, update `status`.
-- Effort: ~8-10 hours
-- Priority: Medium - Workflow enhancement, needs email integration.
+- **Description**: Default appointments to "Pending," send confirm/cancel links, update `status`.
+- **Effort**: ~8-10 hours
+- **Priority**: Medium - Needs email integration.
 
 [ ] **Automate Client Notification Emails**
 
-- Integrate MailerSend/Twilio for automated emails (e.g., confirmations). Shelved until tool approval.
-- Effort: ~5-6 hours
-- Priority: Medium - Core feature, deferred.
+- **Description**: Integrate MailerSend/Twilio for automated emails.
+- **Effort**: ~5-6 hours
+- **Priority**: Medium - Deferred until tool approval.
 
 [ ] **Move Sensitive Operations to Backend**
 
-- Shift email/data writes to `backend/server.js` with Supabase Service Key.
-- Effort: ~5-6 hours
-- Priority: Medium - Security-focused, backend-heavy.
+- **Description**: Shift email/data writes to `backend/server.js` with Supabase Service Key.
+- **Effort**: ~5-6 hours
+- **Priority**: Medium - Security-focused.
 
 [ ] **Server-Side Input Validation**
 
-- Add backend validation in `backend/server.js`.
-- Effort: ~4-6 hours
-- Priority: Medium - Security enhancement.
+- **Description**: Add backend validation in `backend/server.js`.
+- **Effort**: ~4-6 hours
+- **Priority**: Medium - Security enhancement.
 
 [ ] **Rate Limiting or CAPTCHA**
 
-- Implement rate limiting/CAPTCHA on signup/login.
-- Effort: ~4-6 hours
-- Priority: Medium - Security, abuse prevention.
+- **Description**: Implement rate limiting/CAPTCHA on signup/login.
+- **Effort**: ~4-6 hours
+- **Priority**: Medium - Prevents abuse.
 
 [ ] **Enterprise-Level Security Audits**
 
-- Encrypt data, ensure GDPR/CCPA compliance.
-- Effort: ~6-8 hours
-- Priority: Low - Enterprise-grade, future-focused.
+- **Description**: Encrypt data, ensure GDPR/CCPA compliance.
+- **Effort**: ~6-8 hours
+- **Priority**: Low - Future-focused.
 
 [ ] **Client Loyalty Program**
 
-- Track `loyalty_points` in `appointments`, offer discounts for premium users.
-- Effort: ~6-8 hours
-- Priority: Low - Creative, engagement-focused.
+- **Description**: Track `loyalty_points` in `appointments`, offer discounts.
+- **Effort**: ~6-8 hours
+- **Priority**: Low - Engagement-focused.
 
 [ ] **Barber Shop Marketplace**
 
-- Add `/marketplace` page listing premium businesses.
-- Effort: ~10-12 hours
-- Priority: Low - Adjacent feature, larger scope.
+- **Description**: Add `/marketplace` listing premium businesses.
+- **Effort**: ~10-12 hours
+- **Priority**: Low - Larger scope.
 
 [ ] **AI Appointment Suggestions**
 
-- Suggest optimal times in `AppointmentScheduler.js` via Edge Functions.
-- Effort: ~8-10 hours
-- Priority: Low - Innovative, complex.
+- **Description**: Suggest optimal times in `AppointmentScheduler.js` via Edge Functions.
+- **Effort**: ~8-10 hours
+- **Priority**: Low - Innovative.
 
 [ ] **Affiliate Links or Ads**
 
-- Add affiliate links or ads (e.g., AdSense) for free tier users.
-- Effort: ~3-4 hours
-- Priority: Low - Monetization, less urgent.
+- **Description**: Add affiliate links or ads for free tier users.
+- **Effort**: ~3-4 hours
+- **Priority**: Low - Monetization.
 
 ## Progress (Completed)
 
-1. **Initialize Project**:
-
-   - Established Git repository and project structure.
-
-2. **Frontend Setup**:
-
-   - Built React frontend with routing, Tailwind CSS (`3.4.17`), centralized styles, PostCSS configuration for Tailwind processing, and a utility script (`checkEnv.js`) for environment variable debugging.
-
-3. **Backend Setup**:
-
-   - Set up minimal Express backend for future expansion.
-
-4. **Supabase SQL Snippets**:
-
-   - Implemented database tables, views, and RLS policies.
-
-5. **Client Appointment Notification System**:
-
-   - Added appointment scheduling with profile check and calendar integration; removed unused dependencies.
-
-6. **Deployment**:
-
-   - Deployed frontend to Netlify with HTTPS and configured auth redirects.
-
-7. **Appointment Scheduler Enhancements**:
-
-   - Added a "Service Type" field to `AppointmentScheduler.js` with preset options and manual "Other" entry, displayed in `AppointmentConfirmation.js` and `AppointmentsTable.js`, with `service_type` column added to the `appointments` table.
-   - Added "Status" indicators to `AppointmentScheduler.js` (dropdown with "Confirmed," "Pending," "Cancelled") and `AppointmentsTable.js` (color-coded display), with `status` column added to the `appointments` table.
-   - Added a "Time Zone" field to `BusinessProfile.js`, stored in `business_profile` as `time_zone`, and displayed on `AppointmentConfirmation.js` with the appointment time for clarity.
-   - Redesigned `Home.js` into a professional landing page with a hero section, feature highlights, and updated app-wide styles in `styles.js` for a cohesive cute look.
-   - Enhanced `Navbar.js` with a user icon dropdown for "Business Profile" and "Logout," and a top-level "Schedule Appointment" link (later renamed "Book Appointment"), with click-outside collapse functionality.
-   - Refactored nomenclature from "Meeting" to "Appointment" across all frontend files, UI text, Supabase table (`meetings` to `appointments`), and documentation for consistency.
-   - Added a "Preview" button to `BusinessProfile.js` displaying a preview of the profile, enhancing transparency for business owners.
-   - Removed unused "Settings" option from the `Navbar.js` dropdown for a cleaner UI.
-   - Refactored `BusinessProfile.js` and `AppointmentScheduler.js` to use a reusable `<FormField>` component, reducing file size and improving maintainability.
-   - Enhanced `AppointmentConfirmation.js` with centered Google, Outlook, and Apple calendar logos for a polished UI.
-
-8. **Navigation Enhancements**:
-
-   - Added "Home" link to `/dashboard` in `Navbar.js` for logged-in users; confirmed public pages (`/`, `/signup`, `/login`) rely on individual page links for navigation, with no navbar for unauthenticated users.
-
-9. **Inline Login/Signup on Landing Page**:
-
-   - Integrated login and signup into `Home.js` with reusable `LoginForm.js` and `SignupForm.js` components, removed separate `Login.js`, `Signup.js`, and `SignupSuccess.js` pages, added responsive buttons with mobile padding and fade-in forms, implemented autologin via `AuthConfirm.js` using Supabase tokens, fixed logout redirect to `/`, fixed dashboard hydration error, made navbar fixed with hamburger menu on mobile (renamed "Schedule Appointment" to "Book Appointment"), made footer non-fixed, added autofill in `AppointmentScheduler.js` on load with recent client data or sample fallback.
-
-10. **Create Footer Pages**:
-
-    - Added static pages: `Terms.js` (`/terms`) with legal terms, `Privacy.js` (`/privacy`) with data policies, `Support.js` (`/support`) with contact and FAQ, and `About.js` (`/about`) with mission and team info, all styled in Kawaii theme and linked from `Footer.js`. Placeholder email (`support@calenbooker.com`) used across pages, to be updated later.
-
-11. **Terms Agreement on Signup**:
-
-    - Added a required checkbox to `SignupForm.js` with links to `/terms` and `/privacy`, disabling the submit button until checked, enhancing compliance and trust.
-
-12. **Error Pages**:
-    - Added `NotFound.js` with a Kawaii-styled 404 page and back-to-home button, routed via `App.js` catch-all (`*`) for unmatched paths, improving site polish.
+1. **Initialize Project**: Set up Git repo and structure.
+2. **Frontend Setup**: Built React frontend with routing, Tailwind CSS, and styles.
+3. **Backend Setup**: Minimal Express backend for v2.
+4. **Supabase SQL Snippets**: Implemented tables, views, and RLS.
+5. **Client Appointment Notification System**: Added scheduling and calendar integration.
+6. **Deployment**: Deployed frontend to Netlify with HTTPS.
+7. **Appointment Scheduler Enhancements**: Added "Service Type," "Status," "Time Zone," landing page redesign, navbar updates, and UI polish.
+8. **Navigation Enhancements**: Added "Home" link and refined public nav.
+9. **Inline Login/Signup on Landing Page**: Integrated forms into `Home.js` with autologin.
+10. **Create Footer Pages**: Added static pages linked from footer.
+11. **Terms Agreement on Signup**: Added checkbox to signup form.
+12. **Error Pages**: Added Kawaii 404 page.
+13. **Messages Section**: Implemented message management, integrated into confirmation.

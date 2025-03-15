@@ -80,6 +80,9 @@ const Navbar = () => {
                 <Link to="/business-profile" className={navbarDropdownItem} onClick={() => setIsDropdownOpen(false)}>
                   Business Profile
                 </Link>
+                <Link to="/messages" className={navbarDropdownItem} onClick={() => setIsDropdownOpen(false)}>
+                  Messages
+                </Link>
                 <button onClick={handleLogout} className={navbarDropdownItem}>
                   Logout
                 </button>
