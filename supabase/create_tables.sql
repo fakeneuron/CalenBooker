@@ -44,32 +44,16 @@ CREATE TABLE messages (
   UNIQUE (user_id, event_type)
 );
 
--- Function to insert default messages
-CREATE OR REPLACE FUNCTION public.insert_default_messages()
-RETURNS TRIGGER AS $$
+-- Function to insert default messages (called manually in Dashboard.js)
+CREATE OR REPLACE FUNCTION public.insert_default_messages(user_id_input UUID)
+RETURNS VOID AS $$
 BEGIN
   INSERT INTO messages (user_id, event_type, default_message)
   VALUES
-    (NEW.id, 'scheduled', 'Thank you for booking with us! Your appointment is confirmed.'),
-    (NEW.id, 'rescheduled', 'Looking forward to your new appointment time!'),
-    (NEW.id, 'cancelled', 'Sorry we won’t see you this time.'),
-    (NEW.id, 'no_show', 'We missed you last time!');
-  RETURN NEW;
+    (user_id_input, 'scheduled', 'Thank you for booking with us! Your appointment is confirmed.'),
+    (user_id_input, 'rescheduled', 'Looking forward to your new appointment time!'),
+    (user_id_input, 'cancelled', 'Sorry we won’t see you this time.'),
+    (user_id_input, 'no_show', 'We missed you last time!')
+  ON CONFLICT (user_id, event_type) DO NOTHING;
 END;
-$$ LANGUAGE plpgsql;
-
--- Trigger for new users (create only if it doesn’t exist)
-DO $$
-BEGIN
-  IF NOT EXISTS (
-    SELECT 1
-    FROM pg_trigger
-    WHERE tgname = 'trigger_insert_default_messages'
-    AND tgrelid = 'auth.users'::regclass
-  ) THEN
-    CREATE TRIGGER trigger_insert_default_messages
-    AFTER INSERT ON auth.users
-    FOR EACH ROW EXECUTE FUNCTION public.insert_default_messages();
-  END IF;
-END;
-$$;
+$$ LANGUAGE plpgsql SET search_path = public;

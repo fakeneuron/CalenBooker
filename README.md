@@ -26,7 +26,7 @@ To run locally:
     ```
   - Run: `npm start` (opens `http://localhost:4000`)
 - **Dependencies**: Managed via `frontend/package.json`.
-- **Supabase**: Set up a project in [Supabase Dashboard](https://supabase.com/dashboard), run SQL snippets from `supabase/` in the SQL Editor, and add URL/Anon Key to `.env`.
+- **Supabase**: Set up a project in [Supabase Dashboard](https://supabase.com/dashboard), run SQL snippets from `supabase/` in the SQL Editor, configure Authentication settings, and add URL/Anon Key to `.env`.
 - **Netlify**: Env vars set in dashboard (see Deployment).
 - **Note**: `.env` is excluded from Git via `.gitignore`.
 
@@ -98,20 +98,24 @@ Start with these core files to understand the project:
    - `backend/server.js`: Minimal Express app with Supabase client (Anon Key from `backend/.env`), port 4001, for v2 features.
    - Dependencies: `express@4.21.2`, `@supabase/supabase-js@2.49.1`, `cors@2.8.5`, `dotenv@16.4.7`.
 
-4. **Supabase SQL Snippets**:
+4. **Supabase SQL Snippets and Configuration**:
 
    - **Tables**:
      - `business_profile`: Business details with `time_zone`, `parking_instructions`, `office_directions`, `custom_info` (nullable, blank by default).
      - `appointments`: Appointment records with `service_type`, `status`.
      - `messages`: Event messages (`scheduled`, `rescheduled`, `cancelled`, `no_show`), populated on first dashboard load.
-   - **Views**: `users_view` for email checks during signup (grants `anon` `SELECT`, pending security fix for `auth_users_exposed`).
+   - **Views**: `users_view` for email checks during signup (restricted to `authenticated`, uses `check_email_exists` function).
    - **RLS**: Policies for `INSERT`, `UPDATE`, `SELECT` (authenticated users) and public `SELECT` on `messages`.
    - **Snippets**:
-     - `create_tables.sql`: Table definitions with manual `insert_default_messages` function.
+     - `create_tables.sql`: Table definitions with manual `insert_default_messages` function (fixed `search_path`).
      - `rls.sql`: RLS policies.
-     - `users_view_setup.sql`: `users_view` setup with `anon` access.
+     - `users_view_setup.sql`: `users_view` and `check_email_exists` function setup.
      - `reset_database.sql`: Drops all tables/views/functions for full reset.
      - `purge_tables.sql`: Truncates tables (excludes `auth.users`) for data reset.
+   - **Configuration** (Supabase Dashboard):
+     - **Authentication > Configuration > Sign In / Up > Email**:
+       - **Email OTP Expiration**: Set to `3600` seconds (1 hour) to address `auth_otp_long_expiry`.
+       - **Prevent use of leaked passwords**: Enabled to check against HaveIBeenPwned, addressing `auth_leaked_password_protection`.
 
 5. **Client Appointment Notification System**:
 
@@ -131,7 +135,7 @@ Start with these core files to understand the project:
 
 ## Getting Started
 
-1. **Supabase**: Create a project, run `supabase/reset_database.sql` (if resetting), then `create_tables.sql`, `rls.sql`, `users_view_setup.sql`, update `frontend/.env`.
+1. **Supabase**: Create a project, run `supabase/reset_database.sql` (if resetting), then `create_tables.sql`, `rls.sql`, `users_view_setup.sql`, configure Authentication settings, update `frontend/.env`.
 2. **Local Run**: `cd frontend`, `npm install`, `npm start`.
 3. **Test**: Sign up, set up a profile, book an appointment, check confirmation.
 

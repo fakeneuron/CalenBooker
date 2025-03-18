@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom'; // Added for links
+import { Link } from 'react-router-dom';
 import supabase from '../supabaseClient';
 import { container, input, buttonPrimary, label, subText, link } from '../styles';
 
 const SignupForm = ({ onSignupSuccess }) => {
-  const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-  });
+  const [formData, setFormData] = useState({ email: '', password: '' });
   const [isPasswordValid, setIsPasswordValid] = useState(true);
   const [passwordCriteria, setPasswordCriteria] = useState({
     length: false,
@@ -16,7 +13,7 @@ const SignupForm = ({ onSignupSuccess }) => {
     number: false,
     special: false,
   });
-  const [termsAgreed, setTermsAgreed] = useState(false); // New state for checkbox
+  const [termsAgreed, setTermsAgreed] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -48,13 +45,10 @@ const SignupForm = ({ onSignupSuccess }) => {
     }
 
     try {
-      const { data, error } = await supabase
-        .from('users_view')
-        .select('email')
-        .eq('email', formData.email);
-
-      if (error) throw error;
-      if (data.length > 0) {
+      const { data: emailExists, error: checkError } = await supabase
+        .rpc('check_email_exists', { email_to_check: formData.email });
+      if (checkError) throw checkError;
+      if (emailExists) {
         alert('Email already in use');
         return;
       }
