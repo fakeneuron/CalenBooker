@@ -28,6 +28,24 @@ This file tracks tasks and progress for CalenBooker development. Functional chan
 - **Effort**: ~2-3 hours
 - **Priority**: High - Essential for organic growth.
 
+[ ] **Appointment Scheduler Preview/Confirmation Integration**
+
+- **Description**: Enhance `AppointmentScheduler.js` to show a preview of the appointment details on the same page after submission, including `AppointmentConfirmation.js` content (e.g., date, time, service type, `scheduled` message, calendar links, notes). Display the shareable confirmation link inline (e.g., `/appointment-confirmation/<id>`) instead of redirecting to a separate page. Aims for a seamless desktop experience.
+- **Effort**: ~4-6 hours
+- **Priority**: High - Improves workflow efficiency and UX.
+
+[ ] **Email-Friendly Message Format**
+
+- **Description**: Add a formatted version of the `scheduled` message (and optionally others) in `Messages.js` or `AppointmentScheduler.js`, optimized for copy-pasting into emails. Include appointment details (e.g., date, time, location) in a clean, readable block (e.g., plain text with line breaks). Provide a "Copy to Clipboard" button for ease.
+- **Effort**: ~2-3 hours
+- **Priority**: Medium - Enhances client communication flexibility.
+
+[ ] **Streamline Messages Page Layout**
+
+- **Description**: Redesign `Messages.js` layout for a more compact, desktop-friendly view. Shrink oversized buttons, stack textareas vertically or use a grid, and maximize visible content per screen (e.g., all 4 messages + business info without scrolling on a standard desktop). Keep Kawaii styling but prioritize clarity and space efficiency.
+- **Effort**: ~3-4 hours
+- **Priority**: Medium - Boosts usability, especially for desktop users.
+
 [x] **Messages Section**
 
 - **Description**: Add a "Messages" section in `Messages.js` for customizable global default messages, stored in `messages` table (`id`, `user_id`, `event_type`, `default_message`). Includes `scheduled` (used as intro in `AppointmentConfirmation.js`), `rescheduled`, `cancelled`, `no_show` (displayed as "No-Show"). Moved `parking_instructions`, `office_directions`, `custom_info` to `business_profile` (nullable, blank by default), shown in confirmation "Notes" (bulleted list) if populated, with business name in location fields. Default messages now populate on first dashboard load (`Dashboard.js`) instead of signup to avoid RLS conflicts.
@@ -46,6 +64,7 @@ This file tracks tasks and progress for CalenBooker development. Functional chan
 - **Description**: Address `auth_users_exposed` by restricting `users_view` (`anon` access) and moving email checks to a secure function or backend.
 - **Effort**: ~2-4 hours
 - **Priority**: Medium - Resolves Supabase security warning.
+- **Completed**: Restricted `users_view` to `authenticated`, added `check_email_exists` function, updated `SignupForm.js` to use RPC.
 
 ## Long-Term Tasks
 
@@ -208,3 +227,4 @@ This file tracks tasks and progress for CalenBooker development. Functional chan
 11. **Terms Agreement on Signup**: Added checkbox to signup form.
 12. **Error Pages**: Added Kawaii 404 page.
 13. **Messages Section**: Implemented message management, integrated into confirmation, fixed signup by moving message initialization to dashboard.
+14. **Supabase Security Fixes**: Resolved `auth_users_exposed`, `security_definer_view`, `function_search_path_mutable` for `insert_default_messages`, set OTP expiry to 1 hour, enabled leaked password protection.
