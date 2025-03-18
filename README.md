@@ -64,7 +64,7 @@ Start with these core files to understand the project:
    - **Pages (`frontend/src/pages/`)**:
      - `Home.js`: Landing page (`/`) for unauthenticated users with a pastel gradient hero, animated feature cards, inline login/signup forms (toggle via "Login" and "Get Started" buttons), and responsive design.
      - `AuthConfirm.js`: Email confirmation redirect (`/auth/confirm`), autologins to `/dashboard` or redirects to `/` on failure.
-     - `Dashboard.js`: Owner dashboard (`/dashboard`) with an appointments table (left-aligned names, centered data).
+     - `Dashboard.js`: Owner dashboard (`/dashboard`) with an appointments table (left-aligned names, centered data). Initializes default messages on first load.
      - `BusinessProfile.js`: Profile editor (`/business-profile`) with a form (`FormField`), auto-populates sample data, includes a time zone dropdown (`time_zone` column), and a Kawaii-styled preview button.
      - `AppointmentScheduler.js`: Booking form (`/appointment-scheduler`) with profile check, auto-populates recent client data, includes "Service Type" (dropdown: "Haircut," "Consultation," "Shave," "Other") and "Status" (dropdown: "Confirmed," "Pending," "Cancelled"; default "Confirmed") saved to `appointments`.
      - `AppointmentConfirmation.js`: Confirmation page (`/appointment-confirmation/:id`) with details (business name in location, `service_type`, `time_zone` with time), calendar integration (`.ics`, Google Calendar, Outlook) via centered logos, and the `scheduled` message from `messages` as the intro. Includes a "Notes" section (bulleted list) with `parking_instructions`, `office_directions`, `custom_info` from `business_profile` if populated.
@@ -103,13 +103,15 @@ Start with these core files to understand the project:
    - **Tables**:
      - `business_profile`: Business details with `time_zone`, `parking_instructions`, `office_directions`, `custom_info` (nullable, blank by default).
      - `appointments`: Appointment records with `service_type`, `status`.
-     - `messages`: Event messages (`scheduled`, `rescheduled`, `cancelled`, `no_show`), auto-populated by trigger.
-   - **Views**: `users_view` for email checks (optional, in `users_view_setup.sql`).
+     - `messages`: Event messages (`scheduled`, `rescheduled`, `cancelled`, `no_show`), populated on first dashboard load.
+   - **Views**: `users_view` for email checks during signup (grants `anon` `SELECT`, pending security fix for `auth_users_exposed`).
    - **RLS**: Policies for `INSERT`, `UPDATE`, `SELECT` (authenticated users) and public `SELECT` on `messages`.
    - **Snippets**:
-     - `create_tables.sql`: Table definitions and trigger for `messages`.
+     - `create_tables.sql`: Table definitions with manual `insert_default_messages` function.
      - `rls.sql`: RLS policies.
-     - `users_view_setup.sql`: (Optional) `users_view` setup.
+     - `users_view_setup.sql`: `users_view` setup with `anon` access.
+     - `reset_database.sql`: Drops all tables/views/functions for full reset.
+     - `purge_tables.sql`: Truncates tables (excludes `auth.users`) for data reset.
 
 5. **Client Appointment Notification System**:
 
@@ -125,11 +127,11 @@ Start with these core files to understand the project:
 - Business profile setup with time zone.
 - Appointment booking with service type and status.
 - Confirmation page with calendar integration, `scheduled` message, and optional notes.
-- Messages management for event messages and business info.
+- Messages management for event messages and business info, initialized on first dashboard load.
 
 ## Getting Started
 
-1. **Supabase**: Create a project, run `supabase/create_tables.sql` and `supabase/rls.sql`, update `frontend/.env`.
+1. **Supabase**: Create a project, run `supabase/reset_database.sql` (if resetting), then `create_tables.sql`, `rls.sql`, `users_view_setup.sql`, update `frontend/.env`.
 2. **Local Run**: `cd frontend`, `npm install`, `npm start`.
 3. **Test**: Sign up, set up a profile, book an appointment, check confirmation.
 

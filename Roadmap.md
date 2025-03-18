@@ -1,6 +1,6 @@
 # CalenBooker Roadmap
 
-This file tracks tasks and progress for CalenBooker development. Functional changes from completed tasks are reflected in `README.md`, with broad milestones noted here. Last updated: March 15, 2025.
+This file tracks tasks and progress for CalenBooker development. Functional changes from completed tasks are reflected in `README.md`, with broad milestones noted here. Last updated: March 18, 2025.
 
 ## Short-Term Tasks
 
@@ -30,16 +30,22 @@ This file tracks tasks and progress for CalenBooker development. Functional chan
 
 [x] **Messages Section**
 
-- **Description**: Add a "Messages" section in `Messages.js` (not `AppointmentScheduler.js`) for customizable global default messages, stored in `messages` table (`id`, `user_id`, `event_type`, `default_message`) with a trigger auto-populating on signup. Includes `scheduled` (used as intro in `AppointmentConfirmation.js`), `rescheduled`, `cancelled`, `no_show` (displayed as "No-Show"). Moved `parking_instructions`, `office_directions`, `custom_info` to `business_profile` (nullable, blank by default), shown in confirmation "Notes" (bulleted list) if populated, with business name in location fields.
+- **Description**: Add a "Messages" section in `Messages.js` for customizable global default messages, stored in `messages` table (`id`, `user_id`, `event_type`, `default_message`). Includes `scheduled` (used as intro in `AppointmentConfirmation.js`), `rescheduled`, `cancelled`, `no_show` (displayed as "No-Show"). Moved `parking_instructions`, `office_directions`, `custom_info` to `business_profile` (nullable, blank by default), shown in confirmation "Notes" (bulleted list) if populated, with business name in location fields. Default messages now populate on first dashboard load (`Dashboard.js`) instead of signup to avoid RLS conflicts.
 - **Effort**: ~4-6 hours
 - **Priority**: Medium - Enhances customization.
-- **Completed**: Implemented `Messages.js` with edit/revert, integrated into confirmation with notes and calendar events.
+- **Completed**: Implemented `Messages.js` with edit/revert, integrated into confirmation with notes and calendar events, fixed signup conflict by moving message initialization to dashboard.
 
 [ ] **Client Feedback**
 
 - **Description**: Add a "Feedback" link on `/appointment-confirmation/<id>` (public), store in a `feedback` table.
 - **Effort**: ~4-6 hours
 - **Priority**: Medium - Improves service quality, client engagement.
+
+[ ] **Secure `users_view` Access**
+
+- **Description**: Address `auth_users_exposed` by restricting `users_view` (`anon` access) and moving email checks to a secure function or backend.
+- **Effort**: ~2-4 hours
+- **Priority**: Medium - Resolves Supabase security warning.
 
 ## Long-Term Tasks
 
@@ -201,4 +207,4 @@ This file tracks tasks and progress for CalenBooker development. Functional chan
 10. **Create Footer Pages**: Added static pages linked from footer.
 11. **Terms Agreement on Signup**: Added checkbox to signup form.
 12. **Error Pages**: Added Kawaii 404 page.
-13. **Messages Section**: Implemented message management, integrated into confirmation.
+13. **Messages Section**: Implemented message management, integrated into confirmation, fixed signup by moving message initialization to dashboard.
