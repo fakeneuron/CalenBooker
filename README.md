@@ -37,14 +37,7 @@ To run locally:
 
 ## Instructions for AI
 
-Start with these core files to understand the project:
-
-- `README.md`: Project overview and setup.
-- `frontend/src/App.js`: Root component with routing and auth.
-- `frontend/src/supabaseClient.js`: Supabase client initialization.
-- `supabase/create_tables.sql`: Database structure.
-- `Roadmap.md`: Tasks and progress.
-  Request additional files from "Project Structure and Functionality" as needed.
+Provide full updated files and specific code snippets for changes. For significant updates to `README.md` or `Roadmap.md`, share the full file; for minor edits, provide the updated section (e.g., task A.3).
 
 ## Project Structure and Functionality
 

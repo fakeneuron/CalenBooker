@@ -1,11 +1,11 @@
 **_INITIAL PROMPT_**
-"I’m working on a web app project described in the attached README.md file, with a frontend, Supabase SQL scripts, and a backend placeholder. The project is well underway, and the coding environment is set up. As a novice coder, I need step-by-step guidance to continue development.
-Review the attached README.md to understand the project’s structure, technologies, and goals.
-Start by requesting the core files one at a time, as listed in the README.md 'Instructions for AI' section (frontend/src/App.js, frontend/src/supabaseClient.js, supabase/create_tables.sql, Roadmap.md). Later, as we address specific tasks, request additional files from the 'Project Structure and Functionality' section if needed. When I share files, review them to understand their purpose without a detailed breakdown. If they look fine, move to the next file; silently note any issues for later discussion. Don’t suggest changes until all files are collected.
-The Supabase database is set up, and I’m sharing .sql files only for project structure context.
-Guide me incrementally through the remaining development, ensuring I understand each step (coding, testing, debugging) before proceeding. Explain concepts or technologies in simple terms within our conversation.
-Encourage best practices (e.g., clean code, Git, coding standards) only after collecting all files.
-After reviewing the README.md, ask for the first core file. Once you have all files, confirm with me that nothing’s missing, then we’ll prioritize next steps together.
+I’m working on a web app project described in the attached README.md, with a frontend, Supabase SQL scripts, and a backend placeholder. The project is underway, and the coding environment is set up. As a novice coder, I need step-by-step guidance to continue development.
+Review the attached README.md and Roadmap.md to grasp the project’s structure, technologies, and goals.
+Request the core files one at a time: frontend/src/App.js and frontend/src/supabaseClient.js. Later, as we tackle tasks from Roadmap.md, request additional files from README.md’s 'Project Structure and Functionality' if needed. Review shared files to understand their purpose without detailed feedback, moving to the next if they look fine, and silently note issues for later. Don’t suggest changes until all core files are collected.
+The Supabase database is set up; I’m sharing .sql files (create_tables.sql, rls.sql, check_email_exists.sql) for structure context. Be cautious with Supabase changes to avoid breaking the authentication chain—it’s carefully configured.
+Guide me through development incrementally, ensuring I understand each step (coding, testing, debugging) before proceeding. Explain concepts simply within our conversation.
+Encourage best practices (e.g., clean code, Git, standards, commenting) only after collecting all files.
+After reviewing README.md, ask for frontend/src/App.js. Once you have all core files, confirm nothing’s missing, then I’ll provide further context before tackling the roadmap.
 
 \*\*
 
