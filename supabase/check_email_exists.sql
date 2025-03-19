@@ -1,4 +1,4 @@
--- Define secure function to check email existence during signup
+-- Configures secure email existence check for signup process, replacing users_view
 DROP FUNCTION IF EXISTS public.check_email_exists(TEXT);
 CREATE OR REPLACE FUNCTION public.check_email_exists(email_to_check TEXT)
 RETURNS BOOLEAN AS $$

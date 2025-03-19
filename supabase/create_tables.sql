@@ -1,4 +1,4 @@
--- Create Tables
+-- Defines core tables and utility functions for CalenBooker schema (appointments, profiles, messages)
 DROP TABLE IF EXISTS appointments;
 DROP TABLE IF EXISTS business_profile;
 DROP TABLE IF EXISTS messages;
