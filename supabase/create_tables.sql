@@ -1,4 +1,6 @@
--- Defines core tables and utility functions for CalenBooker schema (appointments, profiles, messages)
+-- Sets up the core database schema for CalenBooker, including tables for business profiles, appointments, and messages.
+-- Includes utility functions to populate default messages and execute SQL securely.
+-- Tables reference auth.users for user-specific data; run this first to establish the structure.
 DROP TABLE IF EXISTS appointments;
 DROP TABLE IF EXISTS business_profile;
 DROP TABLE IF EXISTS messages;

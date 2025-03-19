@@ -18,12 +18,7 @@ To run locally:
 - **Frontend**:
   - Navigate: `cd frontend`
   - Install: `npm install`
-  - Create `frontend/.env` with:
-    ```
-    REACT_APP_SUPABASE_URL=https://your-project.supabase.co
-    REACT_APP_SUPABASE_ANON_KEY=your-anon-key
-    REACT_APP_AUTH_REDIRECT=http://localhost:4000/auth/confirm
-    ```
+  - Create `frontend/.env` and populate with your Supabase keys and redirect URL. See `frontend/.env.example` for a template of required environment variables.
   - Run: `npm start` (opens `http://localhost:4000`)
 - **Dependencies**: Managed via `frontend/package.json`.
 - **Supabase**: Set up a project in [Supabase Dashboard](https://supabase.com/dashboard), run SQL snippets from `supabase/` in the SQL Editor, configure Authentication settings, and add URL/Anon Key to `.env`.

@@ -296,3 +296,15 @@ C.15 **Fix Confirmation Resend**
 C.16 **Database Reset and Security Update**
 
 - Description: Dropped `users_view`, rebuilt tables and functions to resolve lingering security errors.
+
+C.17 **Supabase Advisor Final Sweep**
+
+- Description: Refreshed Supabase Advisor to confirm only the pro-tier "leaked passwords" warning remains, ensuring no new issues post-push.
+
+C.18 **SQL Files Comment Polish**
+
+- Description: Enhanced top-level comments in `check_email_exists.sql`, `create_tables.sql`, `rls.sql`, `reset_database.sql`, and `purge_tables.sql` for clarity and context.
+
+C.19 **Add .env.example**
+
+- Description: Created `frontend/.env.example` with a template for environment variables to simplify frontend setup.

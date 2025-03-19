@@ -1,4 +1,5 @@
--- Configures secure email existence check for signup process, replacing users_view
+-- Checks if an email is already registered in auth.users for signup validation.
+-- Replaces the less secure users_view with a SECURITY DEFINER function, ensuring safe anon access.
 DROP FUNCTION IF EXISTS public.check_email_exists(TEXT);
 CREATE OR REPLACE FUNCTION public.check_email_exists(email_to_check TEXT)
 RETURNS BOOLEAN AS $$

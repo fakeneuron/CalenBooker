@@ -1,4 +1,5 @@
--- Enable RLS for Tables
+-- Configures Row-Level Security (RLS) for CalenBooker tables to restrict data access.
+-- Authenticated users can manage their own records; messages are publicly readable for confirmations.
 ALTER TABLE business_profile ENABLE ROW LEVEL SECURITY;
 ALTER TABLE appointments ENABLE ROW LEVEL SECURITY;
 ALTER TABLE messages ENABLE ROW LEVEL SECURITY;
