@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import ReCAPTCHA from 'react-google-recaptcha';
 import supabase from '../supabaseClient';
 import { container, input, button, label, subText, link } from '../styles';
 
@@ -14,6 +15,9 @@ const SignupForm = ({ onSignupSuccess }) => {
     special: false,
   });
   const [termsAgreed, setTermsAgreed] = useState(false);
+  const [captchaToken, setCaptchaToken] = useState(null);
+
+  const enableCaptcha = process.env.REACT_APP_ENABLE_CAPTCHA === 'true';
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -33,6 +37,10 @@ const SignupForm = ({ onSignupSuccess }) => {
     }
   };
 
+  const handleCaptchaChange = (token) => {
+    setCaptchaToken(token);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!isPasswordValid) {
@@ -41,6 +49,10 @@ const SignupForm = ({ onSignupSuccess }) => {
     }
     if (!termsAgreed) {
       alert('Please agree to the Terms of Service and Privacy Policy.');
+      return;
+    }
+    if (enableCaptcha && !captchaToken) {
+      alert('Please complete the CAPTCHA.');
       return;
     }
 
@@ -124,6 +136,14 @@ const SignupForm = ({ onSignupSuccess }) => {
             <Link to="/privacy" className={link}>Privacy Policy</Link>
           </label>
         </div>
+        {enableCaptcha && (
+          <div className="mt-4">
+            <ReCAPTCHA
+              sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
+              onChange={handleCaptchaChange}
+            />
+          </div>
+        )}
         <button type="submit" className={`${button} w-full`} disabled={!termsAgreed}>
           Sign Up
         </button>

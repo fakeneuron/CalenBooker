@@ -48,38 +48,38 @@ Provide full updated files and specific code snippets for changes. For significa
 
 2. Frontend Setup:
 
-   - Tailwind CSS via `index.css` and `styles.js` (centralized Kawaii styles: pastel colors, rounded shapes, playful shadows).
-   - Pages (`frontend/src/pages/`):
-     - `Home.js`: Landing page (`/`) for unauthenticated users with a pastel gradient hero, animated feature cards, inline login/signup forms (toggle via "Login" and "Get Started" buttons), and responsive design.
-     - `AuthConfirm.js`: Email confirmation redirect (`/auth/confirm`), autologins to `/dashboard` or redirects to `/` on failure.
-     - `Dashboard.js`: Owner dashboard (`/dashboard`) with an appointments table (left-aligned names, centered data). Initializes default messages on first load.
-     - `BusinessProfile.js`: Profile editor (`/business-profile`) with a form (`FormField`), auto-populates sample data, includes a time zone dropdown (`time_zone` column), and a Kawaii-styled preview button.
-     - `AppointmentScheduler.js`: Booking form (`/appointment-scheduler`) with profile check, auto-populates recent client data, includes "Service Type" (dropdown: "Haircut," "Consultation," "Shave," "Other") and "Status" (dropdown: "Confirmed," "Pending," "Cancelled"; default "Confirmed") saved to `appointments`.
-     - `AppointmentConfirmation.js`: Confirmation page (`/appointment-confirmation/:id`) with details (business name in location, `service_type`, `time_zone` with time), calendar integration (`.ics`, Google Calendar, Outlook) via centered logos, and the `scheduled` message from `messages` as the intro. Includes a "Notes" section (bulleted list) with `parking_instructions`, `office_directions`, `custom_info` from `business_profile` if populated.
-     - `Messages.js`: Messages editor (`/messages`) with textareas for `scheduled`, `rescheduled`, `cancelled`, `no_show` (stored in `messages`, "No-Show" styled), and `parking_instructions`, `office_directions`, `custom_info` (stored in `business_profile`). Features "Save" and "Revert to Default" buttons, accessible via `Navbar.js` dropdown.
-     - `Terms.js`: Terms of Service (`/terms`), Kawaii-styled, linked from footer/signup.
-     - `Privacy.js`: Privacy Policy (`/privacy`), Kawaii-styled, linked from footer/signup.
-     - `Support.js`: Support page (`/support`) with placeholder email/FAQ, Kawaii-styled, linked from footer.
-     - `About.js`: About page (`/about`) with mission/team placeholder, Kawaii-styled, linked from footer.
-     - `NotFound.js`: 404 page with Kawaii design and back-to-home button.
-   - Components (`frontend/src/components/`):
-     - `Navbar.js`: Fixed navbar for authenticated users (via `App.js`), with mobile hamburger menu ("Home" to `/dashboard`, "Book Appointment" to `/appointment-scheduler`) and user icon dropdown ("Business Profile," "Messages," "Logout").
-     - `AppointmentsTable.js`: Sortable table (date/time ascending) with "Service Type" and colored "Status" (green "Confirmed," yellow "Pending," red "Cancelled").
-     - `FormField.js`: Reusable form field for inputs/dropdowns, used in `BusinessProfile.js` and `AppointmentScheduler.js`.
-     - `Footer.js`: Kawaii-styled, non-fixed footer with links to Terms, Privacy, Support, About.
-     - `LoginForm.js`: Inline login form in `Home.js` with Supabase auth.
-     - `SignupForm.js`: Inline signup form in `Home.js` with terms checkbox and Supabase auth.
-   - Root Files (`frontend/src/`):
-     - `App.js`: Routing and auth state management, with 404 catch-all and navbar/footer padding.
-     - `index.js`: Entry point rendering `App.js`.
-     - `index.css`: Tailwind setup with custom animations (e.g., fade-in).
-     - `styles.js`: Tailwind classes for Kawaii styling app-wide.
-     - `supabaseClient.js`: Supabase client with Anon Key from `.env`.
-   - Routing: `react-router-dom@7.2.0`.
-   - Dependencies: `react@19.0.0`, `@supabase/supabase-js@2.49.1`, etc. (see `frontend/package.json`).
-   - SPA Routing: `frontend/public/_redirects` (`/* /index.html 200`) for Netlify.
-   - PostCSS: `frontend/postcss.config.js` with `tailwindcss` and `autoprefixer`.
-   - Env Check: `frontend/scripts/checkEnv.js` verifies `.env` vars.
+- Tailwind CSS via `index.css` and `styles.js` (centralized Kawaii styles: pastel colors, rounded shapes, playful shadows).
+- Pages (`frontend/src/pages/`):
+  - `Home.js`: Landing page (`/`) for unauthenticated users with a pastel gradient hero, animated feature cards, inline login/signup forms (toggle via "Login" and "Get Started" buttons), and responsive design.
+  - `AuthConfirm.js`: Email confirmation redirect (`/auth/confirm`), autologins to `/dashboard` or redirects to `/` on failure.
+  - `Dashboard.js`: Owner dashboard (`/dashboard`) with an appointments table (left-aligned names, centered data). Initializes default messages on first load.
+  - `BusinessProfile.js`: Profile editor (`/business-profile`) with a form (`FormField`), auto-populates sample data, includes a time zone dropdown (`time_zone` column), and a Kawaii-styled preview button.
+  - `AppointmentScheduler.js`: Booking form (`/appointment-scheduler`) with profile check, auto-populates recent client data, includes "Service Type" (dropdown: "Haircut," "Consultation," "Shave," "Other") and "Status" (dropdown: "Confirmed," "Pending," "Cancelled"; default "Confirmed") saved to `appointments`.
+  - `AppointmentConfirmation.js`: Confirmation page (`/appointment-confirmation/:id`) with details (business name in location, `service_type`, `time_zone` with time), calendar integration (`.ics`, Google Calendar, Outlook) via centered logos, and the `scheduled` message from `messages` as the intro. Includes a "Notes" section (bulleted list) with `parking_instructions`, `office_directions`, `custom_info` from `business_profile` if populated.
+  - `Messages.js`: Messages editor (`/messages`) with textareas for `scheduled`, `rescheduled`, `cancelled`, `no_show` (stored in `messages`, "No-Show" styled), and `parking_instructions`, `office_directions`, `custom_info` (stored in `business_profile`). Features "Save" and "Revert to Default" buttons, accessible via `Navbar.js` dropdown.
+  - `Terms.js`: Terms of Service (`/terms`), Kawaii-styled, linked from footer/signup.
+  - `Privacy.js`: Privacy Policy (`/privacy`), Kawaii-styled, linked from footer/signup.
+  - `Support.js`: Support page (`/support`) with placeholder email/FAQ, Kawaii-styled, linked from footer.
+  - `About.js`: About page (`/about`) with mission/team placeholder, Kawaii-styled, linked from footer.
+  - `NotFound.js`: 404 page with Kawaii design and back-to-home button.
+- Components (`frontend/src/components/`):
+  - `Navbar.js`: Fixed navbar for authenticated users (via `App.js`), with mobile hamburger menu ("Home" to `/dashboard`, "Book Appointment" to `/appointment-scheduler`) and user icon dropdown ("Business Profile," "Messages," "Logout").
+  - `AppointmentsTable.js`: Sortable table (date/time ascending) with "Service Type" and colored "Status" (green "Confirmed," yellow "Pending," red "Cancelled").
+  - `FormField.js`: Reusable form field for inputs/dropdowns, used in `BusinessProfile.js` and `AppointmentScheduler.js`.
+  - `Footer.js`: Kawaii-styled, non-fixed footer with links to Terms, Privacy, Support, About.
+  - `LoginForm.js`: Inline login form in `Home.js` with Supabase auth.
+  - `SignupForm.js`: Inline signup form in `Home.js` with terms checkbox, Supabase auth, and optional Google reCAPTCHA v2 (toggled via `REACT_APP_ENABLE_CAPTCHA`, default `false` for testing). Requires `REACT_APP_RECAPTCHA_SITE_KEY` in `.env`, generated at [Google reCAPTCHA admin](https://www.google.com/recaptcha/admin/create) with v2 Checkbox type. Register `localhost` and `127.0.0.1` as domains for local testing, alongside `delparte.com` for live use.
+- Root Files (`frontend/src/`):
+  - `App.js`: Routing and auth state management, with 404 catch-all and navbar/footer padding.
+  - `index.js`: Entry point rendering `App.js`.
+  - `index.css`: Tailwind setup with custom animations (e.g., fade-in).
+  - `styles.js`: Tailwind classes for Kawaii styling app-wide.
+  - `supabaseClient.js`: Supabase client with Anon Key from `.env`.
+- Routing: `react-router-dom@7.2.0`.
+- Dependencies: `react@19.0.0`, `@supabase/supabase-js@2.49.1`, `react-google-recaptcha` (added for CAPTCHA), etc. (see `frontend/package.json`).
+- SPA Routing: `frontend/public/_redirects` (`/* /index.html 200`) for Netlify.
+- PostCSS: `frontend/postcss.config.js` with `tailwindcss` and `autoprefixer`.
+- Env Check: `frontend/scripts/checkEnv.js` verifies `.env` vars.
 
 3. Backend Setup:
 

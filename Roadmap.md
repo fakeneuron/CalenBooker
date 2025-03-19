@@ -85,6 +85,18 @@ A.13 Identify Missing Features from Competitors
 - Effort: ~3-4 hours
 - Priority: Medium - Strategic planning for market competitiveness.
 
+A.14 Resolve npm Vulnerabilities
+
+- Description: Address 11 npm vulnerabilities (7 high) identified after adding `react-google-recaptcha`. Run `npm audit` to list issues, update dependencies where possible (e.g., `npm update`), and use `npm audit fix` for safe resolutions. Document remaining vulnerabilities for manual review or future dependency updates.
+- Effort: ~2-4 hours
+- Priority: Medium - Improves security and maintainability.
+
+A.15 Clean Up ESLint Warnings
+
+- Description: Fix `no-unused-vars` warnings in `AppointmentConfirmation.js` (Line 172: `businessName`) and `Messages.js` (Line 107: `handleRevertBusinessInfo`). Remove or use the variables/functions, ensuring no functionality breaks. Improves code cleanliness and reduces console noise.
+- Effort: ~1-2 hours
+- Priority: Low - Minor cleanup for better maintainability.
+
 ## B. Long-Term Tasks
 
 B.1 Premium Version
@@ -312,3 +324,7 @@ C.19 Add .env.example
 C.20 Code Lean-Up
 
 - Description: Removed debug logs, added minimal comments, and standardized CSS usage across all pages and components in `frontend/src/pages/` and `frontend/src/components/`. Fixed login popup alignment issue caused by `styles.js` changes.
+
+C.21 Add CAPTCHA to Signup
+
+- Description: Added Google reCAPTCHA v2 to `SignupForm.js`, enabled via `REACT_APP_ENABLE_CAPTCHA=true` (default `false` for testing), requires `REACT_APP_RECAPTCHA_SITE_KEY` in `.env`. Registered `localhost` and `127.0.0.1` as domains for local testing. Prevents signup abuse, tested and working locally.
