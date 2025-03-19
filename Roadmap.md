@@ -245,86 +245,38 @@ B.24 Affiliate Links or Ads
 
 ## C. Progress (Completed)
 
-C.1 Initialize Project
+C.1 Initial Setup
 
-- Description: Set up Git repo and structure.
+- Description: Established core project structure and deployment.
+  - Set up Git repo and basic file structure.
+  - Built React frontend with routing, Tailwind CSS, and Supabase integration.
+  - Created minimal Express backend for future v2 features.
+  - Deployed frontend to Netlify with HTTPS.
 
-C.2 Frontend Setup
+C.2 Frontend Enhancements
 
-- Description: Built React frontend with routing, Tailwind CSS, and styles.
+- Description: Improved UI/UX and added core features.
+  - Added inline login/signup on landing page with autologin.
+  - Enhanced appointment scheduler with service type, status, and time zone.
+  - Created static pages (Terms, Privacy, Support, About, 404) with Kawaii styling.
+  - Refined navigation (navbar, footer links) and cleaned up code (removed logs, standardized CSS).
 
-C.3 Backend Setup
+C.3 Database and Security
 
-- Description: Minimal Express backend for v2.
+- Description: Set up Supabase database and hardened security.
+  - Implemented SQL snippets for tables, RLS, and functions (e.g., `check_email_exists`).
+  - Fixed security issues: dropped `users_view`, secured functions, set OTP expiry, enabled password checks.
+  - Polished SQL comments and confirmed Supabase Advisor compliance.
 
-C.4 Supabase SQL Snippets
+C.4 Appointment System
 
-- Description: Implemented tables, views, and RLS.
+- Description: Built client-facing appointment features.
+  - Added scheduling and notification system with calendar integration.
+  - Implemented customizable messages section, integrated into confirmation page.
 
-C.5 Client Appointment Notification System
+C.5 Authentication Fixes
 
-- Description: Added scheduling and calendar integration.
-
-C.6 Deployment
-
-- Description: Deployed frontend to Netlify with HTTPS.
-
-C.7 Appointment Scheduler Enhancements
-
-- Description: Added "Service Type," "Status," "Time Zone," landing page redesign, navbar updates, and UI polish.
-
-C.8 Navigation Enhancements
-
-- Description: Added "Home" link and refined public nav.
-
-C.9 Inline Login/Signup on Landing Page
-
-- Description: Integrated forms into `Home.js` with autologin.
-
-C.10 Create Footer Pages
-
-- Description: Added static pages linked from footer.
-
-C.11 Terms Agreement on Signup
-
-- Description: Added checkbox to signup form.
-
-C.12 Error Pages
-
-- Description: Added Kawaii 404 page.
-
-C.13 Messages Section
-
-- Description: Implemented message management, integrated into confirmation, fixed signup by moving message initialization to dashboard.
-
-C.14 Supabase Security Fixes
-
-- Description: Resolved `auth_users_exposed`, `security_definer_view`, `function_search_path_mutable` for `insert_default_messages`, set OTP expiry to 1 hour, enabled leaked password protection.
-
-C.15 Fix Confirmation Resend
-
-- Description: Fixed redirect mismatch in `SignupForm.js` and `LoginForm.js` for consistent dev/live URLs.
-
-C.16 Database Reset and Security Update
-
-- Description: Dropped `users_view`, rebuilt tables and functions to resolve lingering security errors.
-
-C.17 Supabase Advisor Final Sweep
-
-- Description: Refreshed Supabase Advisor to confirm only the pro-tier "leaked passwords" warning remains, ensuring no new issues post-push.
-
-C.18 SQL Files Comment Polish
-
-- Description: Enhanced top-level comments in `check_email_exists.sql`, `create_tables.sql`, `rls.sql`, `reset_database.sql`, and `purge_tables.sql` for clarity and context.
-
-C.19 Add .env.example
-
-- Description: Created `frontend/.env.example` with a template for environment variables to simplify frontend setup.
-
-C.20 Code Lean-Up
-
-- Description: Removed debug logs, added minimal comments, and standardized CSS usage across all pages and components in `frontend/src/pages/` and `frontend/src/components/`. Fixed login popup alignment issue caused by `styles.js` changes.
-
-C.21 Add CAPTCHA to Signup
-
-- Description: Added Google reCAPTCHA v2 to `SignupForm.js`, enabled via `REACT_APP_ENABLE_CAPTCHA=true` (default `false` for testing), requires `REACT_APP_RECAPTCHA_SITE_KEY` in `.env`. Registered `localhost` and `127.0.0.1` as domains for local testing. Prevents signup abuse, tested and working locally.
+- Description: Improved auth flow reliability.
+  - Fixed confirmation resend redirect mismatch for dev/live consistency.
+  - Added terms agreement checkbox to signup.
+  - Added Google reCAPTCHA v2 to signup, enabled with domain support for `localhost` and `127.0.0.1`.
