@@ -1,18 +1,8 @@
--- Reset CalenBooker database by dropping all tables, views, functions, and triggers
--- Save this for future resets
-
--- Drop tables with CASCADE to remove dependencies
-DROP TABLE IF EXISTS messages CASCADE;
+-- Reset entire database (drops all custom objects)
 DROP TABLE IF EXISTS appointments CASCADE;
 DROP TABLE IF EXISTS business_profile CASCADE;
-
--- Drop views
-DROP VIEW IF EXISTS public.users_view CASCADE;
-
--- Drop functions
-DROP FUNCTION IF EXISTS public.insert_default_messages() CASCADE;
+DROP TABLE IF EXISTS messages CASCADE;
+-- Removed DROP VIEW public.users_view (no longer exists)
 DROP FUNCTION IF EXISTS public.insert_default_messages(UUID) CASCADE;
 DROP FUNCTION IF EXISTS public.check_email_exists(TEXT) CASCADE;
-
--- Drop triggers
-DROP TRIGGER IF EXISTS trigger_insert_default_messages ON auth.users CASCADE;
+DROP FUNCTION IF EXISTS public.execute_sql(TEXT) CASCADE;

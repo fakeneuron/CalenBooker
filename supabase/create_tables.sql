@@ -43,6 +43,7 @@ CREATE TABLE messages (
   UNIQUE (user_id, event_type)
 );
 
+-- Insert default messages for new users (called from Dashboard.js)
 CREATE OR REPLACE FUNCTION public.insert_default_messages(user_id_input UUID)
 RETURNS VOID AS $$
 BEGIN
@@ -56,7 +57,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql SET search_path = public;
 
--- Add execute_sql fix (if yours)
+-- Execute arbitrary SQL with fixed search_path for security
 DROP FUNCTION IF EXISTS public.execute_sql(TEXT);
 CREATE OR REPLACE FUNCTION public.execute_sql(sql_text TEXT)
 RETURNS VOID AS $$
