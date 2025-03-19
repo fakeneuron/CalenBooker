@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import supabase from '../supabaseClient';
-import { container, input, buttonPrimary, errorText, link, label } from '../styles';
+import { container, input, buttonPrimary, errorText, link, label, successText } from '../styles';
 
 const LoginForm = ({ onLoginSuccess }) => {
   const [formData, setFormData] = useState({
@@ -18,6 +18,7 @@ const LoginForm = ({ onLoginSuccess }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      // Log in with Supabase Auth
       const { error } = await supabase.auth.signInWithPassword({
         email: formData.email,
         password: formData.password,
@@ -37,6 +38,7 @@ const LoginForm = ({ onLoginSuccess }) => {
   const handleResendConfirmation = async () => {
     try {
       const redirectUrl = process.env.REACT_APP_AUTH_REDIRECT || 'http://localhost:4000/auth/confirm';
+      // Resend confirmation email with custom redirect
       const { error } = await supabase.auth.resend({
         type: 'signup',
         email: formData.email,
@@ -91,7 +93,7 @@ const LoginForm = ({ onLoginSuccess }) => {
             )}
           </div>
         )}
-        {resendMessage && <p className="text-green-500 text-sm">{resendMessage}</p>}
+        {resendMessage && <p className={`${successText} text-sm`}>{resendMessage}</p>}
         <button type="submit" className={buttonPrimary}>
           Log In
         </button>

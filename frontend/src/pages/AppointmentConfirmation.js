@@ -22,8 +22,10 @@ const AppointmentConfirmation = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    // Fetch appointment, business, and message details
     const fetchAppointmentDetails = async () => {
       try {
+        // Get appointment data
         const { data: appointmentData, error: appointmentError } = await supabase
           .from('appointments')
           .select('client_name, client_email, meeting_date, meeting_time, duration, service_type, user_id')
@@ -32,6 +34,7 @@ const AppointmentConfirmation = () => {
         if (appointmentError) throw appointmentError;
         if (!appointmentData) throw new Error('Appointment not found');
 
+        // Get business profile
         const { data: businessData, error: businessError } = await supabase
           .from('business_profile')
           .select('business_name, address, unit, city, province, postal_code, phone, time_zone, parking_instructions, office_directions, custom_info')
@@ -39,13 +42,14 @@ const AppointmentConfirmation = () => {
           .single();
         if (businessError) throw businessError;
 
+        // Get scheduled message
         const { data: messageData, error: messageError } = await supabase
           .from('messages')
           .select('default_message')
           .eq('user_id', appointmentData.user_id)
           .eq('event_type', 'scheduled')
-          .limit(1) // Ensure one row
-          .single(); // Expect exactly one
+          .limit(1)
+          .single();
         if (messageError) throw new Error('Failed to fetch confirmation message: ' + messageError.message);
         if (!messageData) throw new Error('No scheduled message found');
 
@@ -90,6 +94,7 @@ const AppointmentConfirmation = () => {
 
     const location = `${business.business_name}, ${business.address}${business.unit ? ', ' + business.unit : ''}, ${business.city}, ${business.province} ${business.postal_code}`;
 
+    // Generate iCalendar file content
     const icsContent = [
       'BEGIN:VCALENDAR',
       'VERSION:2.0',

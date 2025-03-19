@@ -9,7 +9,8 @@ import {
   previewButton, 
   previewContainer, 
   previewText, 
-  previewTitle 
+  previewTitle,
+  buttonGroup // Added
 } from '../styles';
 import FormField from '../components/FormField';
 
@@ -29,17 +30,19 @@ const BusinessProfile = () => {
   const [showPreview, setShowPreview] = useState(false);
 
   useEffect(() => {
+    // Fetch existing business profile on load
     const fetchBusinessProfile = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (!session?.user) return;
 
       try {
+        // Load profile data from Supabase
         const { data, error } = await supabase
           .from('business_profile')
           .select('email, business_name, phone, address, unit, city, province, postal_code, time_zone')
           .eq('user_id', session.user.id)
           .single();
-        if (error && error.code !== 'PGRST116') throw error;
+        if (error && error.code !== 'PGRST116') throw error; // PGRST116 means no row found
         if (data) {
           setFormData({
             email: data.email || '',
@@ -75,6 +78,7 @@ const BusinessProfile = () => {
     }
 
     try {
+      // Save or update profile in Supabase
       const { error } = await supabase
         .from('business_profile')
         .upsert({
@@ -112,6 +116,7 @@ const BusinessProfile = () => {
   };
 
   const handlePreview = () => {
+    // Toggle preview of profile data
     setShowPreview(!showPreview);
   };
 
@@ -199,7 +204,7 @@ const BusinessProfile = () => {
           options={timeZoneOptions}
         />
         {error && <p className={errorText}>{error}</p>}
-        <div className="flex space-x-4">
+        <div className={buttonGroup}>
           <button type="submit" className={buttonPrimary}>
             Save Profile
           </button>

@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { container, heading, subText, link } from '../styles';
+import { container, heading, subText, link, sectionTitle } from '../styles';
 
+// Static Privacy Policy page
 const Privacy = () => {
   return (
     <div className={`${container} my-6`}>
@@ -9,14 +10,14 @@ const Privacy = () => {
       <p className={subText}>Last Updated: March 05, 2025</p>
 
       <section className="mt-4">
-        <h3 className="text-xl font-semibold text-purple-600 mb-2">1. Introduction</h3>
+        <h3 className={sectionTitle}>1. Introduction</h3>
         <p className={subText}>
           CalenBooker ("we," "us") respects your privacy. This Privacy Policy explains how we collect, use, and protect your information when you use our appointment scheduling service ("Service"). Questions? Contact us at <a href="mailto:support@calenbooker.com" className={link}>support@calenbooker.com</a> (placeholder email, to be updated).
         </p>
       </section>
 
       <section className="mt-4">
-        <h3 className="text-xl font-semibold text-purple-600 mb-2">2. Information We Collect</h3>
+        <h3 className={sectionTitle}>2. Information We Collect</h3>
         <p className={subText}>
           We collect:
           - <strong>Account Data</strong>: Email and password when you sign up.
@@ -27,7 +28,7 @@ const Privacy = () => {
       </section>
 
       <section className="mt-4">
-        <h3 className="text-xl font-semibold text-purple-600 mb-2">3. How We Use Your Information</h3>
+        <h3 className={sectionTitle}>3. How We Use Your Information</h3>
         <p className={subText}>
           We use your data to:
           - Provide and improve the Service (e.g., scheduling appointments).
@@ -37,7 +38,7 @@ const Privacy = () => {
       </section>
 
       <section className="mt-4">
-        <h3 className="text-xl font-semibold text-purple-600 mb-2">4. Sharing Your Information</h3>
+        <h3 className={sectionTitle}>4. Sharing Your Information</h3>
         <p className={subText}>
           We don’t sell your data. We may share it with:
           - <strong>Service Providers</strong>: Like Supabase (our database host) to run the Service.
@@ -47,14 +48,14 @@ const Privacy = () => {
       </section>
 
       <section className="mt-4">
-        <h3 className="text-xl font-semibold text-purple-600 mb-2">5. Security</h3>
+        <h3 className={sectionTitle}>5. Security</h3>
         <p className={subText}>
           We use reasonable measures (e.g., encryption via Supabase) to protect your data, but no system is 100% secure. You’re responsible for keeping your password safe.
         </p>
       </section>
 
       <section className="mt-4">
-        <h3 className="text-xl font-semibold text-purple-600 mb-2">6. Your Rights</h3>
+        <h3 className={sectionTitle}>6. Your Rights</h3>
         <p className={subText}>
           You can:
           - Access or update your data via your account.
@@ -64,7 +65,7 @@ const Privacy = () => {
       </section>
 
       <section className="mt-4">
-        <h3 className="text-xl font-semibold text-purple-600 mb-2">7. Changes</h3>
+        <h3 className={sectionTitle}>7. Changes</h3>
         <p className={subText}>
           We may update this policy. Check back here for the latest version.
         </p>

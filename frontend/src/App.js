@@ -12,7 +12,7 @@ import Privacy from './pages/Privacy';
 import Support from './pages/Support';
 import About from './pages/About';
 import NotFound from './pages/NotFound';
-import Messages from './pages/Messages'; // New import
+import Messages from './pages/Messages';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 
@@ -45,7 +45,7 @@ function App() {
           <Route path="/dashboard" element={session ? <Dashboard /> : <Navigate to="/" />} />
           <Route path="/business-profile" element={session ? <BusinessProfile /> : <Navigate to="/" />} />
           <Route path="/appointment-scheduler" element={session ? <AppointmentScheduler /> : <Navigate to="/" />} />
-          <Route path="/messages" element={session ? <Messages /> : <Navigate to="/" />} /> {/* New route */}
+          <Route path="/messages" element={session ? <Messages /> : <Navigate to="/" />} />
           <Route path="/auth/confirm" element={<AuthConfirm />} />
           <Route path="/appointment-confirmation/:id" element={<AppointmentConfirmation />} />
           <Route path="/terms" element={<Terms />} />

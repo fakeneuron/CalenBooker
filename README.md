@@ -1,6 +1,6 @@
 # CalenBooker MVP
 
-CalenBooker is a Minimum Viable Product (MVP) for a scheduling application designed to streamline appointment booking for professional businesses (e.g., consultants, tutors, salons). It allows owners to sign up, set up business profiles, and manage client appointments with notifications, featuring a cute, Kawaii-styled interface. Built with **React** (frontend) and **Supabase** (backend), it’s hosted on `github.com/fakeneuron/CalenBooker` (branch: `master`).
+CalenBooker is a Minimum Viable Product (MVP) for a scheduling application designed to streamline appointment booking for professional businesses (e.g., consultants, tutors, salons). It allows owners to sign up, set up business profiles, and manage client appointments with notifications, featuring a cute, Kawaii-styled interface. Built with React (frontend) and Supabase (backend), it’s hosted on `github.com/fakeneuron/CalenBooker` (branch: `master`).
 
 ## Purpose and Vision
 
@@ -8,27 +8,27 @@ CalenBooker simplifies scheduling with minimal signup (email/password, terms agr
 
 ## Coder Environment
 
-- **Coder**: Novice, using Terminal, VS Code, Node.js v20.18.0, npm v11.1.0, Git on Mac OS.
+- Coder: Novice, using Terminal, VS Code, Node.js v20.18.0, npm v11.1.0, Git on Mac OS.
 
 ## Project Setup
 
 To run locally:
 
-- **Clone the Repo**: `git clone https://github.com/fakeneuron/CalenBooker.git`
-- **Frontend**:
+- Clone the Repo: `git clone https://github.com/fakeneuron/CalenBooker.git`
+- Frontend:
   - Navigate: `cd frontend`
   - Install: `npm install`
-  - Create `frontend/.env` and populate with your Supabase keys and redirect URL. See `frontend/.env.example` for a template of required environment variables.
+  - Rename `frontend/.env.example` to `frontend/.env` and populate with your Supabase keys and redirect URL. See `frontend/.env.example` for a template of required environment variables.
   - Run: `npm start` (opens `http://localhost:4000`)
-- **Dependencies**: Managed via `frontend/package.json`.
-- **Supabase**: Set up a project in [Supabase Dashboard](https://supabase.com/dashboard), run SQL snippets from `supabase/` in the SQL Editor, configure Authentication settings, and add URL/Anon Key to `.env`.
-- **Netlify**: Env vars set in dashboard (see Deployment).
-- **Note**: `.env` is excluded from Git via `.gitignore`.
+- Dependencies: Managed via `frontend/package.json`.
+- Supabase: Set up a project in [Supabase Dashboard](https://supabase.com/dashboard), run SQL snippets from `supabase/` in the SQL Editor, configure Authentication settings, and add URL/Anon Key to `.env`.
+- Netlify: Env vars set in dashboard (see Deployment).
+- Note: `.env` is excluded from Git via `.gitignore`.
 
 ## Technical Approach
 
-- **Frontend**: React (`19.0.0`), Tailwind CSS (`3.4.17`) via `styles.js`, Supabase client.
-- **Backend**: Supabase (PostgreSQL, Authentication, Storage); minimal Node.js/Express (`4.21.2`) setup for future v2 features.
+- Frontend: React (`19.0.0`), Tailwind CSS (`3.4.17`) via `styles.js`, Supabase client.
+- Backend: Supabase (PostgreSQL, Authentication, Storage); minimal Node.js/Express (`4.21.2`) setup for future v2 features.
 
 ## Instructions for AI
 
@@ -36,7 +36,7 @@ Provide full updated files and specific code snippets for changes. For significa
 
 ## Project Structure and Functionality
 
-1. **Initialize Project**:
+1. Initialize Project:
 
    - Git: `github.com/fakeneuron/CalenBooker` (branch: `master`).
    - Structure:
@@ -46,10 +46,10 @@ Provide full updated files and specific code snippets for changes. For significa
      - `Calenbooker/README.md`: Main docs.
      - `Calenbooker/Roadmap.md`: Task list and progress.
 
-2. **Frontend Setup**:
+2. Frontend Setup:
 
    - Tailwind CSS via `index.css` and `styles.js` (centralized Kawaii styles: pastel colors, rounded shapes, playful shadows).
-   - **Pages (`frontend/src/pages/`)**:
+   - Pages (`frontend/src/pages/`):
      - `Home.js`: Landing page (`/`) for unauthenticated users with a pastel gradient hero, animated feature cards, inline login/signup forms (toggle via "Login" and "Get Started" buttons), and responsive design.
      - `AuthConfirm.js`: Email confirmation redirect (`/auth/confirm`), autologins to `/dashboard` or redirects to `/` on failure.
      - `Dashboard.js`: Owner dashboard (`/dashboard`) with an appointments table (left-aligned names, centered data). Initializes default messages on first load.
@@ -62,14 +62,14 @@ Provide full updated files and specific code snippets for changes. For significa
      - `Support.js`: Support page (`/support`) with placeholder email/FAQ, Kawaii-styled, linked from footer.
      - `About.js`: About page (`/about`) with mission/team placeholder, Kawaii-styled, linked from footer.
      - `NotFound.js`: 404 page with Kawaii design and back-to-home button.
-   - **Components (`frontend/src/components/`)**:
+   - Components (`frontend/src/components/`):
      - `Navbar.js`: Fixed navbar for authenticated users (via `App.js`), with mobile hamburger menu ("Home" to `/dashboard`, "Book Appointment" to `/appointment-scheduler`) and user icon dropdown ("Business Profile," "Messages," "Logout").
      - `AppointmentsTable.js`: Sortable table (date/time ascending) with "Service Type" and colored "Status" (green "Confirmed," yellow "Pending," red "Cancelled").
      - `FormField.js`: Reusable form field for inputs/dropdowns, used in `BusinessProfile.js` and `AppointmentScheduler.js`.
      - `Footer.js`: Kawaii-styled, non-fixed footer with links to Terms, Privacy, Support, About.
      - `LoginForm.js`: Inline login form in `Home.js` with Supabase auth.
      - `SignupForm.js`: Inline signup form in `Home.js` with terms checkbox and Supabase auth.
-   - **Root Files (`frontend/src/`)**:
+   - Root Files (`frontend/src/`):
      - `App.js`: Routing and auth state management, with 404 catch-all and navbar/footer padding.
      - `index.js`: Entry point rendering `App.js`.
      - `index.css`: Tailwind setup with custom animations (e.g., fade-in).
@@ -81,38 +81,38 @@ Provide full updated files and specific code snippets for changes. For significa
    - PostCSS: `frontend/postcss.config.js` with `tailwindcss` and `autoprefixer`.
    - Env Check: `frontend/scripts/checkEnv.js` verifies `.env` vars.
 
-3. **Backend Setup**:
+3. Backend Setup:
 
    - `backend/server.js`: Minimal Express app with Supabase client (Anon Key from `backend/.env`), port 4001, for v2 features.
    - Dependencies: `express@4.21.2`, `@supabase/supabase-js@2.49.1`, `cors@2.8.5`, `dotenv@16.4.7`.
 
-4. **Supabase SQL Snippets and Configuration**:
+4. Supabase SQL Snippets and Configuration:
 
-   - **Tables**:
+   - Tables:
      - `business_profile`: Business details with `time_zone`, `parking_instructions`, `office_directions`, `custom_info` (nullable, blank by default).
      - `appointments`: Appointment records with `service_type`, `status`.
      - `messages`: Event messages (`scheduled`, `rescheduled`, `cancelled`, `no_show`), populated on first dashboard load.
-   - **Functions**: `check_email_exists` for secure signup email checks.
-   - **RLS**: Policies for `INSERT`, `UPDATE`, `SELECT` (authenticated users) and public `SELECT` on `messages`.
-   - **Snippets**:
+   - Functions: `check_email_exists` for secure signup email checks.
+   - RLS: Policies for `INSERT`, `UPDATE`, `SELECT` (authenticated users) and public `SELECT` on `messages`.
+   - Snippets:
      - `create_tables.sql`: Table definitions with `insert_default_messages` and `execute_sql` functions (fixed `search_path`).
      - `rls.sql`: RLS policies.
      - `check_email_exists.sql`: Defines `check_email_exists` function for signup email checks.
      - `reset_database.sql`: Drops all tables/views/functions for full reset.
      - `purge_tables.sql`: Truncates tables (excludes `auth.users`) for data reset.
-   - **Configuration** (Supabase Dashboard):
-     - **Authentication > Configuration > Sign In / Up > Email**:
-       - **Email OTP Expiration**: Set to `3600` seconds (1 hour) to address `auth_otp_long_expiry`.
-       - **Prevent use of leaked passwords**: Enabled to check against HaveIBeenPwned, addressing `auth_leaked_password_protection`.
-     - **Authentication > Settings**:
-       - **Site URL**: Set to `https://calenbooker.com` (placeholder), overridden by `REACT_APP_AUTH_REDIRECT` in `SignupForm.js` and `LoginForm.js` for signup and resend links.
+   - Configuration (Supabase Dashboard):
+     - Authentication > Configuration > Sign In / Up > Email:
+       - Email OTP Expiration: Set to `3600` seconds (1 hour) to address `auth_otp_long_expiry`.
+       - Prevent use of leaked passwords: Enabled to check against HaveIBeenPwned, addressing `auth_leaked_password_protection`.
+     - Authentication > Settings:
+       - Site URL: Set to `https://calenbooker.com` (placeholder), overridden by `REACT_APP_AUTH_REDIRECT` in `SignupForm.js` and `LoginForm.js` for signup and resend links.
 
-5. **Client Appointment Notification System**:
+5. Client Appointment Notification System:
 
    - `AppointmentScheduler.js`: Generates `/appointment-confirmation/<id>`, enforces profile check.
    - `AppointmentConfirmation.js`: Public-facing confirmation with calendar options, `scheduled` message, and optional notes.
 
-6. **Deployment**:
+6. Deployment:
    - Frontend on Netlify (`https://delparte.com`) with HTTPS, Supabase auth redirects (`http://localhost:4000/auth/confirm` locally, `https://delparte.com/auth/confirm` live).
 
 ## Current Features
@@ -125,9 +125,9 @@ Provide full updated files and specific code snippets for changes. For significa
 
 ## Getting Started
 
-1. **Supabase**: Create a project, run `supabase/reset_database.sql` (if resetting), then `create_tables.sql`, `rls.sql`, `check_email_exists.sql` in order, configure Authentication settings, update `frontend/.env`.
-2. **Local Run**: `cd frontend`, `npm install`, `npm start`.
-3. **Test**: Sign up, set up a profile, book an appointment, check confirmation.
+1. Supabase: Create a project, run `supabase/reset_database.sql` (if resetting), then `create_tables.sql`, `rls.sql`, `check_email_exists.sql` in order, configure Authentication settings, update `frontend/.env` from `.env.example`.
+2. Local Run: `cd frontend`, `npm install`, `npm start`.
+3. Test: Sign up, set up a profile, book an appointment, check confirmation.
 
 ## Roadmap
 

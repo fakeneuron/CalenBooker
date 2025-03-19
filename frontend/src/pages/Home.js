@@ -14,10 +14,12 @@ import {
   featureText,
   kawaiiFooter,
   buttonGroup,
+  successText,
 } from '../styles';
 
+// Home page with login/signup and features showcase
 function Home() {
-  const [view, setView] = useState('buttons');
+  const [view, setView] = useState('buttons'); // Controls display: buttons, login, signup, or signup-success
   const navigate = useNavigate();
 
   const handleLoginSuccess = () => {
@@ -45,7 +47,7 @@ function Home() {
           </div>
         ) : view === 'signup-success' ? (
           <div className="text-center">
-            <p className="text-green-600">Signup successful! Check your email to confirm.</p>
+            <p className={successText}>Signup successful! Check your email to confirm.</p>
             <button
               onClick={() => setView('buttons')}
               className="mt-4 text-sm text-gray-600 hover:text-gray-800 underline"
@@ -90,7 +92,7 @@ function Home() {
         </div>
       </div>
 
-      {/* Footer */}
+      {/* Footer Placeholder */}
       <div className={kawaiiFooter}></div>
     </div>
   );

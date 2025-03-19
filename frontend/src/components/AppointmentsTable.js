@@ -1,3 +1,4 @@
+// frontend/src/components/AppointmentsTable.js
 import React, { useState, useEffect } from 'react';
 import supabase from '../supabaseClient';
 import {
@@ -11,6 +12,7 @@ import {
   tableCellCenter,
 } from '../styles';
 
+// Displays a table of user's scheduled appointments
 const AppointmentsTable = () => {
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -19,6 +21,7 @@ const AppointmentsTable = () => {
   useEffect(() => {
     let isMounted = true;
 
+    // Fetch appointments from Supabase for logged-in user
     const fetchAppointments = async () => {
       try {
         const { data: { session } } = await supabase.auth.getSession();
@@ -27,17 +30,12 @@ const AppointmentsTable = () => {
           return;
         }
 
-        console.log('Fetching appointments for user ID:', session.user.id);
-
         const { data, error } = await supabase
           .from('appointments')
           .select('client_name, client_email, meeting_date, meeting_time, duration, service_type, status')
           .eq('user_id', session.user.id)
           .order('meeting_date', { ascending: true })
           .order('meeting_time', { ascending: true });
-
-        console.log('Fetched appointments:', data);
-        console.log('Fetch error:', error);
 
         if (error) throw error;
 
@@ -72,6 +70,7 @@ const AppointmentsTable = () => {
     );
   }
 
+  // Apply color classes based on appointment status
   const getStatusClass = (status) => {
     switch (status) {
       case 'Confirmed':

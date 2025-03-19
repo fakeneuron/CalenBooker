@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { container, heading, subText, buttonPrimary } from '../styles';
+import { container, heading, subText, buttonPrimary, link } from '../styles';
 
+// Static 404 Not Found page
 const NotFound = () => {
   return (
     <div className={`${container} my-6 text-center`}>
@@ -15,7 +16,7 @@ const NotFound = () => {
         </Link>
       </div>
       <p className={`${subText} mt-4`}>
-        Need help? Visit our <Link to="/support" className="text-purple-500 hover:text-purple-700 underline">Support</Link> page!
+        Need help? Visit our <Link to="/support" className={link}>Support</Link> page!
       </p>
     </div>
   );

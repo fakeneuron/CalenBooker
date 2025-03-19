@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { container, heading, subText, link } from '../styles';
+import { container, heading, subText, link, sectionTitle } from '../styles';
 
+// Static Support page with contact info and FAQs
 const Support = () => {
   return (
     <div className={`${container} my-6`}>
@@ -9,14 +10,14 @@ const Support = () => {
       <p className={subText}>We’re here to help you with CalenBooker!</p>
 
       <section className="mt-4">
-        <h3 className="text-xl font-semibold text-purple-600 mb-2">Contact Us</h3>
+        <h3 className={sectionTitle}>Contact Us</h3>
         <p className={subText}>
           Have a question or issue? Reach out to us at <a href="mailto:support@calenbooker.com" className={link}>support@calenbooker.com</a> (placeholder email, to be updated later). We aim to respond within 48 hours.
         </p>
       </section>
 
       <section className="mt-4">
-        <h3 className="text-xl font-semibold text-purple-600 mb-2">Frequently Asked Questions</h3>
+        <h3 className={sectionTitle}>Frequently Asked Questions</h3>
         <div className="space-y-4">
           <div>
             <p className="font-medium text-gray-700">How do I reset my password?</p>
@@ -40,7 +41,7 @@ const Support = () => {
       </section>
 
       <section className="mt-4">
-        <h3 className="text-xl font-semibold text-purple-600 mb-2">More Help</h3>
+        <h3 className={sectionTitle}>More Help</h3>
         <p className={subText}>
           Check our <Link to="/terms" className={link}>Terms of Service</Link> and <Link to="/privacy" className={link}>Privacy Policy</Link> for additional details.
         </p>

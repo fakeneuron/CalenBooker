@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import supabase from '../supabaseClient';
-import { wideContainer, heading, buttonPrimary, input } from '../styles';
+import { wideContainer, heading, buttonPrimary, input, label, buttonGroup } from '../styles';
 
+// Default messages for each event type
 const defaultMessages = {
   scheduled: 'Thank you for booking with us! Your appointment is confirmed.', // Matches trigger
   rescheduled: 'Looking forward to your new appointment time!',
@@ -18,6 +19,7 @@ const Messages = () => {
     fetchData();
   }, []);
 
+  // Fetch messages and business info on load
   const fetchData = async () => {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return;
@@ -29,7 +31,7 @@ const Messages = () => {
       .eq('user_id', user.id);
 
     if (messagesError) {
-      console.error('Error fetching messages:', messagesError);
+      // Error handled silently
     } else {
       const messagesMap = {};
       messagesData.forEach((msg) => {
@@ -46,7 +48,7 @@ const Messages = () => {
       .single();
 
     if (profileError) {
-      console.error('Error fetching business profile:', profileError);
+      // Error handled silently
     } else {
       setBusinessInfo(profileData || {});
     }
@@ -73,7 +75,6 @@ const Messages = () => {
       .eq('id', message.id);
 
     if (error) {
-      console.error('Error saving message:', error);
       alert('Failed to save: ' + error.message);
     } else {
       alert('Message saved successfully!');
@@ -84,6 +85,7 @@ const Messages = () => {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return;
 
+    // Update business profile with notes
     const { error } = await supabase
       .from('business_profile')
       .upsert({
@@ -94,7 +96,6 @@ const Messages = () => {
       }, { onConflict: 'user_id' });
 
     if (error) {
-      console.error('Error saving business info:', error);
       alert('Failed to save: ' + error.message);
     } else {
       alert('Business info saved successfully!');
@@ -102,10 +103,13 @@ const Messages = () => {
   };
 
   const handleRevertMessage = (eventType) => {
-    setMessages((prev) => ({
-      ...prev,
-      [eventType]: { ...prev[eventType], default_message: defaultMessages[eventType] }
-    }));
+    // Confirm before reverting to default
+    if (window.confirm(`Are you sure you want to revert the "${eventType === 'no_show' ? 'No-Show' : eventType}" message to its default?`)) {
+      setMessages((prev) => ({
+        ...prev,
+        [eventType]: { ...prev[eventType], default_message: defaultMessages[eventType] }
+      }));
+    }
   };
 
   const handleRevertBusinessInfo = () => {
@@ -124,7 +128,7 @@ const Messages = () => {
             {eventType === 'no_show' ? 'No-Show' : eventType}
           </h2>
           <div className="mb-4">
-            <label className="block text-sm font-medium mb-1 text-blue-600">
+            <label className={label}>
               Default Message
             </label>
             <textarea
@@ -134,7 +138,7 @@ const Messages = () => {
               rows="3"
             />
           </div>
-          <div className="flex space-x-2">
+          <div className={buttonGroup}>
             <button onClick={() => handleSaveMessage(eventType)} className={buttonPrimary}>
               Save
             </button>
@@ -152,7 +156,7 @@ const Messages = () => {
         <h2 className="text-xl font-semibold mb-2 text-blue-600">Business Information</h2>
         {['parking_instructions', 'office_directions', 'custom_info'].map((field) => (
           <div key={field} className="mb-4">
-            <label className="block text-sm font-medium mb-1 text-blue-600">
+            <label className={label}>
               {field.replace('_', ' ')}
             </label>
             <textarea
@@ -163,15 +167,9 @@ const Messages = () => {
             />
           </div>
         ))}
-        <div className="flex space-x-2">
+        <div className={buttonGroup}>
           <button onClick={handleSaveBusinessInfo} className={buttonPrimary}>
             Save
-          </button>
-          <button
-            onClick={handleRevertBusinessInfo}
-            className={`${buttonPrimary} bg-gray-500 hover:bg-gray-600`}
-          >
-            Revert-approved to Default
           </button>
         </div>
       </div>
