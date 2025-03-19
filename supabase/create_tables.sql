@@ -1,5 +1,4 @@
 -- Create Tables
--- Supabase (PostgreSQL) schema for CalenBooker MVP (simplified to use auth.users)
 DROP TABLE IF EXISTS appointments;
 DROP TABLE IF EXISTS business_profile;
 DROP TABLE IF EXISTS messages;
@@ -44,7 +43,6 @@ CREATE TABLE messages (
   UNIQUE (user_id, event_type)
 );
 
--- Function to insert default messages (called manually in Dashboard.js)
 CREATE OR REPLACE FUNCTION public.insert_default_messages(user_id_input UUID)
 RETURNS VOID AS $$
 BEGIN
@@ -55,5 +53,14 @@ BEGIN
     (user_id_input, 'cancelled', 'Sorry we won’t see you this time.'),
     (user_id_input, 'no_show', 'We missed you last time!')
   ON CONFLICT (user_id, event_type) DO NOTHING;
+END;
+$$ LANGUAGE plpgsql SET search_path = public;
+
+-- Add execute_sql fix (if yours)
+DROP FUNCTION IF EXISTS public.execute_sql(TEXT);
+CREATE OR REPLACE FUNCTION public.execute_sql(sql_text TEXT)
+RETURNS VOID AS $$
+BEGIN
+  EXECUTE sql_text;
 END;
 $$ LANGUAGE plpgsql SET search_path = public;
