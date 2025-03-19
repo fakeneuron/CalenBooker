@@ -10,24 +10,15 @@ After reviewing README.md, ask for frontend/src/App.js. Once you have all core f
 \*\*
 
 **_POST FILE UPLOADS_ ---MANUALLY UPDATED----**
-I’ve shared the core project files with you. Please review them holistically to understand the app fully.
-Guide me through the To-Do tasks in Roadmap.md, tackling one at a time. Go slowly, ensuring I understand each step before moving on. For file changes, show the specific code being added, modified, or removed, and provide the full updated file for easy implementation.
+I’ve shared the core project files with you. Review them holistically to grasp the app.
+Guide me through Roadmap.md To-Do tasks, one at a time, ensuring I understand each step before proceeding. For file changes, show specific code additions, modifications, or removals, and provide the full updated file for easy implementation.
+For each task:  
+Update README.md’s 'Project Structure and Functionality' with detailed changes and functionality.
 
-For each To-Do task:  
-Update the 'Project Structure and Functionality' section of README.md with detailed changes and functionality.
+Log accomplishments in Roadmap.md’s 'Progress (Completed)' section.
 
-Log accomplishments in the 'Progress (Completed)' section of Roadmap.md.
-
-Suggest Git commits only after a full task (or functional sub-step for complex tasks) is complete. Update README.md before committing to reflect progress.
-
-For .sql file changes (e.g., via SQL editor snippets), include the full updated file in the Supabase folder to maintain a complete table structure. Also consider that the .sql code has already been run on supabase SQL Editor and that modifications to base .sql files will also need to run snippets on SQL Editor to ensure new functionality has been implemented without recreating the entire tables.
-
-Keep explanations simple and concise for a novice coder. Start by listing the To-Do items from Roadmap.md and ask which one to tackle first.
+Suggest Git commits only after a task (or functional sub-step for complex tasks) is complete, after updating README.md and Roadmap.md to reflect functionality and progress. For .md changes, provide the full item (e.g., A.3) with its number; for multiple sections, share the full file to avoid mix-ups.
+For .sql changes (e.g., via SQL Editor snippets), include the full updated file in the Supabase folder and a snippet to run in the SQL Editor, since the base .sql code is applied and tables shouldn’t be recreated.
+Keep explanations simple and concise for a novice coder. Start by listing Roadmap.md To-Do items and ask which to tackle first.
 
 **_TEMP_**
-
-this will surely need a new table in supabase and sql updates. Make sure when you provide updates to the sql code that you consider how the .sql code is currently organized into a create-tables and rls (separately) and also users_views_setup. Make sure you have all these files before proceeding.
-
-When it comes to updating the sql code, we can run some update code in supabase's SQL editor but i will need complete code for recreating the whole database as is logged in frontend/supabase
-
-Do you have all the .sql files?
