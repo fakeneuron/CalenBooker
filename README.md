@@ -1,6 +1,6 @@
 # CalenBooker MVP
 
-CalenBooker is a Minimum Viable Product (MVP) for a scheduling application designed to streamline appointment booking for small businesses (e.g., barber shops). It allows owners to sign up, set up business profiles, and manage client appointments with notifications, featuring a cute, Kawaii-styled interface. Built with **React** (frontend) and **Supabase** (backend), it’s hosted on `github.com/fakeneuron/CalenBooker` (branch: `master`).
+CalenBooker is a Minimum Viable Product (MVP) for a scheduling application designed to streamline appointment booking for professional businesses (e.g., consultants, tutors, salons). It allows owners to sign up, set up business profiles, and manage client appointments with notifications, featuring a cute, Kawaii-styled interface. Built with **React** (frontend) and **Supabase** (backend), it’s hosted on `github.com/fakeneuron/CalenBooker` (branch: `master`).
 
 ## Purpose and Vision
 

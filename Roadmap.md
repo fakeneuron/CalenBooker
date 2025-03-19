@@ -1,14 +1,20 @@
 # CalenBooker Roadmap
 
-This file tracks tasks and progress for CalenBooker development. Functional changes from completed tasks are reflected in `README.md`, with broad milestones noted here. Last updated: March 18, 2025.
+This file tracks tasks and progress for CalenBooker development. Functional changes from completed tasks are reflected in `README.md`, with broad milestones noted here. Last updated: March 19, 2025.
 
 ## Short-Term Tasks
 
 [ ] **Owner Calendar Sync**
 
-- **Description**: Add 2-way sync for business owners’ calendars (e.g., Google Calendar API) in `AppointmentScheduler.js` or `Dashboard.js`.
+- **Description**: Add 2-way sync with owners’ calendars (Google Calendar, Outlook, Apple iCloud) in `AppointmentScheduler.js` or `Dashboard.js`. Support multiple providers with an optional toggle for privacy-conscious users (app-only mode if disabled). Pulls events into `appointments` table or a new `calendar_events` table for conflict checks, pushes new bookings to the selected calendar. Enables visual calendar feedback (month view with saturation dots, hourly day view) for scheduling.
 - **Effort**: ~6-8 hours
-- **Priority**: High - Seamless workflow integration, critical for adoption.
+- **Priority**: High - Seamless workflow integration, critical for adoption and conflict-aware scheduling.
+
+[ ] **Appointment Scheduler Preview/Confirmation Integration**
+
+- **Description**: Enhance `AppointmentScheduler.js` with a visual calendar: month view (dots/shaded for saturation) and clickable hourly day view showing appointments inline. Selecting a date scrolls the calendar and populates the form; clicking the calendar fills the form. Booking at a conflicting time triggers a warning (e.g., “Conflict at 2 PM—Confirm anyway?”), overrideable with a flag (color-coded, stored in `appointments`). Uses 15-min increment granularity for openings (MVP, no profile setting yet). Post-submission, shows full `AppointmentConfirmation.js` content inline (date, time, service type, notes, calendar links, shareable `/appointment-confirmation/<id>` link), keeping the user on the page. Future: Split views for multi-employee openings.
+- **Effort**: ~4-6 hours (assumes local data; +2-3 hours with Sync)
+- **Priority**: High - Improves workflow efficiency and UX, core to optimal scheduling.
 
 [ ] **Marketing Landing Page**
 
@@ -27,12 +33,6 @@ This file tracks tasks and progress for CalenBooker development. Functional chan
 - **Description**: Add meta tags, keywords, and sitemap; optimize `Home.js` content for search engines.
 - **Effort**: ~2-3 hours
 - **Priority**: High - Essential for organic growth.
-
-[ ] **Appointment Scheduler Preview/Confirmation Integration**
-
-- **Description**: Enhance `AppointmentScheduler.js` to show a preview of the appointment details on the same page after submission, including `AppointmentConfirmation.js` content (e.g., date, time, service type, `scheduled` message, calendar links, notes). Display the shareable confirmation link inline (e.g., `/appointment-confirmation/<id>`) instead of redirecting to a separate page. Aims for a seamless desktop experience.
-- **Effort**: ~4-6 hours
-- **Priority**: High - Improves workflow efficiency and UX.
 
 [ ] **Email-Friendly Message Format**
 
@@ -101,7 +101,7 @@ This file tracks tasks and progress for CalenBooker development. Functional chan
 
 [ ] **Multi-Employee Scheduling**
 
-- **Description**: Enable staff assignment via a `staff` table.
+- **Description**: Enable staff assignment via a `staff` table. Future: Support split calendar views in `AppointmentScheduler.js` for finding openings across employees offering the same service.
 - **Effort**: ~8-10 hours
 - **Priority**: High - Scales to teams.
 
@@ -125,7 +125,7 @@ This file tracks tasks and progress for CalenBooker development. Functional chan
 
 [ ] **Availability Calendar**
 
-- **Description**: Add a calendar view in `AppointmentScheduler.js` for open slots.
+- **Description**: Add a calendar view in `AppointmentScheduler.js` for open slots. Note: Overlaps with Scheduler Preview—may merge into a unified calendar feature.
 - **Effort**: ~8-10 hours
 - **Priority**: Medium - Visual aid.
 
@@ -149,7 +149,7 @@ This file tracks tasks and progress for CalenBooker development. Functional chan
 
 [ ] **Calendar App Integrations**
 
-- **Description**: Expand to Apple Calendar and others.
+- **Description**: Expand to Apple Calendar and others. Note: Multi-provider support moved to Owner Calendar Sync—may refine here for additional integrations.
 - **Effort**: ~4-6 hours
 - **Priority**: Medium - Broadens compatibility.
 
@@ -203,7 +203,7 @@ This file tracks tasks and progress for CalenBooker development. Functional chan
 
 [ ] **Barber Shop Marketplace**
 
-- **Description**: Add `/marketplace` listing premium businesses.
+- **Description**: Add `/marketplace` listing premium businesses. Note: Renamed to Professional Business Marketplace to reflect broader scope.
 - **Effort**: ~10-12 hours
 - **Priority**: Low - Larger scope.
 
