@@ -1,8 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { container, heading, subText, buttonPrimary, link } from '../styles';
+import { container, heading, subText, button, link } from '../styles';
 
-// Static 404 Not Found page
 const NotFound = () => {
   return (
     <div className={`${container} my-6 text-center`}>
@@ -11,7 +10,7 @@ const NotFound = () => {
         Looks like we got lost in the appointment book! This page doesn’t exist.
       </p>
       <div className="mt-6">
-        <Link to="/" className={`${buttonPrimary} px-6 py-2`}>
+        <Link to="/" className={button}>
           Back to Home
         </Link>
       </div>

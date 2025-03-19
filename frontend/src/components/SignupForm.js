@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import supabase from '../supabaseClient';
-import { container, input, buttonPrimary, label, subText, link } from '../styles';
+import { container, input, button, label, subText, link } from '../styles';
 
 const SignupForm = ({ onSignupSuccess }) => {
   const [formData, setFormData] = useState({ email: '', password: '' });
@@ -28,7 +28,6 @@ const SignupForm = ({ onSignupSuccess }) => {
         special: /[@$!%*?&]/.test(value),
       };
       setPasswordCriteria(criteria);
-      // Regex ensures password meets all criteria
       const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
       setIsPasswordValid(passwordRegex.test(value));
     }
@@ -46,7 +45,6 @@ const SignupForm = ({ onSignupSuccess }) => {
     }
 
     try {
-      // Check if email is already registered using Supabase function
       const { data: emailExists, error: checkError } = await supabase
         .rpc('check_email_exists', { email_to_check: formData.email });
       if (checkError) throw checkError;
@@ -56,7 +54,6 @@ const SignupForm = ({ onSignupSuccess }) => {
       }
 
       const redirectUrl = process.env.REACT_APP_AUTH_REDIRECT || 'http://localhost:4000/auth/confirm';
-      // Sign up with Supabase Auth, redirecting to confirmation page
       const { error: signUpError } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,
@@ -127,7 +124,7 @@ const SignupForm = ({ onSignupSuccess }) => {
             <Link to="/privacy" className={link}>Privacy Policy</Link>
           </label>
         </div>
-        <button type="submit" className={buttonPrimary} disabled={!termsAgreed}>
+        <button type="submit" className={`${button} w-full`} disabled={!termsAgreed}>
           Sign Up
         </button>
       </form>

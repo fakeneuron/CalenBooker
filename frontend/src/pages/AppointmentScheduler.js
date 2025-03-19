@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import supabase from '../supabaseClient';
 import { 
   container, 
-  buttonPrimary, 
+  button, 
   buttonSecondary, 
   errorText, 
   heading, 
@@ -32,7 +32,6 @@ const AppointmentScheduler = () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (!session?.user) return;
 
-      // Fetch the most recent appointment for auto-fill
       const { data, error } = await supabase
         .from('appointments')
         .select('client_name, client_email')
@@ -42,7 +41,6 @@ const AppointmentScheduler = () => {
         .single();
 
       if (error && error.code !== 'PGRST116') {
-        // PGRST116 means no rows found, which is okay
       }
 
       if (data) {
@@ -52,7 +50,6 @@ const AppointmentScheduler = () => {
           clientEmail: data.client_email || '',
         }));
       } else {
-        // Default sample data if no recent appointment exists
         setFormData({
           clientName: 'John Smith',
           clientEmail: 'john.smith@example.com',
@@ -82,7 +79,6 @@ const AppointmentScheduler = () => {
       return;
     }
 
-    // Check if business profile exists before allowing booking
     const { data: profileData, error: profileError } = await supabase
       .from('business_profile')
       .select('user_id')
@@ -105,7 +101,6 @@ const AppointmentScheduler = () => {
         return;
       }
 
-      // Insert new appointment into Supabase
       const { data, error } = await supabase
         .from('appointments')
         .insert({
@@ -142,7 +137,6 @@ const AppointmentScheduler = () => {
   };
 
   const handleAutoPopulate = () => {
-    // Populate form with sample data for testing
     setFormData({
       clientName: 'John Smith',
       clientEmail: 'john.smith@example.com',
@@ -247,7 +241,7 @@ const AppointmentScheduler = () => {
           options={statusOptions}
         />
         {error && <p className={errorText}>{error}</p>}
-        <button type="submit" className={buttonPrimary}>
+        <button type="submit" className={`${button} w-full`}>
           Schedule Appointment
         </button>
         <button type="button" onClick={handleAutoPopulate} className={buttonSecondary}>

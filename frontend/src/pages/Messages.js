@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import supabase from '../supabaseClient';
-import { wideContainer, heading, buttonPrimary, input, label, buttonGroup } from '../styles';
+import { wideContainer, heading, button, input, label, buttonGroup } from '../styles';
 
-// Default messages for each event type
 const defaultMessages = {
-  scheduled: 'Thank you for booking with us! Your appointment is confirmed.', // Matches trigger
+  scheduled: 'Thank you for booking with us! Your appointment is confirmed.',
   rescheduled: 'Looking forward to your new appointment time!',
   cancelled: 'Sorry we won’t see you this time.',
   no_show: 'We missed you last time!'
@@ -19,19 +18,16 @@ const Messages = () => {
     fetchData();
   }, []);
 
-  // Fetch messages and business info on load
   const fetchData = async () => {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return;
 
-    // Fetch messages
     const { data: messagesData, error: messagesError } = await supabase
       .from('messages')
       .select('*')
       .eq('user_id', user.id);
 
     if (messagesError) {
-      // Error handled silently
     } else {
       const messagesMap = {};
       messagesData.forEach((msg) => {
@@ -40,7 +36,6 @@ const Messages = () => {
       setMessages(messagesMap);
     }
 
-    // Fetch business profile
     const { data: profileData, error: profileError } = await supabase
       .from('business_profile')
       .select('parking_instructions, office_directions, custom_info')
@@ -48,7 +43,6 @@ const Messages = () => {
       .single();
 
     if (profileError) {
-      // Error handled silently
     } else {
       setBusinessInfo(profileData || {});
     }
@@ -85,7 +79,6 @@ const Messages = () => {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return;
 
-    // Update business profile with notes
     const { error } = await supabase
       .from('business_profile')
       .upsert({
@@ -103,7 +96,6 @@ const Messages = () => {
   };
 
   const handleRevertMessage = (eventType) => {
-    // Confirm before reverting to default
     if (window.confirm(`Are you sure you want to revert the "${eventType === 'no_show' ? 'No-Show' : eventType}" message to its default?`)) {
       setMessages((prev) => ({
         ...prev,
@@ -121,7 +113,6 @@ const Messages = () => {
   return (
     <div className={wideContainer}>
       <h1 className={heading}>Default Messages</h1>
-      {/* Event Messages */}
       {Object.keys(defaultMessages).map((eventType) => (
         <div key={eventType} className="mb-6 p-4 bg-pink-100 rounded-xl shadow-md">
           <h2 className="text-xl font-semibold capitalize mb-2 text-blue-600">
@@ -139,19 +130,18 @@ const Messages = () => {
             />
           </div>
           <div className={buttonGroup}>
-            <button onClick={() => handleSaveMessage(eventType)} className={buttonPrimary}>
+            <button onClick={() => handleSaveMessage(eventType)} className={`${button} w-full`}>
               Save
             </button>
             <button
               onClick={() => handleRevertMessage(eventType)}
-              className={`${buttonPrimary} bg-gray-500 hover:bg-gray-600`}
+              className={`${button} w-full bg-gray-500 hover:bg-gray-600`}
             >
               Revert to Default
             </button>
           </div>
         </div>
       ))}
-      {/* Business Info */}
       <div className="mb-6 p-4 bg-pink-100 rounded-xl shadow-md">
         <h2 className="text-xl font-semibold mb-2 text-blue-600">Business Information</h2>
         {['parking_instructions', 'office_directions', 'custom_info'].map((field) => (
@@ -168,7 +158,7 @@ const Messages = () => {
           </div>
         ))}
         <div className={buttonGroup}>
-          <button onClick={handleSaveBusinessInfo} className={buttonPrimary}>
+          <button onClick={handleSaveBusinessInfo} className={`${button} w-full`}>
             Save
           </button>
         </div>

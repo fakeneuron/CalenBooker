@@ -8,7 +8,6 @@ import {
   successBox,
   successText,
   text,
-  buttonGroup,
   calendarIcon,
 } from '../styles';
 
@@ -22,10 +21,8 @@ const AppointmentConfirmation = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Fetch appointment, business, and message details
     const fetchAppointmentDetails = async () => {
       try {
-        // Get appointment data
         const { data: appointmentData, error: appointmentError } = await supabase
           .from('appointments')
           .select('client_name, client_email, meeting_date, meeting_time, duration, service_type, user_id')
@@ -34,7 +31,6 @@ const AppointmentConfirmation = () => {
         if (appointmentError) throw appointmentError;
         if (!appointmentData) throw new Error('Appointment not found');
 
-        // Get business profile
         const { data: businessData, error: businessError } = await supabase
           .from('business_profile')
           .select('business_name, address, unit, city, province, postal_code, phone, time_zone, parking_instructions, office_directions, custom_info')
@@ -42,7 +38,6 @@ const AppointmentConfirmation = () => {
           .single();
         if (businessError) throw businessError;
 
-        // Get scheduled message
         const { data: messageData, error: messageError } = await supabase
           .from('messages')
           .select('default_message')
@@ -94,7 +89,6 @@ const AppointmentConfirmation = () => {
 
     const location = `${business.business_name}, ${business.address}${business.unit ? ', ' + business.unit : ''}, ${business.city}, ${business.province} ${business.postal_code}`;
 
-    // Generate iCalendar file content
     const icsContent = [
       'BEGIN:VCALENDAR',
       'VERSION:2.0',
@@ -207,7 +201,7 @@ const AppointmentConfirmation = () => {
       )}
       <div className={successBox}>
         <h3 className="text-lg font-semibold text-center">Add to Your Calendar:</h3>
-        <div className={buttonGroup}>
+        <div className="flex space-x-4 justify-center">
           <img 
             src="/google-calendar96.png" 
             alt="Google Calendar" 

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import supabase from '../supabaseClient';
 import { 
   container, 
-  buttonPrimary, 
+  button, 
   buttonSecondary, 
   errorText, 
   heading, 
@@ -10,7 +10,7 @@ import {
   previewContainer, 
   previewText, 
   previewTitle,
-  buttonGroup // Added
+  buttonGroup
 } from '../styles';
 import FormField from '../components/FormField';
 
@@ -30,19 +30,17 @@ const BusinessProfile = () => {
   const [showPreview, setShowPreview] = useState(false);
 
   useEffect(() => {
-    // Fetch existing business profile on load
     const fetchBusinessProfile = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (!session?.user) return;
 
       try {
-        // Load profile data from Supabase
         const { data, error } = await supabase
           .from('business_profile')
           .select('email, business_name, phone, address, unit, city, province, postal_code, time_zone')
           .eq('user_id', session.user.id)
           .single();
-        if (error && error.code !== 'PGRST116') throw error; // PGRST116 means no row found
+        if (error && error.code !== 'PGRST116') throw error;
         if (data) {
           setFormData({
             email: data.email || '',
@@ -78,7 +76,6 @@ const BusinessProfile = () => {
     }
 
     try {
-      // Save or update profile in Supabase
       const { error } = await supabase
         .from('business_profile')
         .upsert({
@@ -116,7 +113,6 @@ const BusinessProfile = () => {
   };
 
   const handlePreview = () => {
-    // Toggle preview of profile data
     setShowPreview(!showPreview);
   };
 
@@ -205,7 +201,7 @@ const BusinessProfile = () => {
         />
         {error && <p className={errorText}>{error}</p>}
         <div className={buttonGroup}>
-          <button type="submit" className={buttonPrimary}>
+          <button type="submit" className={`${button} w-full`}>
             Save Profile
           </button>
           <button type="button" onClick={handleAutoPopulate} className={buttonSecondary}>
