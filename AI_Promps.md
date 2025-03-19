@@ -20,9 +20,14 @@ Log accomplishments in the 'Progress (Completed)' section of Roadmap.md.
 
 Suggest Git commits only after a full task (or functional sub-step for complex tasks) is complete. Update README.md before committing to reflect progress.
 
-For .sql file changes (e.g., via SQL editor snippets), include the full updated file in the Supabase folder to maintain a complete table structure.
+For .sql file changes (e.g., via SQL editor snippets), include the full updated file in the Supabase folder to maintain a complete table structure. Also consider that the .sql code has already been run on supabase SQL Editor and that modifications to base .sql files will also need to run snippets on SQL Editor to ensure new functionality has been implemented without recreating the entire tables.
 
 Keep explanations simple and concise for a novice coder. Start by listing the To-Do items from Roadmap.md and ask which one to tackle first.
 
-**_Specifics on the meeting invitation notification_**
-Before moving on to the .ics generation, let's give some greater consideration to the purpose of this. Generation of the .ics is just a component of the whole 'meeting generation' notification that we will be giving clients. Clients are those seeking services from the businesses - the main goal of this app is to create not only a .ics but a standard meeting invitation message to the client. Let's make this live on a webpage for now - you've probably seen this kind of thing before - where you make an appointment and you receive either an email or a link containing different options such as 'add to icalendar', 'add to outlook' download .ics (am i missing any popular ones?). Give this some deeper thought to better capture this kind of message to be sent to clients after scheduling meetings with the businesses. The goal is for the business to enter client details in the meetings form and the client automatically gets a notification with all the easy integrations to their calendars. Provide a more detailed and standardized overview of what i'm describing here before proceeding. Provide a sample of this type of notification (email, web link) to the client as part of the plan with all the relevant buttons to add to calendar. Consider the logic of how this might be executed.
+**_TEMP_**
+
+this will surely need a new table in supabase and sql updates. Make sure when you provide updates to the sql code that you consider how the .sql code is currently organized into a create-tables and rls (separately) and also users_views_setup. Make sure you have all these files before proceeding.
+
+When it comes to updating the sql code, we can run some update code in supabase's SQL editor but i will need complete code for recreating the whole database as is logged in frontend/supabase
+
+Do you have all the .sql files?
