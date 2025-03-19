@@ -46,6 +46,13 @@ This file tracks tasks and progress for CalenBooker development. Functional chan
 - **Effort**: ~3-4 hours
 - **Priority**: Medium - Boosts usability, especially for desktop users.
 
+[x] **Fix Confirmation Resend Token Reuse**
+
+- **Description**: Update `SignupForm.js` and `LoginForm.js` to use `emailRedirectTo` from `REACT_APP_AUTH_REDIRECT` (defaults to `localhost:4000/auth/confirm`), ensuring consistent redirects for signup and resend links across dev (`localhost`) and live (`delparte.com`) environments. Fixed resend link defaulting to Site URL (`calenbooker.com`) by adding `emailRedirectTo` to `supabase.auth.resend()`. Addresses latent bug where resend reused expired tokens and mismatched redirects.
+- **Effort**: ~2-3 hours
+- **Priority**: High - Critical auth flow bug.
+- **Completed**: Fixed redirect mismatch, resend now uses `localhost` locally, aligns with live site via env vars.
+
 [x] **Messages Section**
 
 - **Description**: Add a "Messages" section in `Messages.js` for customizable global default messages, stored in `messages` table (`id`, `user_id`, `event_type`, `default_message`). Includes `scheduled` (used as intro in `AppointmentConfirmation.js`), `rescheduled`, `cancelled`, `no_show` (displayed as "No-Show"). Moved `parking_instructions`, `office_directions`, `custom_info` to `business_profile` (nullable, blank by default), shown in confirmation "Notes" (bulleted list) if populated, with business name in location fields. Default messages now populate on first dashboard load (`Dashboard.js`) instead of signup to avoid RLS conflicts.
@@ -59,7 +66,7 @@ This file tracks tasks and progress for CalenBooker development. Functional chan
 - **Effort**: ~4-6 hours
 - **Priority**: Medium - Improves service quality, client engagement.
 
-[ ] **Secure `users_view` Access**
+[x] **Secure `users_view` Access**
 
 - **Description**: Address `auth_users_exposed` by restricting `users_view` (`anon` access) and moving email checks to a secure function or backend.
 - **Effort**: ~2-4 hours
@@ -228,3 +235,4 @@ This file tracks tasks and progress for CalenBooker development. Functional chan
 12. **Error Pages**: Added Kawaii 404 page.
 13. **Messages Section**: Implemented message management, integrated into confirmation, fixed signup by moving message initialization to dashboard.
 14. **Supabase Security Fixes**: Resolved `auth_users_exposed`, `security_definer_view`, `function_search_path_mutable` for `insert_default_messages`, set OTP expiry to 1 hour, enabled leaked password protection.
+15. **Fix Confirmation Resend**: Fixed redirect mismatch in `SignupForm.js` and `LoginForm.js` for consistent dev/live URLs.

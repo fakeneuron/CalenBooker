@@ -116,6 +116,8 @@ Start with these core files to understand the project:
      - **Authentication > Configuration > Sign In / Up > Email**:
        - **Email OTP Expiration**: Set to `3600` seconds (1 hour) to address `auth_otp_long_expiry`.
        - **Prevent use of leaked passwords**: Enabled to check against HaveIBeenPwned, addressing `auth_leaked_password_protection`.
+     - **Authentication > Settings**:
+       - **Site URL**: Set to `https://calenbooker.com` (placeholder), overridden by `REACT_APP_AUTH_REDIRECT` in `SignupForm.js` and `LoginForm.js` for signup and resend links.
 
 5. **Client Appointment Notification System**:
 
@@ -127,7 +129,7 @@ Start with these core files to understand the project:
 
 ## Current Features
 
-- User authentication with Supabase Auth.
+- User authentication with Supabase Auth, including dynamic redirect URLs for signup and resend confirmation (dev: `localhost:4000/auth/confirm`, live: `delparte.com/auth/confirm`).
 - Business profile setup with time zone.
 - Appointment booking with service type and status.
 - Confirmation page with calendar integration, `scheduled` message, and optional notes.

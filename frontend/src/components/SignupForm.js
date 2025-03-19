@@ -53,11 +53,14 @@ const SignupForm = ({ onSignupSuccess }) => {
         return;
       }
 
+      const redirectUrl = process.env.REACT_APP_AUTH_REDIRECT || 'http://localhost:4000/auth/confirm';
+      console.log('REACT_APP_AUTH_REDIRECT:', process.env.REACT_APP_AUTH_REDIRECT);
+      console.log('Final redirectUrl:', redirectUrl);
       const { error: signUpError } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,
         options: {
-          emailRedirectTo: process.env.REACT_APP_AUTH_REDIRECT || 'http://localhost:4000/auth/confirm',
+          emailRedirectTo: redirectUrl,
         },
       });
 

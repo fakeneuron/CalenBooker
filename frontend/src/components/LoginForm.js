@@ -36,9 +36,13 @@ const LoginForm = ({ onLoginSuccess }) => {
 
   const handleResendConfirmation = async () => {
     try {
+      const redirectUrl = process.env.REACT_APP_AUTH_REDIRECT || 'http://localhost:4000/auth/confirm';
       const { error } = await supabase.auth.resend({
         type: 'signup',
         email: formData.email,
+        options: {
+          emailRedirectTo: redirectUrl,
+        },
       });
       if (error) throw error;
       setResendMessage('Confirmation email resent! Check your inbox.');
