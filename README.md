@@ -104,12 +104,12 @@ Start with these core files to understand the project:
      - `business_profile`: Business details with `time_zone`, `parking_instructions`, `office_directions`, `custom_info` (nullable, blank by default).
      - `appointments`: Appointment records with `service_type`, `status`.
      - `messages`: Event messages (`scheduled`, `rescheduled`, `cancelled`, `no_show`), populated on first dashboard load.
-   - **Functions**: `check_email_exists` for secure signup email checks (replaces `users_view`).
+   - **Functions**: `check_email_exists` for secure signup email checks.
    - **RLS**: Policies for `INSERT`, `UPDATE`, `SELECT` (authenticated users) and public `SELECT` on `messages`.
    - **Snippets**:
-     - `create_tables.sql`: Table definitions with manual `insert_default_messages` function (fixed `search_path`).
+     - `create_tables.sql`: Table definitions with `insert_default_messages` and `execute_sql` functions (fixed `search_path`).
      - `rls.sql`: RLS policies.
-     - `users_view_setup.sql`: Defines `check_email_exists` function (no `users_view` after security fixes).
+     - `check_email_exists.sql`: Defines `check_email_exists` function for signup email checks.
      - `reset_database.sql`: Drops all tables/views/functions for full reset.
      - `purge_tables.sql`: Truncates tables (excludes `auth.users`) for data reset.
    - **Configuration** (Supabase Dashboard):
@@ -137,7 +137,7 @@ Start with these core files to understand the project:
 
 ## Getting Started
 
-1. **Supabase**: Create a project, run `supabase/reset_database.sql` (if resetting), then `create_tables.sql`, `rls.sql`, `users_view_setup.sql`, configure Authentication settings, update `frontend/.env`.
+1. **Supabase**: Create a project, run `supabase/reset_database.sql` (if resetting), then `create_tables.sql`, `rls.sql`, `check_email_exists.sql` in order, configure Authentication settings, update `frontend/.env`.
 2. **Local Run**: `cd frontend`, `npm install`, `npm start`.
 3. **Test**: Sign up, set up a profile, book an appointment, check confirmation.
 
