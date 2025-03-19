@@ -104,12 +104,12 @@ Start with these core files to understand the project:
      - `business_profile`: Business details with `time_zone`, `parking_instructions`, `office_directions`, `custom_info` (nullable, blank by default).
      - `appointments`: Appointment records with `service_type`, `status`.
      - `messages`: Event messages (`scheduled`, `rescheduled`, `cancelled`, `no_show`), populated on first dashboard load.
-   - **Views**: `users_view` for email checks during signup (restricted to `authenticated`, uses `check_email_exists` function).
+   - **Functions**: `check_email_exists` for secure signup email checks (replaces `users_view`).
    - **RLS**: Policies for `INSERT`, `UPDATE`, `SELECT` (authenticated users) and public `SELECT` on `messages`.
    - **Snippets**:
      - `create_tables.sql`: Table definitions with manual `insert_default_messages` function (fixed `search_path`).
      - `rls.sql`: RLS policies.
-     - `users_view_setup.sql`: `users_view` and `check_email_exists` function setup.
+     - `users_view_setup.sql`: Defines `check_email_exists` function (no `users_view` after security fixes).
      - `reset_database.sql`: Drops all tables/views/functions for full reset.
      - `purge_tables.sql`: Truncates tables (excludes `auth.users`) for data reset.
    - **Configuration** (Supabase Dashboard):
@@ -129,7 +129,7 @@ Start with these core files to understand the project:
 
 ## Current Features
 
-- User authentication with Supabase Auth, including dynamic redirect URLs for signup and resend confirmation (dev: `localhost:4000/auth/confirm`, live: `delparte.com/auth/confirm`).
+- User authentication with Supabase Auth, using dynamic redirect URLs for signup and resend confirmation (dev: `localhost:4000/auth/confirm`, live: `delparte.com/auth/confirm`), with email checks via secure `check_email_exists` function.
 - Business profile setup with time zone.
 - Appointment booking with service type and status.
 - Confirmation page with calendar integration, `scheduled` message, and optional notes.

@@ -68,10 +68,10 @@ This file tracks tasks and progress for CalenBooker development. Functional chan
 
 [x] **Secure `users_view` Access**
 
-- **Description**: Address `auth_users_exposed` by restricting `users_view` (`anon` access) and moving email checks to a secure function or backend.
+- **Description**: Address `auth_users_exposed` by restricting `users_view` (`anon` access) and moving email checks to a secure function or backend. Ultimately dropped `users_view` entirely, relying on `check_email_exists` function to resolve persistent security errors.
 - **Effort**: ~2-4 hours
 - **Priority**: Medium - Resolves Supabase security warning.
-- **Completed**: Restricted `users_view` to `authenticated`, added `check_email_exists` function, updated `SignupForm.js` to use RPC.
+- **Completed**: Dropped `users_view`, implemented `check_email_exists` with `SECURITY DEFINER`, restricted to `anon` execution, verified signup functionality post-reset.
 
 ## Long-Term Tasks
 
@@ -236,3 +236,4 @@ This file tracks tasks and progress for CalenBooker development. Functional chan
 13. **Messages Section**: Implemented message management, integrated into confirmation, fixed signup by moving message initialization to dashboard.
 14. **Supabase Security Fixes**: Resolved `auth_users_exposed`, `security_definer_view`, `function_search_path_mutable` for `insert_default_messages`, set OTP expiry to 1 hour, enabled leaked password protection.
 15. **Fix Confirmation Resend**: Fixed redirect mismatch in `SignupForm.js` and `LoginForm.js` for consistent dev/live URLs.
+16. **Database Reset and Security Update**: Dropped `users_view`, rebuilt tables and functions to resolve lingering security errors.

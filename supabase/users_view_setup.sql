@@ -1,15 +1,8 @@
--- Drop existing users_view to ensure a clean slate
+-- Remove users_view entirely
 DROP VIEW IF EXISTS public.users_view;
 
--- Create view with SECURITY INVOKER (default, not DEFINER)
-CREATE VIEW public.users_view AS
-SELECT id, email FROM auth.users;
-
--- Restrict permissions: revoke anon, grant authenticated
-REVOKE ALL ON public.users_view FROM anon;
-GRANT SELECT ON public.users_view TO authenticated;
-
--- Create secure function for email existence check
+-- Rely on function only
+DROP FUNCTION IF EXISTS public.check_email_exists(TEXT);
 CREATE OR REPLACE FUNCTION public.check_email_exists(email_to_check TEXT)
 RETURNS BOOLEAN AS $$
 BEGIN
@@ -17,5 +10,6 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public;
 
--- Grant anon permission to call the function
+-- Grant anon permission to call function
+REVOKE ALL ON FUNCTION public.check_email_exists(TEXT) FROM public, anon, authenticated, service_role, postgres;
 GRANT EXECUTE ON FUNCTION public.check_email_exists(TEXT) TO anon;
