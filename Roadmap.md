@@ -6,59 +6,59 @@ This file tracks tasks and progress for CalenBooker development. Functional chan
 
 A.1 Owner Calendar Sync
 
-- Description: Add 2-way sync with owners’ calendars (Google Calendar, Outlook, Apple iCloud) in `AppointmentScheduler.js` or `Dashboard.js`. Support multiple providers with an optional toggle for privacy-conscious users (app-only mode if disabled). Pulls events into `appointments` table or a new `calendar_events` table for conflict checks, pushes new bookings to the selected calendar. Enables visual calendar feedback (month view with saturation dots, hourly day view) for scheduling.
+- Description: Add 2-way sync with owners’ calendars (Google Calendar, Outlook, Apple iCloud) in `AppointmentScheduler.jsx` or `Dashboard.jsx`. Support multiple providers with an optional toggle for privacy-conscious users (app-only mode if disabled). Pulls events into `appointments` table or a new `calendar_events` table for conflict checks, pushes new bookings to the selected calendar. Enables visual calendar feedback (month view with saturation dots, hourly day view) for scheduling.
 - Effort: ~6-8 hours
 - Priority: High - Seamless workflow integration, critical for adoption and conflict-aware scheduling.
 
 A.2 Appointment Scheduler Preview/Confirmation Integration
 
-- Description: Enhance `AppointmentScheduler.js` with a visual calendar: month view (dots/shaded for saturation) and clickable hourly day view showing appointments inline. Selecting a date scrolls the calendar and populates the form; clicking the calendar fills the form. Booking at a conflicting time triggers a warning (e.g., “Conflict at 2 PM—Confirm anyway?”), overrideable with a flag (color-coded, stored in `appointments`). Uses 15-min increment granularity for openings (MVP, no profile setting yet). Post-submission, shows full `AppointmentConfirmation.js` content inline (date, time, service type, notes, calendar links, shareable `/appointment-confirmation/<id>` link), keeping the user on the page. Future: Split views for multi-employee openings.
+- Description: Enhance `AppointmentScheduler.jsx` with a visual calendar: month view (dots/shaded for saturation) and clickable hourly day view showing appointments inline. Selecting a date scrolls the calendar and populates the form; clicking the calendar fills the form. Booking at a conflicting time triggers a warning (e.g., “Conflict at 2 PM—Confirm anyway?”), overrideable with a flag (color-coded, stored in `appointments`). Uses 15-min increment granularity for openings (MVP, no profile setting yet). Post-submission, shows full `AppointmentConfirmation.jsx` content inline (date, time, service type, notes, calendar links, shareable `/appointment-confirmation/<id>` link), keeping the user on the page. Future: Split views for multi-employee openings.
 - Effort: ~4-6 hours (assumes local data; +2-3 hours with Sync)
 - Priority: High - Improves workflow efficiency and UX, core to optimal scheduling.
 
 A.3 Marketing Landing Page
 
-- Description: Enhance `Home.js` with a “Sign Up Free” CTA, testimonials, and demo video for promotion.
+- Description: Enhance `Home.jsx` with a “Sign Up Free” CTA, testimonials, and demo video for promotion.
 - Effort: ~2-3 hours
 - Priority: High - Boosts user acquisition.
 
 A.4 Referral Program
 
-- Description: Add a “Refer a Friend” link in `Dashboard.js` with a social shoutout reward.
+- Description: Add a “Refer a Friend” link in `Dashboard.jsx` with a social shoutout reward.
 - Effort: ~2-3 hours
 - Priority: High - Drives word-of-mouth growth.
 
 A.5 SEO Optimization
 
-- Description: Add meta tags, keywords, and sitemap; optimize `Home.js` content for search engines.
+- Description: Add meta tags, keywords, and sitemap; optimize `Home.jsx` content for search engines.
 - Effort: ~2-3 hours
 - Priority: High - Essential for organic growth.
 
 A.6 Email-Friendly Message Format
 
-- Description: Add a formatted version of the `scheduled` message (and optionally others) in `Messages.js` or `AppointmentScheduler.js`, optimized for copy-pasting into emails. Include appointment details (e.g., date, time, location) in a clean, readable block (e.g., plain text with line breaks). Provide a "Copy to Clipboard" button for ease.
+- Description: Add a formatted version of the `scheduled` message (and optionally others) in `Messages.jsx` or `AppointmentScheduler.jsx`, optimized for copy-pasting into emails. Include appointment details (e.g., date, time, location) in a clean, readable block (e.g., plain text with line breaks). Provide a "Copy to Clipboard" button for ease.
 - Effort: ~2-3 hours
 - Priority: Medium - Enhances client communication flexibility.
 
 A.7 Streamline Messages Page Layout
 
-- Description: Redesign `Messages.js` layout for a more compact, desktop-friendly view. Shrink oversized buttons, stack textareas vertically or use a grid, and maximize visible content per screen (e.g., all 4 messages + business info without scrolling on a standard desktop). Keep Kawaii styling but prioritize clarity and space efficiency.
+- Description: Redesign `Messages.jsx` layout for a more compact, desktop-friendly view. Shrink oversized buttons, stack textareas vertically or use a grid, and maximize visible content per screen (e.g., all 4 messages + business info without scrolling on a standard desktop). Keep Kawaii styling but prioritize clarity and space efficiency.
 - Effort: ~3-4 hours
 - Priority: Medium - Boosts usability, especially for desktop users.
 
 A.8 Fix Confirmation Resend Token Reuse
 
-- Description: Update `SignupForm.js` and `LoginForm.js` to use `emailRedirectTo` from `REACT_APP_AUTH_REDIRECT` (defaults to `localhost:4000/auth/confirm`), ensuring consistent redirects for signup and resend links across dev (`localhost`) and live (`delparte.com`) environments. Fixed resend link defaulting to Site URL (`calenbooker.com`) by adding `emailRedirectTo` to `supabase.auth.resend()`. Addresses latent bug where resend reused expired tokens and mismatched redirects.
+- Description: Updated `SignupForm.jsx` and `LoginForm.jsx` to use `emailRedirectTo` from `VITE_AUTH_REDIRECT` (defaults to `localhost:4000/auth/confirm`), ensuring consistent redirects for signup and resend links across dev (`localhost`) and live (`delparte.com`) environments. Fixed resend link defaulting to Site URL (`calenbooker.com`) by adding `emailRedirectTo` to `supabase.auth.resend()`. Addresses latent bug where resend reused expired tokens and mismatched redirects.
 - Effort: ~2-3 hours
 - Priority: High - Critical auth flow bug.
 - Completed: Fixed redirect mismatch, resend now uses `localhost` locally, aligns with live site via env vars.
 
 A.9 Messages Section
 
-- Description: Add a "Messages" section in `Messages.js` for customizable global default messages, stored in `messages` table (`id`, `user_id`, `event_type`, `default_message`). Includes `scheduled` (used as intro in `AppointmentConfirmation.js`), `rescheduled`, `cancelled`, `no_show` (displayed as "No-Show"). Moved `parking_instructions`, `office_directions`, `custom_info` to `business_profile` (nullable, blank by default), shown in confirmation "Notes" (bulleted list) if populated, with business name in location fields. Default messages now populate on first dashboard load (`Dashboard.js`) instead of signup to avoid RLS conflicts.
+- Description: Added a "Messages" section in `Messages.jsx` for customizable global default messages, stored in `messages` table (`id`, `user_id`, `event_type`, `default_message`). Includes `scheduled` (used as intro in `AppointmentConfirmation.jsx`), `rescheduled`, `cancelled`, `no_show` (displayed as "No-Show"). Moved `parking_instructions`, `office_directions`, `custom_info` to `business_profile` (nullable, blank by default), shown in confirmation "Notes" (bulleted list) if populated, with business name in location fields. Default messages now populate on first dashboard load (`Dashboard.jsx`) instead of signup to avoid RLS conflicts.
 - Effort: ~4-6 hours
 - Priority: Medium - Enhances customization.
-- Completed: Implemented `Messages.js` with edit/revert, integrated into confirmation with notes and calendar events, fixed signup conflict by moving message initialization to dashboard.
+- Completed: Implemented `Messages.jsx` with edit/revert, integrated into confirmation with notes and calendar events, fixed signup conflict by moving message initialization to dashboard.
 
 A.10 Client Feedback
 
@@ -68,7 +68,7 @@ A.10 Client Feedback
 
 A.11 Secure `users_view` Access
 
-- Description: Address `auth_users_exposed` by restricting `users_view` (`anon` access) and moving email checks to a secure function or backend. Ultimately dropped `users_view` entirely, relying on `check_email_exists` function to resolve persistent security errors.
+- Description: Addressed `auth_users_exposed` by restricting `users_view` (`anon` access) and moving email checks to a secure function or backend. Ultimately dropped `users_view` entirely, relying on `check_email_exists` function to resolve persistent security errors.
 - Effort: ~2-4 hours
 - Priority: Medium - Resolves Supabase security warning.
 - Completed: Dropped `users_view`, implemented `check_email_exists` with `SECURITY DEFINER`, restricted to `anon` execution, verified signup functionality post-reset.
@@ -87,13 +87,14 @@ A.13 Identify Missing Features from Competitors
 
 A.14 Resolve npm Vulnerabilities
 
-- Description: Address 11 npm vulnerabilities (7 high) identified after adding `react-google-recaptcha`. Run `npm audit` to list issues, update dependencies where possible (e.g., `npm update`), and use `npm audit fix` for safe resolutions. Document remaining vulnerabilities for manual review or future dependency updates.
+- Description: Ran `npm audit` post-migration—found 0 vulnerabilities as of March 19, 2025 (previously addressed 11, including 7 high, after adding `react-google-recaptcha`). Dependencies updated, no manual fixes needed.
 - Effort: ~2-4 hours
 - Priority: Medium - Improves security and maintainability.
+- Completed: Verified zero vulnerabilities post-Vite migration.
 
 A.15 Clean Up ESLint Warnings
 
-- Description: Fix `no-unused-vars` warnings in `AppointmentConfirmation.js` (Line 172: `businessName`) and `Messages.js` (Line 107: `handleRevertBusinessInfo`). Remove or use the variables/functions, ensuring no functionality breaks. Improves code cleanliness and reduces console noise.
+- Description: Fix `no-unused-vars` warnings in `AppointmentConfirmation.jsx` (Line 172: `businessName`) and `Messages.jsx` (Line 107: `handleRevertBusinessInfo`). Remove or use the variables/functions, ensuring no functionality breaks. Improves code cleanliness and reduces console noise.
 - Effort: ~1-2 hours
 - Priority: Low - Minor cleanup for better maintainability.
 
@@ -125,13 +126,13 @@ B.4 Self-Scheduling for Clients
 
 B.5 Multi-Employee Scheduling
 
-- Description: Enable staff assignment via a `staff` table. Future: Support split calendar views in `AppointmentScheduler.js` for finding openings across employees offering the same service.
+- Description: Enable staff assignment via a `staff` table. Future: Support split calendar views in `AppointmentScheduler.jsx` for finding openings across employees offering the same service.
 - Effort: ~8-10 hours
 - Priority: High - Scales to teams.
 
 B.6 Analytics Dashboard
 
-- Description: Add appointment stats in `Dashboard.js` (e.g., bookings/week).
+- Description: Add appointment stats in `Dashboard.jsx` (e.g., bookings/week).
 - Effort: ~6-8 hours
 - Priority: Medium - Provides insights.
 
@@ -143,13 +144,13 @@ B.7 Client Portal
 
 B.8 Recurring Appointments
 
-- Description: Allow recurring scheduling in `AppointmentScheduler.js`.
+- Description: Allow recurring scheduling in `AppointmentScheduler.jsx`.
 - Effort: ~6-8 hours
 - Priority: Medium - Useful for regulars.
 
 B.9 Availability Calendar
 
-- Description: Add a calendar view in `AppointmentScheduler.js` for open slots. Note: Overlaps with Scheduler Preview—may merge into a unified calendar feature.
+- Description: Add a calendar view in `AppointmentScheduler.jsx` for open slots. Note: Overlaps with Scheduler Preview—may merge into a unified calendar feature.
 - Effort: ~8-10 hours
 - Priority: Medium - Visual aid.
 
@@ -167,7 +168,7 @@ B.11 Data Export Options
 
 B.12 Advanced Filtering and Sorting
 
-- Description: Enhance `AppointmentsTable.js` with filters (date range, status).
+- Description: Enhance `AppointmentsTable.jsx` with filters (date range, status).
 - Effort: ~4-6 hours
 - Priority: Medium - Improves UX.
 
@@ -179,7 +180,7 @@ B.13 Calendar App Integrations
 
 B.14 Custom Service Types in Business Profile
 
-- Description: Allow custom service types in `BusinessProfile.js` for `AppointmentScheduler.js`.
+- Description: Allow custom service types in `BusinessProfile.jsx` for `AppointmentScheduler.jsx`.
 - Effort: ~4-6 hours
 - Priority: Medium - Personalization.
 
@@ -233,7 +234,7 @@ B.22 Professional Business Marketplace
 
 B.23 AI Appointment Suggestions
 
-- Description: Suggest optimal times in `AppointmentScheduler.js` via Edge Functions.
+- Description: Suggest optimal times in `AppointmentScheduler.jsx` via Edge Functions.
 - Effort: ~8-10 hours
 - Priority: Low - Innovative.
 
@@ -247,36 +248,35 @@ B.24 Affiliate Links or Ads
 
 C.1 Initial Setup
 
-- Description: Established core project structure and deployment.
-  - Set up Git repo and basic file structure.
-  - Built React frontend with routing, Tailwind CSS, and Supabase integration.
-  - Created minimal Express backend for future v2 features.
-  - Deployed frontend to Netlify with HTTPS.
+- Description: Established core project structure and deployment (Git repo, React frontend with Tailwind and Supabase, minimal Express backend, Netlify HTTPS).
 
 C.2 Frontend Enhancements
 
-- Description: Improved UI/UX and added core features.
-  - Added inline login/signup on landing page with autologin.
-  - Enhanced appointment scheduler with service type, status, and time zone.
-  - Created static pages (Terms, Privacy, Support, About, 404) with Kawaii styling.
-  - Refined navigation (navbar, footer links) and cleaned up code (removed logs, standardized CSS).
+- Description: Improved UI/UX (inline login/signup with autologin, enhanced scheduler, static pages with Kawaii styling, refined navigation).
 
 C.3 Database and Security
 
-- Description: Set up Supabase database and hardened security.
-  - Implemented SQL snippets for tables, RLS, and functions (e.g., `check_email_exists`).
-  - Fixed security issues: dropped `users_view`, secured functions, set OTP expiry, enabled password checks.
-  - Polished SQL comments and confirmed Supabase Advisor compliance.
+- Description: Set up Supabase (tables, RLS, `check_email_exists`), hardened security (dropped `users_view`, secured functions, OTP expiry, password checks).
 
 C.4 Appointment System
 
-- Description: Built client-facing appointment features.
-  - Added scheduling and notification system with calendar integration.
-  - Implemented customizable messages section, integrated into confirmation page.
+- Description: Built client-facing features (scheduling, notifications with calendar integration, customizable messages in confirmation).
 
 C.5 Authentication Fixes
 
-- Description: Improved auth flow reliability.
-  - Fixed confirmation resend redirect mismatch for dev/live consistency.
-  - Added terms agreement checkbox to signup.
-  - Added Google reCAPTCHA v2 to signup, enabled with domain support for `localhost` and `127.0.0.1`.
+- Description: Improved auth reliability (fixed resend redirect, added terms checkbox, integrated reCAPTCHA v2).
+
+C.6 Migrate from CRA to Vite
+
+- Description: Migrated frontend from Create React App (CRA) to Vite for faster builds and dev server (March 19, 2025).
+  - Replaced `react-scripts` with `vite@6.2.2` and `@vitejs/plugin-react@4.3.4`.
+  - Renamed `.js` files with JSX to `.jsx` (e.g., `App.js` → `App.jsx`, `Home.js` → `Home.jsx`).
+  - Moved `index.html` from `public/` to `frontend/` root.
+  - Added `postcss.config.js` for Tailwind CSS integration with `tailwindcss@3.4.17` and `autoprefixer@10.4.20`.
+  - Updated environment variables from `REACT_APP_*` to `VITE_*` in `.env` and `.jsx` files.
+  - Removed CRA leftovers (`public/`, `setupTests.js`, `reportWebVitals.js`).
+  - Ensured Kawaii theme (pastels, rounded shapes) persists with `styles.js`.
+  - Verified zero npm vulnerabilities post-migration.
+  - Effort: ~10-12 hours
+  - Priority: High - Improves performance and maintainability.
+  - Completed: Full app functionality (signup, login, booking) and styling intact with Vite.

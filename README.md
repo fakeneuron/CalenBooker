@@ -4,7 +4,7 @@ CalenBooker is a Minimum Viable Product (MVP) for a scheduling application desig
 
 ## Purpose and Vision
 
-CalenBooker simplifies scheduling with a quick signup process (just email, password, and terms agreement), email confirmation with automatic login, business profile setup, and appointment scheduling. Clients receive a shareable confirmation page with appointment details and calendar integration (`.ics`, Google Calendar, Outlook). Full email notifications are planned for version 2 (v2). It uses Supabase, a cloud platform, with an Anonymous Key (Anon Key) for public API access and Row-Level Security (RLS) to restrict data access to authorized users.
+CalenBooker simplifies scheduling with a quick signup process (email, password, terms agreement), email confirmation with automatic login, business profile setup, and appointment scheduling. Clients receive a shareable confirmation page with appointment details and calendar integration (`.ics`, Google Calendar, Outlook). Full email notifications are planned for version 2 (v2). It uses Supabase with an Anonymous Key (Anon Key) for public API access and Row-Level Security (RLS) to restrict data access to authorized users.
 
 ## Coder Environment
 
@@ -18,21 +18,23 @@ To run CalenBooker locally:
 - **Frontend**:
   - Navigate: `cd frontend`
   - Install: `npm install` (requires Node.js v20.18.0, npm v11.1.0)
-  - Rename `frontend/.env.example` to `frontend/.env` and add your Supabase URL, Anon Key, and redirect URL (see `.env.example` for template).
+  - Rename `frontend/.env.example` to `frontend/.env` and add your Supabase URL, Anon Key, redirect URL, and reCAPTCHA keys (see `.env.example` for template).
   - Run: `npm start` (opens `http://localhost:4000`)
+  - Build: `npm run build` (outputs to `dist/`)
+  - Preview: `npm run preview` (serves `dist/` at `http://localhost:4173`)
 - **Supabase**:
   - Create a project in the [Supabase Dashboard](https://supabase.com/dashboard).
   - Run SQL snippets from `supabase/` in the SQL Editor (order: `reset_database.sql` if resetting, then `create_tables.sql`, `rls.sql`, `check_email_exists.sql`).
   - Configure Authentication: Enable email signups, set OTP expiry to 3600s (1 hour) under Authentication > Configuration > Sign In / Up > Email.
   - Copy Project URL and Anon Key from API settings to `frontend/.env`.
 - **Test**: Sign up, set up a profile, book an appointment, check the confirmation page.
-- **Dependencies**: Managed in `frontend/package.json`.
+- **Dependencies**: Managed in `frontend/package.json`—zero vulnerabilities as of March 19, 2025.
 - **Deployment**: Frontend on Netlify (`https://delparte.com`) with HTTPS, Supabase auth redirects (`http://localhost:4000/auth/confirm` locally, `https://delparte.com/auth/confirm` live).
 - **Note**: `.env` is excluded from Git via `.gitignore`. Backend (`backend/`) is optional for MVP and not required locally yet.
 
 ## Technical Approach
 
-- Frontend: React (`19.0.0`), Tailwind CSS (`3.4.17`) via `styles.js`, Supabase client (`@supabase/supabase-js@2.49.1`).
+- Frontend: React (`19.0.0`), Tailwind CSS (`3.4.17`) via `styles.js`, Supabase client (`@supabase/supabase-js@2.49.1`), Vite (`6.2.2`) for dev/build.
 - Backend: Supabase (PostgreSQL, Authentication, Storage); minimal Node.js/Express (`4.21.2`) setup for future v2 features.
 
 ## Project Structure and Functionality
@@ -41,7 +43,7 @@ To run CalenBooker locally:
 
 - Git: `github.com/fakeneuron/CalenBooker` (branch: `master`).
 - Structure:
-  - `frontend/`: React app on port 4000 (`react-scripts@5.0.1`).
+  - `frontend/`: React app on port 4000 (migrated from `react-scripts` to Vite).
   - `backend/`: Express app on port 4001 (minimal, for v2).
   - `supabase/`: SQL snippets for database setup.
   - `README.md`: Main documentation.
@@ -49,31 +51,36 @@ To run CalenBooker locally:
 
 ### 2. Frontend Overview
 
-- **Styling**: Tailwind CSS (`index.css`, `styles.js`) with Kawaii theme (pastels, rounded shapes).
-- **Pages**:
-  - `/` (`Home.js`): Landing with login/signup toggles.
-  - `/auth/confirm` (`AuthConfirm.js`): Email confirmation redirect.
-  - `/dashboard` (`Dashboard.js`): Appointments table, initializes messages.
-  - `/business-profile` (`BusinessProfile.js`): Profile editor with time zone.
-  - `/appointment-scheduler` (`AppointmentScheduler.js`): Booking form with dropdowns.
-  - `/appointment-confirmation/:id` (`AppointmentConfirmation.js`): Public confirmation with calendar links.
-  - `/messages` (`Messages.js`): Message editor with save/revert.
-  - Static pages: `/terms`, `/privacy`, `/support`, `/about`, 404 (`NotFound.js`).
-- **Components**:
-  - `Navbar.js`: Fixed nav with menu and dropdown.
-  - `AppointmentsTable.js`: Sortable table with status colors.
-  - `FormField.js`: Reusable input component.
-  - `Footer.js`: Links to static pages.
-  - `LoginForm.js`, `SignupForm.js`: Inline auth forms with reCAPTCHA v2.
-- **Root Files**:
-  - `App.js`: Routing and auth management.
-  - `index.js`: Entry point.
-  - `supabaseClient.js`: Supabase connection.
+- **Styling**: Tailwind CSS (`index.css`, `styles.js`) with Kawaii theme (pastels, rounded shapes), processed via `postcss.config.js`.
+- **Pages** (in `src/pages/`):
+  - `/` (`Home.jsx`): Landing with login/signup toggles.
+  - `/auth/confirm` (`AuthConfirm.jsx`): Email confirmation redirect.
+  - `/dashboard` (`Dashboard.jsx`): Appointments table, initializes messages.
+  - `/business-profile` (`BusinessProfile.jsx`): Profile editor with time zone.
+  - `/appointment-scheduler` (`AppointmentScheduler.jsx`): Booking form with dropdowns.
+  - `/appointment-confirmation/:id` (`AppointmentConfirmation.jsx`): Public confirmation with calendar links.
+  - `/messages` (`Messages.jsx`): Message editor with save/revert.
+  - Static pages: `/terms` (`Terms.jsx`), `/privacy` (`Privacy.jsx`), `/support` (`Support.jsx`), `/about` (`About.jsx`), 404 (`NotFound.jsx`).
+- **Components** (in `src/components/`):
+  - `Navbar.jsx`: Fixed nav with menu and dropdown.
+  - `AppointmentsTable.jsx`: Sortable table with status colors.
+  - `FormField.jsx`: Reusable input component.
+  - `Footer.jsx`: Links to static pages.
+  - `LoginForm.jsx`: Login component.
+  - `SignupForm.jsx`: Signup component with reCAPTCHA v2.
+- **Root Files** (in `frontend/` or `src/`):
+  - `index.html`: Root HTML with `<div id="root">` and `<script type="module" src="/src/index.jsx">`.
+  - `vite.config.js`: Vite configuration (port 4000, React plugin).
+  - `tailwind.config.js`: Tailwind CSS configuration.
+  - `postcss.config.js`: PostCSS setup for Tailwind and Autoprefixer.
+  - `src/index.jsx`: Entry point, mounts React app with Router.
+  - `src/App.jsx`: Routing and auth management.
+  - `src/supabaseClient.js`: Supabase connection.
+  - `src/styles.js`: Tailwind CSS class definitions.
 - **Routing**: `react-router-dom@7.2.0`.
-- **Dependencies**: `react@19.0.0`, `@supabase/supabase-js@2.49.1`, `react-google-recaptcha`, etc. (see `frontend/package.json`).
-- **SPA Routing**: `frontend/public/_redirects` (`/* /index.html 200`) for Netlify.
-- **PostCSS**: `frontend/postcss.config.js` with `tailwindcss` and `autoprefixer`.
-- **Env Check**: `frontend/scripts/checkEnv.js` verifies `.env` vars.
+- **Dependencies**: `react@19.0.0`, `@supabase/supabase-js@2.49.1`, `react-google-recaptcha`, `vite@6.2.2`, etc. (see `frontend/package.json`).
+- **SPA Routing**: Removed `frontend/public/_redirects` (handled by Vite build for Netlify).
+- **Env**: Uses `import.meta.env.VITE_*` in `.jsx` files (e.g., `VITE_SUPABASE_URL`).
 
 ### 3. Backend Overview
 
@@ -88,22 +95,11 @@ To run CalenBooker locally:
   - `messages`: Event messages (`scheduled`, `rescheduled`, `cancelled`, `no_show`), populated on first dashboard load.
 - **Functions**: `check_email_exists` for secure signup email checks.
 - **Security**: RLS policies for `INSERT`, `UPDATE`, `SELECT` (authenticated users) and public `SELECT` on `messages`.
-- **SQL Files**: In `supabase/`:
-  - `create_tables.sql`: Table definitions with `insert_default_messages` and `execute_sql` functions (fixed `search_path`).
-  - `rls.sql`: RLS policies.
-  - `check_email_exists.sql`: Defines `check_email_exists` function.
-  - `reset_database.sql`: Drops all tables/views/functions for full reset.
-  - `purge_tables.sql`: Truncates tables (excludes `auth.users`) for data reset.
-- **Configuration** (Supabase Dashboard):
-  - Authentication > Configuration > Sign In / Up > Email:
-    - Email OTP Expiration: Set to `3600` seconds (1 hour) to address `auth_otp_long_expiry`.
-    - Prevent use of leaked passwords: Enabled to check against HaveIBeenPwned, addressing `auth_leaked_password_protection`.
-  - Authentication > Settings:
-    - Site URL: Set to `https://calenbooker.com` (placeholder), overridden by `REACT_APP_AUTH_REDIRECT` in `SignupForm.js` and `LoginForm.js` for signup and resend links.
+- **SQL Files**: In `supabase/` (unchanged).
 
 ## Current Features
 
-- User authentication with Supabase Auth, using dynamic redirect URLs (dev: `localhost:4000/auth/confirm`, live: `delparte.com/auth/confirm`), with email checks via `check_email_exists`.
+- User authentication with Supabase Auth, dynamic redirects (`localhost:4000/auth/confirm` locally, `delparte.com/auth/confirm` live), email checks via `check_email_exists`.
 - Business profile setup with time zone.
 - Appointment booking with service type and status.
 - Confirmation page with calendar integration, `scheduled` message, and optional notes.
