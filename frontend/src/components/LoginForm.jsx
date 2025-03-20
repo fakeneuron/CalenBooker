@@ -36,7 +36,7 @@ const LoginForm = ({ onLoginSuccess }) => {
 
   const handleResendConfirmation = async () => {
     try {
-      const redirectUrl = process.env.REACT_APP_AUTH_REDIRECT || 'http://localhost:4000/auth/confirm';
+      const redirectUrl = import.meta.env.VITE_AUTH_REDIRECT || 'http://localhost:4000/auth/confirm';
       const { error } = await supabase.auth.resend({
         type: 'signup',
         email: formData.email,

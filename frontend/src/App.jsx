@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import supabase from './supabaseClient';
-import Home from './pages/Home';
-import AuthConfirm from './pages/AuthConfirm';
-import Dashboard from './pages/Dashboard';
-import BusinessProfile from './pages/BusinessProfile';
-import AppointmentScheduler from './pages/AppointmentScheduler';
-import AppointmentConfirmation from './pages/AppointmentConfirmation';
-import Terms from './pages/Terms';
-import Privacy from './pages/Privacy';
-import Support from './pages/Support';
-import About from './pages/About';
-import NotFound from './pages/NotFound';
-import Messages from './pages/Messages';
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
+import Home from './pages/Home.jsx';
+import AuthConfirm from './pages/AuthConfirm.jsx';
+import Dashboard from './pages/Dashboard.jsx';
+import BusinessProfile from './pages/BusinessProfile.jsx';
+import AppointmentScheduler from './pages/AppointmentScheduler.jsx';
+import AppointmentConfirmation from './pages/AppointmentConfirmation.jsx';
+import Terms from './pages/Terms.jsx';
+import Privacy from './pages/Privacy.jsx';
+import Support from './pages/Support.jsx';
+import About from './pages/About.jsx';
+import NotFound from './pages/NotFound.jsx';
+import Messages from './pages/Messages.jsx';
+import Navbar from './components/Navbar.jsx';
+import Footer from './components/Footer.jsx';
 
 function App() {
   const [session, setSession] = useState(null);
@@ -37,7 +37,7 @@ function App() {
   }, []);
 
   return (
-    <div className="App min-h-screen flex flex-col pt-16">
+    <div className="bg-pink-200 min-h-screen flex flex-col pt-16">
       {session && <Navbar />}
       <main className="flex-grow">
         <Routes>

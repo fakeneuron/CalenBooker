@@ -17,7 +17,7 @@ const SignupForm = ({ onSignupSuccess }) => {
   const [termsAgreed, setTermsAgreed] = useState(false);
   const [captchaToken, setCaptchaToken] = useState(null);
 
-  const enableCaptcha = process.env.REACT_APP_ENABLE_CAPTCHA === 'true';
+  const enableCaptcha = import.meta.env.VITE_ENABLE_CAPTCHA === 'true';
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -65,7 +65,7 @@ const SignupForm = ({ onSignupSuccess }) => {
         return;
       }
 
-      const redirectUrl = process.env.REACT_APP_AUTH_REDIRECT || 'http://localhost:4000/auth/confirm';
+      const redirectUrl = import.meta.env.VITE_AUTH_REDIRECT || 'http://localhost:4000/auth/confirm';
       const { error: signUpError } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,
@@ -139,7 +139,7 @@ const SignupForm = ({ onSignupSuccess }) => {
         {enableCaptcha && (
           <div className="mt-4">
             <ReCAPTCHA
-              sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
+              sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
               onChange={handleCaptchaChange}
             />
           </div>

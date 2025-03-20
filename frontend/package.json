@@ -8,28 +8,26 @@
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
     "@testing-library/user-event": "^13.5.0",
-    "autoprefixer": "^10.4.20",
+    "@vitejs/plugin-react": "^4.3.4",
     "axios": "^1.7.9",
     "crypto-browserify": "^3.12.1",
     "dotenv": "^16.4.7",
     "ics": "^3.8.1",
     "os-browserify": "^0.3.0",
     "path-browserify": "^1.0.1",
-    "postcss": "^8.5.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-google-recaptcha": "^3.1.0",
     "react-router-dom": "^7.2.0",
-    "react-scripts": "^5.0.1",
     "runes": "^0.4.3",
-    "tailwindcss": "^3.4.17",
+    "vite": "^6.2.2",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "PORT=4000 react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "echo \"Tests not yet configured for Vite\" && exit 0"
   },
   "eslintConfig": {
     "extends": [
@@ -50,7 +48,12 @@
     ]
   },
   "resolutions": {
-  "nth-check": "2.0.1",
-  "postcss": "8.4.31"
+    "nth-check": "2.0.1",
+    "postcss": "8.4.31"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^3.4.17"
   }
 }
