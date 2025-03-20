@@ -81,7 +81,6 @@ const AppointmentConfirmationPublic = () => {
       <p className={text}>{message}</p>
       <div className="space-y-2">
         <p className={text}><strong>Service:</strong> {appointment.service_type}</p>
-        <p className={text}><strong>Client:</strong> {appointment.client_name} ({appointment.client_email})</p>
         <p className={text}><strong>Date:</strong> {appointment.meeting_date}</p>
         <p className={text}><strong>Time:</strong> {appointment.meeting_time} ({timeZone})</p>
         <p className={text}><strong>Duration:</strong> {appointment.duration} minutes</p>

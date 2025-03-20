@@ -21,18 +21,20 @@ const useAppointmentDetails = (id, code, isPublic = false) => {
             .from('appointment_links')
             .select('appointment_id, expires_at')
             .eq('short_code', code)
-            .single();
-          if (linkError || !linkData) throw new Error('Invalid or expired link.');
-          if (new Date(linkData.expires_at) < new Date()) throw new Error('This link has expired.');
-          if (!linkData.appointment_id) throw new Error('No appointment ID linked to this short code.');
-          appointmentId = linkData.appointment_id;
+            .limit(1);
+          if (linkError) throw linkError;
+          if (!linkData || linkData.length === 0) throw new Error('Invalid or expired link.');
+          const link = linkData[0];
+          if (new Date(link.expires_at) < new Date()) throw new Error('This link has expired.');
+          if (!link.appointment_id) throw new Error('No appointment ID linked to this short code.');
+          appointmentId = link.appointment_id;
         }
 
         if (!appointmentId) throw new Error('Appointment ID is missing.');
 
         const { data: appointmentData, error: appointmentError } = await supabase
           .from('appointments')
-          .select('client_name, client_email, meeting_date, meeting_time, duration, service_type, user_id')
+          .select('meeting_date, meeting_time, duration, service_type, user_id') // Drop client_name, client_email
           .eq('id', appointmentId)
           .single();
         if (appointmentError) throw appointmentError;
