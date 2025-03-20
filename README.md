@@ -70,6 +70,7 @@ To run CalenBooker locally:
       - `VITE_RECAPTCHA_SITE_KEY` (if using reCAPTCHA)
       - `VITE_ENABLE_CAPTCHA` (e.g., `true`)
 - **Supabase**: Apply database changes (e.g., `appointment_links` table) to production via SQL Editor.
+- **SPA Routing**: Configured via `frontend/netlify.toml` for Netlify SPA support.
 - Note: `.env` excluded from Git via `.gitignore`. Backend (`backend/`) is optional for MVP and not required locally.
 
 ## Technical Approach
