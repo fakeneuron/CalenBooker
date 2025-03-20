@@ -1,6 +1,6 @@
 # CalenBooker Roadmap
 
-This file tracks tasks and progress for CalenBooker development. Functional changes from completed tasks are reflected in `README.md`, with broad milestones noted here. Last updated: March 19, 2025.
+This file tracks tasks and progress for CalenBooker development. Functional changes from completed tasks are reflected in `README.md`, with broad milestones noted here. Last updated: March 20, 2025.
 
 ## A. Short-Term Tasks
 
@@ -12,7 +12,7 @@ A.1 Owner Calendar Sync
 
 A.2 Appointment Scheduler Preview/Confirmation Integration
 
-- Description: Enhance `AppointmentScheduler.jsx` with a visual calendar: month view (dots/shaded for saturation) and clickable hourly day view showing appointments inline. Selecting a date scrolls the calendar and populates the form; clicking the calendar fills the form. Booking at a conflicting time triggers a warning (e.g., “Conflict at 2 PM—Confirm anyway?”), overrideable with a flag (color-coded, stored in `appointments`). Uses 15-min increment granularity for openings (MVP, no profile setting yet). Post-submission, shows full `AppointmentConfirmation.jsx` content inline (date, time, service type, notes, calendar links, shareable `/appointment-confirmation/<id>` link), keeping the user on the page. Future: Split views for multi-employee openings.
+- Description: Enhance `AppointmentScheduler.jsx` with a visual calendar: month view (dots/shaded for saturation) and clickable hourly day view showing appointments inline. Selecting a date scrolls the calendar and populates the form; clicking the calendar fills the form. Booking at a conflicting time triggers a warning (e.g., “Conflict at 2 PM—Confirm anyway?”), overrideable with a flag (color-coded, stored in `appointments`). Uses 15-min increment granularity for openings (MVP, no profile setting yet). Post-submission, shows full confirmation content inline (date, time, service type, notes, calendar links, shareable `/appointment-confirmation/<id>` link), keeping the user on the page. Future: Split views for multi-employee openings.
 - Effort: ~4-6 hours (assumes local data; +2-3 hours with Sync)
 - Priority: High - Improves workflow efficiency and UX, core to optimal scheduling.
 
@@ -39,6 +39,7 @@ A.6 Email-Friendly Message Format
 - Description: Add a formatted version of the `scheduled` message (and optionally others) in `Messages.jsx` or `AppointmentScheduler.jsx`, optimized for copy-pasting into emails. Include appointment details (e.g., date, time, location) in a clean, readable block (e.g., plain text with line breaks). Provide a "Copy to Clipboard" button for ease.
 - Effort: ~2-3 hours
 - Priority: Medium - Enhances client communication flexibility.
+- Completed: Implemented in `AppointmentConfirmationPrivate.jsx` with clickable short links (`/a/<short_code>`), SMS/email formats, and `.ics` integration (March 20, 2025).
 
 A.7 Streamline Messages Page Layout
 
@@ -55,7 +56,7 @@ A.8 Fix Confirmation Resend Token Reuse
 
 A.9 Messages Section
 
-- Description: Added a "Messages" section in `Messages.jsx` for customizable global default messages, stored in `messages` table (`id`, `user_id`, `event_type`, `default_message`). Includes `scheduled` (used as intro in `AppointmentConfirmation.jsx`), `rescheduled`, `cancelled`, `no_show` (displayed as "No-Show"). Moved `parking_instructions`, `office_directions`, `custom_info` to `business_profile` (nullable, blank by default), shown in confirmation "Notes" (bulleted list) if populated, with business name in location fields. Default messages now populate on first dashboard load (`Dashboard.jsx`) instead of signup to avoid RLS conflicts.
+- Description: Added a "Messages" section in `Messages.jsx` for customizable global default messages, stored in `messages` table (`id`, `user_id`, `event_type`, `default_message`). Includes `scheduled` (used as intro in confirmation pages), `rescheduled`, `cancelled`, `no_show` (displayed as "No-Show"). Moved `parking_instructions`, `office_directions`, `custom_info` to `business_profile` (nullable, blank by default), shown in confirmation "Notes" (bulleted list) if populated, with business name in location fields. Default messages now populate on first dashboard load (`Dashboard.jsx`) instead of signup to avoid RLS conflicts.
 - Effort: ~4-6 hours
 - Priority: Medium - Enhances customization.
 - Completed: Implemented `Messages.jsx` with edit/revert, integrated into confirmation with notes and calendar events, fixed signup conflict by moving message initialization to dashboard.
@@ -244,6 +245,30 @@ B.24 Affiliate Links or Ads
 - Effort: ~3-4 hours
 - Priority: Low - Monetization.
 
+B.25 Rename "Appointment" to "Appt" in UI
+
+- Description: Update UI text (e.g., page titles, labels) from "Appointment" to "Appt" for brevity and consistency.
+- Effort: ~2-3 hours
+- Priority: Low - Cosmetic improvement.
+
+B.26 Unify Routes to `/a/:code`
+
+- Description: Phase out `/appointment-confirmation/:id` in favor of a single `/a/:code` route for both private and public access, using authentication checks to toggle full vs. simplified views.
+- Effort: ~4-6 hours
+- Priority: Medium - Simplifies routing.
+
+B.27 Rename "Appointment" to "Appt" in UI
+
+- Description: Duplicate of B.25—consolidate into B.25.
+- Effort: N/A
+- Priority: N/A
+
+B.28 Enhance Email Confirmation with Formatted Mailto and ICS Attachment
+
+- Description: Replace "Copy to Clipboard" in `AppointmentConfirmationPrivate.jsx` with a "Send Email" link using `mailto:` to open the user’s email client, pre-populating a formatted message (e.g., HTML bold text) and attaching the `.ics` file (via Blob URL or server-side solution).
+- Effort: ~6-8 hours
+- Priority: Medium - Improves client communication workflow.
+
 ## C. Progress (Completed)
 
 C.1 Initial Setup
@@ -277,6 +302,14 @@ C.6 Migrate from CRA to Vite
   - Removed CRA leftovers (`public/`, `setupTests.js`, `reportWebVitals.js`).
   - Ensured Kawaii theme (pastels, rounded shapes) persists with `styles.js`.
   - Verified zero npm vulnerabilities post-migration.
-  - Effort: ~10-12 hours
-  - Priority: High - Improves performance and maintainability.
-  - Completed: Full app functionality (signup, login, booking) and styling intact with Vite.
+  - Note: Fixed Netlify deployment by updating publish directory to `frontend/dist` and environment variables to `VITE_*` prefixes (March 20, 2025).
+- Effort: ~10-12 hours
+- Priority: High - Improves performance and maintainability.
+- Completed: Full app functionality (signup, login, booking) and styling intact with Vite.
+
+C.7 Appointment Confirmation Enhancements
+
+- Description: Split `AppointmentConfirmation.jsx` into `AppointmentConfirmationPrivate.jsx` (private, full view with email/SMS) and `AppointmentConfirmationPublic.jsx` (public, simplified). Added short links in `appointment_links` table, integrated clickable links in private view, and enhanced `AppointmentsTable.jsx` with copy icons (March 20, 2025).
+- Effort: ~6-8 hours
+- Priority: Medium - Improves usability and client sharing.
+- Completed: Fully functional with local testing verified.

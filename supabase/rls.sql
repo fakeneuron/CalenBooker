@@ -44,3 +44,12 @@ CREATE POLICY "Allow authenticated select" ON messages
 CREATE POLICY "Allow public select for confirmation" ON messages
   FOR SELECT
   USING (true);
+
+-- RLS for appointment_links: Allow public read, authenticated insert/update
+ALTER TABLE appointment_links ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Allow anon read access" ON appointment_links
+  FOR SELECT USING (true);
+
+CREATE POLICY "Allow authenticated insert/update" ON appointment_links
+  FOR ALL USING (auth.role() = 'authenticated');

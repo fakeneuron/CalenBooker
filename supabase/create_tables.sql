@@ -67,3 +67,12 @@ BEGIN
   EXECUTE sql_text;
 END;
 $$ LANGUAGE plpgsql SET search_path = public;
+
+-- Added for short public links to appointment confirmation
+CREATE TABLE appointment_links (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  short_code TEXT UNIQUE NOT NULL,
+  appointment_id BIGINT REFERENCES appointments(id) ON DELETE CASCADE,
+  expires_at TIMESTAMP WITH TIME ZONE NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);

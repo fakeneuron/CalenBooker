@@ -1,0 +1,110 @@
+import { useState, useEffect } from 'react';
+import supabase from '../supabaseClient';
+import { generateShortCode } from '../utils/shortCode';
+
+const useAppointmentDetails = (id, code, isPublic = false) => {
+  const [appointment, setAppointment] = useState(null);
+  const [business, setBusiness] = useState(null);
+  const [message, setMessage] = useState('');
+  const [notes, setNotes] = useState([]);
+  const [shortLink, setShortLink] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchAppointmentDetails = async () => {
+      try {
+        let appointmentId = id;
+
+        if (isPublic && code) {
+          const { data: linkData, error: linkError } = await supabase
+            .from('appointment_links')
+            .select('appointment_id, expires_at')
+            .eq('short_code', code)
+            .single();
+          if (linkError || !linkData) throw new Error('Invalid or expired link.');
+          if (new Date(linkData.expires_at) < new Date()) throw new Error('This link has expired.');
+          if (!linkData.appointment_id) throw new Error('No appointment ID linked to this short code.');
+          appointmentId = linkData.appointment_id;
+        }
+
+        if (!appointmentId) throw new Error('Appointment ID is missing.');
+
+        const { data: appointmentData, error: appointmentError } = await supabase
+          .from('appointments')
+          .select('client_name, client_email, meeting_date, meeting_time, duration, service_type, user_id')
+          .eq('id', appointmentId)
+          .single();
+        if (appointmentError) throw appointmentError;
+        if (!appointmentData) throw new Error('Appointment not found');
+
+        const { data: businessData, error: businessError } = await supabase
+          .from('business_profile')
+          .select('business_name, address, unit, city, province, postal_code, phone, time_zone, parking_instructions, office_directions, custom_info')
+          .eq('user_id', appointmentData.user_id)
+          .single();
+        if (businessError) throw businessError;
+
+        const { data: messageData, error: messageError } = await supabase
+          .from('messages')
+          .select('default_message')
+          .eq('user_id', appointmentData.user_id)
+          .eq('event_type', 'scheduled')
+          .limit(1)
+          .single();
+        if (messageError) throw new Error('Failed to fetch confirmation message: ' + messageError.message);
+        if (!messageData) throw new Error('No scheduled message found');
+
+        setAppointment(appointmentData);
+        setBusiness(businessData);
+        setMessage(messageData.default_message);
+
+        const notesArray = [];
+        if (businessData?.parking_instructions) notesArray.push(`Parking: ${businessData.parking_instructions}`);
+        if (businessData?.office_directions) notesArray.push(`Directions: ${businessData.office_directions}`);
+        if (businessData?.custom_info) notesArray.push(`Info: ${businessData.custom_info}`);
+        setNotes(notesArray);
+
+        if (!isPublic) {
+          const { data: existingLink, error: linkError } = await supabase
+            .from('appointment_links')
+            .select('short_code')
+            .eq('appointment_id', appointmentId)
+            .single();
+
+          const baseUrl = window.location.host;
+          if (existingLink) {
+            setShortLink(`${baseUrl}/a/${existingLink.short_code}`);
+          } else if (!linkError || linkError.code === 'PGRST116') {
+            const shortCode = await generateShortCode();
+            const expiresAt = new Date(appointmentData.meeting_date);
+            expiresAt.setDate(expiresAt.getDate() + 1);
+
+            const { error: insertError } = await supabase
+              .from('appointment_links')
+              .insert({
+                short_code: shortCode,
+                appointment_id: appointmentId,
+                expires_at: expiresAt.toISOString(),
+              });
+
+            if (insertError) throw new Error('Failed to create short link: ' + insertError.message);
+            setShortLink(`${baseUrl}/a/${shortCode}`);
+          } else {
+            throw new Error('Error checking short link: ' + linkError.message);
+          }
+        }
+      } catch (err) {
+        setError('Failed to load appointment details: ' + err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAppointmentDetails();
+  }, [id, code, isPublic]);
+
+  return { appointment, business, message, notes, shortLink, loading, error };
+};
+
+export default useAppointmentDetails;
