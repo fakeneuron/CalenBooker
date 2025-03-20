@@ -1,7 +1,7 @@
 const dotenv = require('dotenv');
 
-// Load environment variables from the root .env file
-dotenv.config({ path: '../../.env' });
+// Load environment variables from frontend/.env
+dotenv.config({ path: '../.env' }); // Adjusted path since script is in frontend/scripts/
 
-console.log('REACT_APP_SUPABASE_URL:', process.env.REACT_APP_SUPABASE_URL);
-console.log('REACT_APP_SUPABASE_ANON_KEY:', process.env.REACT_APP_SUPABASE_ANON_KEY);
+console.log('VITE_SUPABASE_URL:', process.env.VITE_SUPABASE_URL);
+console.log('VITE_SUPABASE_ANON_KEY:', process.env.VITE_SUPABASE_ANON_KEY);
