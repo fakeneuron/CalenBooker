@@ -11,6 +11,11 @@ import {
   calendarIcon,
 } from '../styles';
 
+// Import icons from src/assets/icons/
+import googleCalendarIcon from '../assets/icons/google-calendar96.png';
+import outlookIcon from '../assets/icons/outlook96.png';
+import appleCalendarIcon from '../assets/icons/apple96.png';
+
 const AppointmentConfirmation = () => {
   const { id } = useParams();
   const [appointment, setAppointment] = useState(null);
@@ -203,21 +208,21 @@ const AppointmentConfirmation = () => {
         <h3 className="text-lg font-semibold text-center">Add to Your Calendar:</h3>
         <div className="flex space-x-4 justify-center">
           <img 
-            src="/google-calendar96.png" 
+            src={googleCalendarIcon} 
             alt="Google Calendar" 
             className={calendarIcon} 
             onClick={handleGoogleCalendar} 
             title="Add to Google Calendar" 
           />
           <img 
-            src="/outlook96.png" 
+            src={outlookIcon} 
             alt="Outlook" 
             className={calendarIcon} 
             onClick={handleOutlookCalendar} 
             title="Add to Outlook" 
           />
           <img 
-            src="/apple96.png" 
+            src={appleCalendarIcon} 
             alt="Apple Calendar" 
             className={calendarIcon} 
             onClick={handleICalendarDownload} 
