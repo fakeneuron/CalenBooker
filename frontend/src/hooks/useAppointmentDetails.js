@@ -19,55 +19,64 @@ const useAppointmentDetails = (id, code, isPublic = false) => {
         if (isPublic && code) {
           const { data: linkData, error: linkError } = await supabase
             .from('appointment_links')
-            .select('appointment_id, expires_at')
+            .select('appointment_id')
             .eq('short_code', code)
             .limit(1);
           if (linkError) throw linkError;
           if (!linkData || linkData.length === 0) throw new Error('Invalid or expired link.');
-          const link = linkData[0];
-          if (new Date(link.expires_at) < new Date()) throw new Error('This link has expired.');
-          if (!link.appointment_id) throw new Error('No appointment ID linked to this short code.');
-          appointmentId = link.appointment_id;
-        }
+          appointmentId = linkData[0].appointment_id;
 
-        if (!appointmentId) throw new Error('Appointment ID is missing.');
+          const { data: apptData, error: apptError } = await supabase
+            .from('appointments')
+            .select('meeting_date, meeting_time, duration, user_id')
+            .eq('id', appointmentId)
+            .single();
+          if (apptError) throw apptError;
 
-        const { data: appointmentData, error: appointmentError } = await supabase
-          .from('appointments')
-          .select('meeting_date, meeting_time, duration, service_type, user_id') // Drop client_name, client_email
-          .eq('id', appointmentId)
-          .single();
-        if (appointmentError) throw appointmentError;
-        if (!appointmentData) throw new Error('Appointment not found');
+          const { data: bizData, error: bizError } = await supabase
+            .from('business_profile')
+            .select('business_name, address, unit, city, province, postal_code')
+            .eq('user_id', apptData.user_id)
+            .single();
+          if (bizError) throw bizError;
 
-        const { data: businessData, error: businessError } = await supabase
-          .from('business_profile')
-          .select('business_name, address, unit, city, province, postal_code, phone, time_zone, parking_instructions, office_directions, custom_info')
-          .eq('user_id', appointmentData.user_id)
-          .single();
-        if (businessError) throw businessError;
+          setAppointment(apptData);
+          setBusiness(bizData);
+          setMessage('Your appointment is confirmed!');
+        } else if (appointmentId) {
+          const { data: appointmentData, error: appointmentError } = await supabase
+            .from('appointments')
+            .select('client_name, client_email, meeting_date, meeting_time, duration, service_type, user_id')
+            .eq('id', appointmentId)
+            .single();
+          if (appointmentError) throw appointmentError;
 
-        const { data: messageData, error: messageError } = await supabase
-          .from('messages')
-          .select('default_message')
-          .eq('user_id', appointmentData.user_id)
-          .eq('event_type', 'scheduled')
-          .limit(1)
-          .single();
-        if (messageError) throw new Error('Failed to fetch confirmation message: ' + messageError.message);
-        if (!messageData) throw new Error('No scheduled message found');
+          const { data: businessData, error: businessError } = await supabase
+            .from('business_profile')
+            .select('business_name, address, unit, city, province, postal_code, phone, time_zone, parking_instructions, office_directions, custom_info')
+            .eq('user_id', appointmentData.user_id)
+            .single();
+          if (businessError) throw businessError;
 
-        setAppointment(appointmentData);
-        setBusiness(businessData);
-        setMessage(messageData.default_message);
+          const { data: messageData, error: messageError } = await supabase
+            .from('messages')
+            .select('default_message')
+            .eq('user_id', appointmentData.user_id)
+            .eq('event_type', 'scheduled')
+            .limit(1)
+            .single();
+          if (messageError) throw messageError;
 
-        const notesArray = [];
-        if (businessData?.parking_instructions) notesArray.push(`Parking: ${businessData.parking_instructions}`);
-        if (businessData?.office_directions) notesArray.push(`Directions: ${businessData.office_directions}`);
-        if (businessData?.custom_info) notesArray.push(`Info: ${businessData.custom_info}`);
-        setNotes(notesArray);
+          setAppointment(appointmentData);
+          setBusiness(businessData);
+          setMessage(messageData.default_message);
 
-        if (!isPublic) {
+          const notesArray = [];
+          if (businessData?.parking_instructions) notesArray.push(`Parking: ${businessData.parking_instructions}`);
+          if (businessData?.office_directions) notesArray.push(`Directions: ${businessData.office_directions}`);
+          if (businessData?.custom_info) notesArray.push(`Info: ${businessData.custom_info}`);
+          setNotes(notesArray);
+
           const { data: existingLink, error: linkError } = await supabase
             .from('appointment_links')
             .select('short_code')

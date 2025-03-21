@@ -4,6 +4,7 @@
 DROP TABLE IF EXISTS appointments;
 DROP TABLE IF EXISTS business_profile;
 DROP TABLE IF EXISTS messages;
+DROP TABLE IF EXISTS appointment_links;
 
 CREATE TABLE business_profile (
   user_id UUID PRIMARY KEY,
@@ -45,6 +46,15 @@ CREATE TABLE messages (
   UNIQUE (user_id, event_type)
 );
 
+CREATE TABLE appointment_links (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  short_code TEXT UNIQUE NOT NULL,
+  appointment_id BIGINT REFERENCES appointments(id) ON DELETE CASCADE,
+  expires_at TIMESTAMP WITH TIME ZONE NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  access_pin TEXT -- Nullable for MVP, used later for PIN security
+);
+
 -- Insert default messages for new users (called from Dashboard.js)
 CREATE OR REPLACE FUNCTION public.insert_default_messages(user_id_input UUID)
 RETURNS VOID AS $$
@@ -67,12 +77,3 @@ BEGIN
   EXECUTE sql_text;
 END;
 $$ LANGUAGE plpgsql SET search_path = public;
-
--- Added for short public links to appointment confirmation
-CREATE TABLE appointment_links (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  short_code TEXT UNIQUE NOT NULL,
-  appointment_id BIGINT REFERENCES appointments(id) ON DELETE CASCADE,
-  expires_at TIMESTAMP WITH TIME ZONE NOT NULL,
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-);
