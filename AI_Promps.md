@@ -24,12 +24,11 @@ For each task:
 
 - Create a `T###-ShortTitle.md` Task Note (e.g., `T001-OwnerCalendarSync.md`) to plan changes (minimal code, e.g., function names), track progress, and summarize updates, including the starting commit hash; skip for tasks under 1 hour and walk me through changes directly.
 - Make a git commit (e.g., `git commit -m "Created T001-OwnerCalendarSync"`).
+- Request missing files required for implementing the changes (consult README.md or App.jsx)
 - Implement changes with me step-by-step, providing full updated files.
 - Update `README.md`’s 'Project Structure and Functionality' with detailed changes and third-party configs for replication.
 - Log accomplishments in `Roadmap.md`’s 'Progress (Completed)' section, referencing the Task ID (e.g., #001).
 - Suggest Git commands (add, commit, push) after completion, with `README.md` and `Roadmap.md` updated first.
-
-For `.md` updates, provide the full item (e.g., `#001`) with its number; for multiple sections, share the full file.
 
 Keep explanations simple and concise for a novice coder. Start by listing `Roadmap.md` Tasks and ask which to tackle first.
 

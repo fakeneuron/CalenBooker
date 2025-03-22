@@ -1,13 +1,13 @@
 # CalenBooker Roadmap
 
-This file tracks tasks and progress for CalenBooker development. Functional changes from completed tasks are reflected in `README.md`, with broad milestones noted here. Last updated: March 20, 2025.
+This file tracks tasks for CalenBooker development. Functional changes from completed tasks are reflected in `README.md`, with broad milestones archived in `TaskNotes/`. Last updated: March 22, 2025.
 
 ## Instructions for AI
 
 - Assign each task a unique identifier (e.g., `#001`) for tracking.
 - For medium-to-large tasks (>2-3 hours), create a `T###-ShortTitle.md` Task Note file (e.g., `T001-OwnerCalendarSync.md`) to detail changes, problems, solutions, and third-party configs. Include the starting git commit hash (e.g., `git commit -m "Start #001"`) before beginning. Small tasks may skip this.
 - Update `README.md`’s 'Project Structure and Functionality' with detailed functionality/setup after each task.
-- Log completed tasks in the 'Progress (Completed)' section below with broad strokes.
+- Log completed tasks in `TaskNotes/###-ShortName.md` files (e.g., `000-InitialProgress.md`).
 - Provide full `.md` files for multiple section updates or the full item (e.g., `#001`) with its number for single changes.
 
 ## Tasks
@@ -42,45 +42,17 @@ This file tracks tasks and progress for CalenBooker development. Functional chan
 - Effort: ~2-3 hours
 - Priority: High - Essential for organic growth.
 
-#006 Email-Friendly Message Format
-
-- Description: Add a formatted version of the `scheduled` message (and optionally others) in `Messages.jsx` or `AppointmentScheduler.jsx`, optimized for copy-pasting into emails. Include appointment details (e.g., date, time, location) in a clean, readable block (e.g., plain text with line breaks). Provide a "Copy to Clipboard" button for ease.
-- Effort: ~2-3 hours
-- Priority: Medium - Enhances client communication flexibility.
-- Completed: Implemented in `AppointmentConfirmationPrivate.jsx` with clickable short links (`/a/<short_code>`), SMS/email formats, and `.ics` integration (March 20, 2025).
-
 #007 Streamline Messages Page Layout
 
 - Description: Redesign `Messages.jsx` layout for a compact, desktop-friendly view. Shrink oversized buttons, stack textareas vertically or use a grid, maximize visible content per screen (e.g., all 4 messages + business info without scrolling on a standard desktop). Keep Kawaii styling but prioritize clarity and space efficiency.
 - Effort: ~3-4 hours
 - Priority: Medium - Boosts usability, especially for desktop users.
 
-#008 Fix Confirmation Resend Token Reuse
-
-- Description: Updated `SignupForm.jsx` and `LoginForm.jsx` to use `emailRedirectTo` from `VITE_AUTH_REDIRECT` (defaults to `localhost:4000/auth/confirm`), ensuring consistent redirects for signup and resend links across dev (`localhost`) and live (`delparte.com`) environments. Fixed resend link defaulting to Site URL (`calenbooker.com`) by adding `emailRedirectTo` to `supabase.auth.resend()`. Addresses latent bug where resend reused expired tokens and mismatched redirects.
-- Effort: ~2-3 hours
-- Priority: High - Critical auth flow bug.
-- Completed: Fixed redirect mismatch, resend now uses `localhost` locally, aligns with live site via env vars.
-
-#009 Messages Section
-
-- Description: Added a "Messages" section in `Messages.jsx` for customizable global default messages, stored in `messages` table (`id`, `user_id`, `event_type`, `default_message`). Includes `scheduled` (used as intro in confirmation pages), `rescheduled`, `cancelled`, `no_show` (displayed as "No-Show"). Moved `parking_instructions`, `office_directions`, `custom_info` to `business_profile` (nullable, blank by default), shown in confirmation "Notes" (bulleted list) if populated, with business name in location fields. Default messages now populate on first dashboard load (`Dashboard.jsx`) instead of signup to avoid RLS conflicts.
-- Effort: ~4-6 hours
-- Priority: Medium - Enhances customization.
-- Completed: Implemented `Messages.jsx` with edit/revert, integrated into confirmation with notes and calendar events, fixed signup conflict by moving message initialization to dashboard.
-
 #010 Client Feedback
 
 - Description: Add a "Feedback" link on `/appointment-confirmation/<id>` (public), store in a `feedback` table.
 - Effort: ~4-6 hours
 - Priority: Medium - Improves service quality, client engagement.
-
-#011 Secure `users_view` Access
-
-- Description: Addressed `auth_users_exposed` by restricting `users_view` (`anon` access) and moving email checks to a secure function or backend. Ultimately dropped `users_view` entirely, relying on `check_email_exists` function to resolve persistent security errors.
-- Effort: ~2-4 hours
-- Priority: Medium - Resolves Supabase security warning.
-- Completed: Dropped `users_view`, implemented `check_email_exists` with `SECURITY DEFINER`, restricted to `anon` execution, verified signup functionality post-reset.
 
 #012 Configure delparte.com Email
 
@@ -93,13 +65,6 @@ This file tracks tasks and progress for CalenBooker development. Functional chan
 - Description: Research leading calendar booking apps (e.g., Calendly, Acuity Scheduling, SimplyBook.me) to identify features enticing customers (e.g., payment integration, team scheduling, custom branding). Analyze their competitive edge, assess how CalenBooker can differentiate (e.g., privacy focus, Kawaii UX), and explore similar efforts by privacy-first competitors (e.g., Proton Calendar). Document findings to inform future tasks.
 - Effort: ~3-4 hours
 - Priority: Medium - Strategic planning for market competitiveness.
-
-#014 Resolve npm Vulnerabilities
-
-- Description: Ran `npm audit` post-migration—found 0 vulnerabilities as of March 19, 2025 (previously addressed 11, including 7 high, after adding `react-google-recaptcha`). Dependencies updated, no manual fixes needed.
-- Effort: ~2-4 hours
-- Priority: Medium - Improves security and maintainability.
-- Completed: Verified zero vulnerabilities post-Vite migration.
 
 #015 Clean Up ESLint Warnings
 
@@ -299,47 +264,14 @@ This file tracks tasks and progress for CalenBooker development. Functional chan
 - Effort: ~2-4 hours
 - Priority: Low - Improves dev workflow.
 
-## Progress (Completed)
+#048 Consolidate Assets into `src/assets/`
 
-Initial Setup
+- Description: Move `logo.svg` to `src/assets/logo.svg`, update `Navbar.jsx` import to `import logo from '../assets/logo.svg';`, document in `README.md` under "Project Structure".
+- Effort: ~1-2 hours
+- Priority: Low - Improves asset organization.
 
-- Description: Established core project structure and deployment (Git repo, React frontend with Tailwind and Supabase, minimal Express backend, Netlify HTTPS).
+## Task Tracking Process
 
-Frontend Enhancements
-
-- Description: Improved UI/UX (inline login/signup with autologin, enhanced scheduler, static pages with Kawaii styling, refined navigation).
-
-Database and Security
-
-- Description: Set up Supabase (tables, RLS, `check_email_exists`), hardened security (dropped `users_view`, secured functions, OTP expiry, password checks).
-
-Appointment System
-
-- Description: Built client-facing features (scheduling, notifications with calendar integration, customizable messages in confirmation).
-
-Authentication Fixes
-
-- Description: Improved auth reliability (fixed resend redirect, added terms checkbox, integrated reCAPTCHA v2).
-
-Migrate from CRA to Vite
-
-- Description: Migrated frontend from Create React App (CRA) to Vite for faster builds and dev server (March 19, 2025).
-  - Replaced `react-scripts` with `vite@6.2.2` and `@vitejs/plugin-react@4.3.4`.
-  - Renamed `.js` files with JSX to `.jsx` (e.g., `App.js` → `App.jsx`, `Home.js` → `Home.jsx`).
-  - Moved `index.html` from `public/` to `frontend/` root.
-  - Added `postcss.config.js` for Tailwind CSS integration with `tailwindcss@3.4.17` and `autoprefixer@10.4.20`.
-  - Updated environment variables from `REACT_APP_*` to `VITE_*` in `.env` and `.jsx` files.
-  - Removed CRA leftovers (`public/`, `setupTests.js`, `reportWebVitals.js`).
-  - Ensured Kawaii theme (pastels, rounded shapes) persists with `styles.js`.
-  - Verified zero npm vulnerabilities post-migration.
-  - Note: Fixed Netlify deployment by updating publish directory to `frontend/dist` and environment variables to `VITE_*` prefixes (March 20, 2025).
-- Effort: ~10-12 hours
-- Priority: High - Improves performance and maintainability.
-- Completed: Full app functionality (signup, login, booking) and styling intact with Vite.
-
-Appointment Confirmation Enhancements
-
-- Description: Split `AppointmentConfirmation.jsx` into `AppointmentConfirmationPrivate.jsx` (private, full view with email/SMS) and `AppointmentConfirmationPublic.jsx` (public, simplified). Added short links in `appointment_links` table, integrated clickable links in private view, and enhanced `AppointmentsTable.jsx` with copy icons (March 20, 2025).
-- Effort: ~6-8 hours
-- Priority: Medium - Improves usability and client sharing.
-- Completed: Fully functional with local testing verified.
+- **Active Tasks**: Planned and tracked in `###-ShortName.md` files in the `CalenBooker/` root folder during development.
+- **Completed Tasks**: Moved to `TaskNotes/###-ShortName.md` upon completion, starting with `000-InitialProgress.md`.
+- **Progress Archive**: Historical progress up to March 22, 2025, is now in `TaskNotes/000-InitialProgress.md`.
