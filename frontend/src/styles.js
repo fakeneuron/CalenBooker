@@ -5,6 +5,7 @@ export const calendarIcon = 'w-12 h-12 hover:scale-110 transition-transform curs
 export const container = 'max-w-md mx-auto p-6 bg-white rounded-lg shadow-md';
 export const copiedText = 'ml-2 text-green-500 text-sm animate-fadeOut';
 export const copyButton = 'mt-2 bg-pink-400 text-white px-4 py-2 rounded-full hover:bg-pink-500 transition duration-200';
+export const copyIcon = 'absolute top-2 right-2 text-gray-500 hover:text-gray-700 cursor-pointer w-5 h-5 transition-transform transform hover:scale-110';
 export const errorText = 'text-red-500 text-sm mt-1';
 export const featureCard = 'bg-pink-100 p-6 rounded-xl shadow-md text-center transform hover:scale-105 transition-transform';
 export const featureContainer = 'max-w-5xl mx-auto grid gap-6 md:grid-cols-3';

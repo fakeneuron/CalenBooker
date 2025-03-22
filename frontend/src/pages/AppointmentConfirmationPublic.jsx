@@ -14,7 +14,7 @@ import {
 import googleCalendarIcon from '../assets/icons/google-calendar96.png';
 import outlookIcon from '../assets/icons/outlook96.png';
 import appleCalendarIcon from '../assets/icons/apple96.png';
-import { generateICalendar } from '../utils/appointmentUtils';
+import { generateICalendar, generateGoogleCalendarLink } from '../utils/appointmentUtils';
 
 const AppointmentConfirmationPublic = () => {
   const { code } = useParams();
@@ -36,17 +36,7 @@ const AppointmentConfirmationPublic = () => {
 
   const handleGoogleCalendar = () => {
     if (!appointment || !business) return;
-    const startDate = new Date(`${appointment.meeting_date}T${appointment.meeting_time}`);
-    const endDate = new Date(startDate.getTime() + appointment.duration * 60 * 1000);
-    const startStr = startDate.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
-    const endStr = endDate.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
-    const description = message;
-    const location = `${business.business_name}, ${business.address}${business.unit ? ', ' + business.unit : ''}, ${business.city}, ${business.province} ${business.postal_code}`;
-    const googleUrl = `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(
-      'Appointment with ' + business.business_name
-    )}&dates=${startStr}/${endStr}&details=${encodeURIComponent(
-      description
-    )}&location=${encodeURIComponent(location)}`;
+    const googleUrl = generateGoogleCalendarLink(appointment, business, message, [], true); // isPublic = true
     window.open(googleUrl, '_blank');
   };
 

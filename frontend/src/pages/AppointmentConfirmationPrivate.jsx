@@ -5,70 +5,25 @@ import {
   container,
   errorText,
   heading,
-  successBox,
   successText,
   text,
-  calendarIcon,
   messageBox,
-  copyButton,
+  copyIcon,
   copiedText,
   sectionTitle,
   notesList,
   shortLink,
   messageText,
 } from '../styles';
-import { formatEmailMessage, formatSMSMessage, generateICalendar } from '../utils/appointmentUtils';
-import googleCalendarIcon from '../assets/icons/google-calendar96.png';
-import outlookIcon from '../assets/icons/outlook96.png';
-import appleCalendarIcon from '../assets/icons/apple96.png';
+import { formatEmailMessage, formatSMSMessage } from '../utils/appointmentUtils';
+import { FaCopy } from 'react-icons/fa'; // Using react-icons for the copy icon
 
 const AppointmentConfirmationPrivate = () => {
   const { id } = useParams();
   const { appointment, business, message, notes, shortLink, loading, error } = useAppointmentDetails(id, null, false);
   const [emailCopied, setEmailCopied] = useState(false);
   const [smsCopied, setSMSCopied] = useState(false);
-  const [icsUrl, setIcsUrl] = useState('');
-
-  const handleICalendarDownload = () => {
-    if (!appointment || !business) return null;
-    const icsContent = generateICalendar(appointment, business, message, notes);
-    const blob = new Blob([icsContent], { type: 'text/calendar' });
-    const url = window.URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `appointment-${appointment.meeting_date}.ics`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    window.URL.revokeObjectURL(url);
-    setIcsUrl(url);
-    return url;
-  };
-
-  const handleGoogleCalendar = () => {
-    if (!appointment || !business) return;
-    const startDate = new Date(`${appointment.meeting_date}T${appointment.meeting_time}`);
-    const endDate = new Date(startDate.getTime() + appointment.duration * 60 * 1000);
-    const startStr = startDate.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
-    const endStr = endDate.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
-    const description = [
-      message,
-      appointment.client_name ? `Client: ${appointment.client_name} (${appointment.client_email})` : '',
-      business.phone ? `Contact: ${business.phone}` : '',
-      notes.length > 0 ? '\nNotes:\n' + notes.join('\n') : '',
-    ].filter(Boolean).join('\n');
-    const location = `${business.business_name}, ${business.address}${business.unit ? ', ' + business.unit : ''}, ${business.city}, ${business.province} ${business.postal_code}`;
-    const googleUrl = `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(
-      `${appointment.service_type} with ${business.business_name}`
-    )}&dates=${startStr}/${endStr}&details=${encodeURIComponent(
-      description
-    )}&location=${encodeURIComponent(location)}`;
-    window.open(googleUrl, '_blank');
-  };
-
-  const handleOutlookCalendar = () => {
-    handleICalendarDownload();
-  };
+  const [icsUrl] = useState(''); // Kept for email format compatibility
 
   const handleCopyEmail = async () => {
     try {
@@ -131,33 +86,7 @@ const AppointmentConfirmationPrivate = () => {
           </ul>
         </div>
       )}
-      <div className={successBox}>
-        <h3 className={sectionTitle}>Add to Your Calendar:</h3>
-        <div className="flex space-x-4 justify-center">
-          <img
-            src={googleCalendarIcon}
-            alt="Google Calendar"
-            className={calendarIcon}
-            onClick={handleGoogleCalendar}
-            title="Add to Google Calendar"
-          />
-          <img
-            src={outlookIcon}
-            alt="Outlook"
-            className={calendarIcon}
-            onClick={handleOutlookCalendar}
-            title="Add to Outlook"
-          />
-          <img
-            src={appleCalendarIcon}
-            alt="Apple Calendar"
-            className={calendarIcon}
-            onClick={handleICalendarDownload}
-            title="Add to Apple Calendar"
-          />
-        </div>
-      </div>
-      <div className="mt-6">
+      <div className="mt-6 relative">
         <h3 className={sectionTitle}>Email-Friendly Format:</h3>
         <div className={messageBox}>
           <pre className={messageText}>
@@ -179,11 +108,11 @@ const AppointmentConfirmationPrivate = () => {
               )
             )).reduce((prev, curr, index) => index === 0 ? [curr] : [...prev, '\n', curr], [])}
           </pre>
+          <FaCopy className={copyIcon} onClick={handleCopyEmail} title="Copy to Clipboard" />
+          {emailCopied && <span className={copiedText}>Copied!</span>}
         </div>
-        <button onClick={handleCopyEmail} className={copyButton}>Copy to Clipboard</button>
-        {emailCopied && <span className={copiedText}>Copied!</span>}
       </div>
-      <div className="mt-4">
+      <div className="mt-4 relative">
         <h3 className={sectionTitle}>SMS-Friendly Format:</h3>
         <div className={messageBox}>
           <p className={text}>
@@ -203,9 +132,9 @@ const AppointmentConfirmationPrivate = () => {
               )
             ))}
           </p>
+          <FaCopy className={copyIcon} onClick={handleCopySMS} title="Copy to Clipboard" />
+          {smsCopied && <span className={copiedText}>Copied!</span>}
         </div>
-        <button onClick={handleCopySMS} className={copyButton}>Copy to Clipboard</button>
-        {smsCopied && <span className={copiedText}>Copied!</span>}
       </div>
     </div>
   );

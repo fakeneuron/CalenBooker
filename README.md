@@ -1,103 +1,215 @@
-# Task Note - Appointment Confirmation Enhancement
+# CalenBooker MVP
 
-This document outlines the steps to enhance the appointment confirmation page with short links and calendar integration, plus a refactoring plan. Last updated: March 22, 2025.
+CalenBooker is a Minimum Viable Product (MVP) for a scheduling application designed to streamline appointment booking for professional businesses (e.g., consultants, tutors, salons). It allows owners to sign up, set up business profiles, and manage client appointments with notifications, featuring a cute, Kawaii-styled interface. Built with React (frontend) and Supabase (backend), it’s hosted on `github.com/fakeneuron/CalenBooker` (branch: master). Requires Node.js, npm, and a Supabase account to set up.
 
-## Plan
+## Purpose and Vision
 
-### Create appointment_links Table in Supabase
+CalenBooker simplifies scheduling with a quick signup process (email, password, terms agreement), email confirmation with automatic login, business profile setup, and appointment scheduling. Clients receive a shareable confirmation page with appointment details and calendar integration (.ics, Google Calendar, Outlook). Full email notifications are planned for version 2 (v2). It uses Supabase with an Anonymous Key (Anon Key) for public API access and Row-Level Security (RLS) to restrict data access to authorized users.
 
-- **File**: `supabase/create_tables.sql`
-- **Details**: Add `appointment_links` table to store short codes for appointments.
-- **Fields**:
-  - `id` (UUID, primary key)
-  - `short_code` (text, unique)
-  - `appointment_id` (BIGINT, foreign key to `appointments(id)`)
-  - `expires_at` (timestamptz)
-  - `created_at` (timestamptz, default NOW())
-- **Status**: [x] Completed
+## Coder Environment
 
-### Set Up RLS for appointment_links
+Coder: Novice, using Terminal, VS Code, Node.js v20.18.0, npm v11.1.0, Git on macOS (tested on Ventura; should work on other versions or OSes with minor adjustments).
 
-- **File**: `supabase/rls.sql`
-- **Details**: Enable RLS on `appointment_links`. Policies: authenticated users insert/select their own links; public read access to non-expired links.
-- **Status**: [x] Completed
+## Project Setup
 
-### Create Utility for Short Code Generation
+To run CalenBooker locally:
 
-- **File**: `frontend/src/utils/shortCode.js`
-- **Details**: Create `generateShortCode` using `nanoid` to generate unique 8-character codes, checking uniqueness against `appointment_links`.
-- **Status**: [x] Completed
+### Frontend
 
-### Update App.jsx to Add Public Route
+- Navigate to `frontend/`
+- Install dependencies (requires Node.js v20.18.0, npm v11.1.0):
+  `npm install`
+- Rename `frontend/.env.example` to `frontend/.env` and add:
+  - Local: Fill in values in `frontend/.env`.
+  - Production: Set in Netlify UI (see "Deployment > Netlify").
+  - `VITE_SUPABASE_URL`: Supabase project URL (e.g., `https://<project-id>.supabase.co` from Supabase Dashboard > Settings > API).
+  - `VITE_SUPABASE_ANON_KEY`: Anon Key (from Supabase Dashboard > Settings > API).
+  - `VITE_AUTH_REDIRECT`: Redirect URL (`http://localhost:4000/auth/confirm` locally, `https://delparte.com/auth/confirm` live).
+  - `VITE_RECAPTCHA_SITE_KEY`: Google reCAPTCHA v2 site key (optional, from `https://www.google.com/recaptcha/admin/create`).
+  - `VITE_ENABLE_CAPTCHA`: `true` to enable reCAPTCHA, `false` to disable (default: `false`).
+- Run development server (opens `http://localhost:4000`):
+  `npm start`
+- Build for production (outputs to `dist/`):
+  `npm run build`
+- Preview the build (serves `dist/` at `http://localhost:4173`):
+  `npm run preview`
 
-- **File**: `frontend/src/App.jsx`
-- **Details**: Add route `/a/:code` to render `AppointmentConfirmationPublic.jsx` for public access via short link. Update `/appointment-confirmation/:id` to use `AppointmentConfirmationPrivate.jsx`.
-- **Status**: [x] Completed
+### Supabase
 
-### Update AppointmentConfirmation.jsx
+- Create a project in the Supabase Dashboard (`https://supabase.com/dashboard`).
+- Run SQL snippets from `supabase/` in the SQL Editor (in order):
+  - `reset_database.sql` (optional, resets database if needed).
+  - `create_tables.sql` (creates `business_profile`, `appointments`, `messages`, `appointment_links`).
+  - `rls.sql` (enables RLS with policies for authenticated users).
+  - `public.sql` (adds public access policies for appointment links).
+  - `check_email_exists.sql` (secure email check function).
+- Configure Authentication:
+  - Enable email signups: Authentication > Configuration > Sign In / Up > Email.
+  - Set OTP expiry to 3600s (1 hour).
+- Copy Project URL and Anon Key from API settings to `frontend/.env`.
+- Test:
+  - Sign up at `http://localhost:4000`.
+  - Set up a profile at `/business-profile`.
+  - Book an appointment at `/appointment-scheduler`.
+  - Check private confirmation (`/appointment-confirmation/<id>`) and public short link (`/a/<short_code>`).
 
-- **File**: `frontend/src/pages/AppointmentConfirmation.jsx`
-- **Details**: Initially handle both `/appointment-confirmation/:id` (private) and `/a/:code` (public) routes. Fetch appointment ID from `appointment_links` for public route, generate/store short link (private only) with expiration (appointment date + 1 day), update email/SMS formats with short link, add `.ics` link to email format. Later refactor into separate files (see Refactor section).
-- **Status**: [x] Completed (pre-refactor)
+### Dependencies
 
-### Test
+- Managed in `frontend/package.json`.
+- Key additions: `react-icons@5.3.0` (table icons), `nanoid@6.0.0` (shortcode generation).
+- Zero vulnerabilities as of March 20, 2025.
 
-- **Steps**:
-  - Update `supabase/create_tables.sql` and `supabase/rls.sql` (done).
-  - Run SQL in Supabase (done).
-  - Update `App.jsx`, `AppointmentConfirmationPrivate.jsx`, `AppointmentConfirmationPublic.jsx`, `AppointmentsTable.jsx` (done).
-  - Test locally:
-    - `cd /Users/fakeneuron/Code/Calenbooker/frontend`
-    - `npm run build`
-    - `npm run preview`
-  - **Private Route**: Visit `http://localhost:4173/appointment-confirmation/<id>`:
-    - Email/SMS formats include clickable short link (`localhost:4173/a/<short_code>`), `.ics` download works.
-  - **Public Route**: Visit `http://localhost:4173/a/<short_code>`—matches private details, simplified view.
-  - **Expiration**: Set `expires_at` in past, access short link—shows "This link has expired".
-  - **Copy**: Paste email/SMS into Gmail/SMS app, verify links/`.ics` work.
-- **Status**: [x] Completed
-- **Notes**: Local testing verified short links, expiration, and copy functionality (e.g., `localhost:4173/a/F6XfLdxw`). All features operational as of March 20, 2025.
+### Deployment
 
-### Deploy to Live Site
+- **Frontend**: Hosted on Netlify (`https://delparte.com`) with HTTPS.
+  - In Netlify UI:
+    - Build command: `npm run build`.
+    - Publish directory: `frontend/dist` (Vite output).
+    - Environment Variables: Set in "Site Settings > Environment Variables":
+      - `VITE_SUPABASE_URL`
+      - `VITE_SUPABASE_ANON_KEY`
+      - `VITE_AUTH_REDIRECT` (e.g., `https://delparte.com/auth/confirm`)
+      - `VITE_RECAPTCHA_SITE_KEY` (if using reCAPTCHA)
+      - `VITE_ENABLE_CAPTCHA` (e.g., `true`)
+  - **SPA Routing**: Configured via `frontend/netlify.toml` to ensure all routes (e.g., `/appointment-confirmation/:id`, `/a/:code`) are handled by the React app. Required for deep linking to work on Netlify.
+- **Supabase**: Apply database changes (e.g., `appointment_links` table) to production via SQL Editor.
+- Note: `.env` excluded from Git via `.gitignore`. Backend (`backend/`) is optional for MVP and not required locally.
 
-- **Details**: Deploy updated code to `delparte.com`. Sync Supabase production DB with `appointment_links` table and RLS. Verify short links live (e.g., `https://delparte.com/a/<short_code>`).
-- **Status**: [ ] Not Started
-- **Notes**: Pending Netlify redeploy and Supabase production sync.
+## Technical Approach
 
-### Refactor AppointmentConfirmation.jsx
+- **Frontend**: React (19.0.0), Tailwind CSS (3.4.17) via `styles.js`, Supabase client (@supabase/supabase-js@2.49.1), Vite (6.2.2) for dev/build.
+  - Vite: Configured in `vite.config.js` with React plugin; dev server runs on port 4000.
+- **Backend**: Supabase (PostgreSQL, Authentication, Storage); minimal Node.js/Express (4.21.2) setup for future v2 features.
 
-- **Details**: At 358 lines, `AppointmentConfirmation.jsx` was large. Refactor for reusability and clarity:
-  - **Extract Data Fetching**: Move `fetchAppointmentDetails` to `useAppointmentDetails.js` (custom hook).
-  - **Extract Formatting**: Move email/SMS formatting and `.ics` generation to `appointmentUtils.js`.
-  - **Split UI**:
-    - `AppointmentConfirmationPrivate.jsx`: Full view with SMS/email for business owners (private route).
-    - `AppointmentConfirmationPublic.jsx`: Simplified view with only web details for clients (public route, no SMS/email).
-    - Delete `AppointmentConfirmation.jsx`, replace with direct routing in `App.jsx`.
-  - **Update App.jsx**: Update routes to use `AppointmentConfirmationPrivate.jsx` for `/appointment-confirmation/:id` and `AppointmentConfirmationPublic.jsx` for `/a/:code`.
-  - **Enhance AppointmentsTable.jsx**: Add web/email/SMS copy links per row with overlay feedback using `appointmentUtils.js` and `react-icons`.
-- **Status**: [x] Completed
-- **Effort**: ~6-8 hours
-- **Priority**: Medium - Improves maintainability and reusability.
+## Project Structure and Functionality
 
-## Progress
+### 1. Project Initialization
 
-- Implemented `appointment_links` table and RLS policies in Supabase (March 18, 2025).
-- Built short code generation utility and tested uniqueness (March 18, 2025).
-- Updated routing in `App.jsx` and initial confirmation logic in `AppointmentConfirmation.jsx` (March 19, 2025).
-- Conducted local testing, confirming all features worked as expected (March 20, 2025).
-- Refactored `AppointmentConfirmation.jsx` into separate components, extracted logic to hooks/utils, and enhanced table (March 20, 2025).
+- Git: `github.com/fakeneuron/CalenBooker` (branch: master).
+- Structure:
+  - `frontend/`: React app on port 4000 (migrated from react-scripts to Vite).
+  - `backend/`: Express app on port 4001 (minimal, for v2, currently inactive).
+  - `supabase/`: SQL snippets for database setup.
+  - `docs/`: Enhancement plans (e.g., `enhancement-plan-confirmation-page-split.md`).
+  - `TaskNotes/`: Completed task records (e.g., `000-InitialProgress.md` for historical progress).
+  - `README.md`: Main documentation.
+  - `Roadmap.md`: Planned tasks; active tasks tracked in `ShortName.md` files in root (e.g., `OwnerCalendarSync.md`).
 
-## Challenges
+### 2. Frontend Overview
 
-- Ensuring short code uniqueness required iterative DB checks in `shortCode.js`.
-- Initial RLS setup allowed expired links briefly; fixed with stricter `public.sql` policy.
-- Refactoring required re-testing all routes to avoid regressions.
-- Overlay feedback in `AppointmentsTable.jsx` needed CSS tweaks via `styles.js` for visibility.
+- **Styling**: Tailwind CSS (`src/index.css`, `src/styles.js`) with Kawaii theme (pastels, rounded shapes), processed via `postcss.config.js`.
+- **Assets**:
+  - `src/logo.svg`: Application logo (currently in `src/`, planned move to `src/assets/`).
+  - `src/assets/icons/`: Calendar icons (`google-calendar96.png`, `outlook96.png`, `apple96.png`) for public confirmation page.
+- **Pages** (in `src/pages/`):
+  - `/` (`Home.jsx`): Landing with login/signup toggles.
+  - `/auth/confirm` (`AuthConfirm.jsx`): Handles email confirmation redirects from Supabase.
+  - `/dashboard` (`Dashboard.jsx`): Displays appointments table, initializes default messages on first load.
+  - `/business-profile` (`BusinessProfile.jsx`): Edits business details with time zone selection and preview.
+  - `/appointment-scheduler` (`AppointmentScheduler.jsx`): Booking form with dropdowns for service type, duration, and status.
+  - `/appointment-confirmation/:id` (`AppointmentConfirmationPrivate.jsx`): Private confirmation with email/SMS formats (overlaid copy icons), short link, and notes; calendar links removed.
+  - `/a/:code` (`AppointmentConfirmationPublic.jsx`): Public confirmation with simplified details, calendar links (`.ics`, Google) using full address and notes, accessible via short code with expiration check.
+  - `/messages` (`Messages.jsx`): Customizes event messages (scheduled, rescheduled, cancelled, no-show) and business info.
+  - Static: `/terms` (`Terms.jsx`), `/privacy` (`Privacy.jsx`), `/support` (`Support.jsx`), `/about` (`About.jsx`), 404 (`NotFound.jsx`).
+- **Components** (in `src/components/`):
+  - `Navbar.jsx`: Fixed navigation with menu and user dropdown (profile, messages, logout).
+  - `AppointmentsTable.jsx`: Sortable table with status colors and web/email/SMS copy icons with overlay feedback.
+  - `FormField.jsx`: Reusable input/select/textarea component for forms.
+  - `Footer.jsx`: Static footer with links to terms, privacy, support, and about pages.
+  - `LoginForm.jsx`: Login form with email/password and resend confirmation option.
+  - `SignupForm.jsx`: Signup form with reCAPTCHA v2, terms checkbox, and password validation.
+- **Root Files** (in `frontend/` or `src/`):
+  - `index.html`: Root HTML with `<div id="root">` and `<script type="module" src="/src/index.jsx">`.
+  - `vite.config.js`: Vite config (port 4000, React plugin).
+  - `tailwind.config.js`: Tailwind CSS config.
+  - `postcss.config.js`: PostCSS setup for Tailwind and Autoprefixer.
+  - `src/index.jsx`: Entry point, mounts React app with Router.
+  - `src/index.css`: Global styles with Tailwind imports and custom animations (bounce, fadeIn, fadeOut).
+  - `src/App.jsx`: Routing and auth management.
+  - `src/supabaseClient.js`: Supabase connection using Anon Key.
+  - `src/styles.js`: Tailwind CSS class definitions (e.g., `shortLink`, `messageText`, `copyIcon`).
+- **Hooks** (in `src/hooks/`):
+  - `useAppointmentDetails.js`: Fetches appointment data for public/private views, generates short links.
+- **Utilities** (in `src/utils/`):
+  - `appointmentUtils.js`: Formats email/SMS messages and generates `.ics`/Google Calendar links with `isPublic` flag for PII control.
+  - `shortCode.js`: Generates unique short codes with `nanoid`.
+- **Routing**: `react-router-dom@7.2.0`.
+- **Dependencies**: See `frontend/package.json` (e.g., `react@19.0.0`, `@supabase/supabase-js@2.49.1`, `react-google-recaptcha`, `react-icons`).
+- **SPA Routing**: Handled by Vite build for Netlify via `netlify.toml`.
+- **Env**: Uses `import.meta.env.VITE_*` in `.jsx` files (e.g., `VITE_SUPABASE_URL`).
 
-## Summary of Implementations
+### 3. Backend Overview
 
-- **Completed**: March 20, 2025
-- **Outcome**: Enhanced appointment confirmation with short links (`/a/<short_code>`) and calendar integration (`.ics`, Google, Outlook). Refactored `AppointmentConfirmation.jsx` (deleted) into `AppointmentConfirmationPrivate.jsx` (private, full view) and `AppointmentConfirmationPublic.jsx` (public, simplified view). Added `appointment_links` table with RLS, short code generation in `shortCode.js`, and copy functionality in `AppointmentsTable.jsx`. Local testing verified all features (short links, expiration, `.ics` downloads). Deployment to `delparte.com` pending.
-- **Files Updated**: `supabase/create_tables.sql`, `supabase/rls.sql`, `frontend/src/App.jsx`, `frontend/src/pages/AppointmentConfirmationPrivate.jsx`, `frontend/src/pages/AppointmentConfirmationPublic.jsx`, `frontend/src/components/AppointmentsTable.jsx`, `frontend/src/utils/shortCode.js`, `frontend/src/hooks/useAppointmentDetails.js`, `frontend/src/utils/appointmentUtils.js`, `frontend/src/styles.js`.
-- **Files Removed**: `frontend/src/pages/AppointmentConfirmation.jsx` (deprecated, deleted March 22, 2025).
-- **Notes**: Functionality fully implemented and tested locally; live deployment remains as a separate step. "Appt" rename deferred to a future task.
+- Minimal Express app (`backend/server.js`) with Supabase client (Anon Key from `backend/.env`), port 4001, for future v2 features. **Currently inactive in the MVP.**
+- Dependencies: `express@4.21.2`, `@supabase/supabase-js@2.49.1`, `cors@2.8.5`, `dotenv@16.4.7`.
+
+### 4. Database Setup
+
+- **Tables**:
+  - `business_profile`: Business details with `time_zone`, `parking_instructions`, `office_directions`, `custom_info` (nullable, blank by default).
+  - `appointments`: Appointment records with `service_type`, `status`.
+  - `messages`: Event messages (`scheduled`, `rescheduled`, `cancelled`, `no_show`), populated on first dashboard load.
+  - `appointment_links`: Short links (`id`, `short_code`, `appointment_id`, `expires_at`, `created_at`, `access_pin`) for public access; `access_pin` nullable for future PIN security.
+- **Functions**:
+  - `insert_default_messages`: Adds default message templates on setup.
+  - `check_email_exists`: Checks for existing emails during signup.
+- **Security**: RLS policies split between `rls.sql` (authenticated) and `public.sql` (public SELECT for non-expired links).
+- **SQL Files**: In `supabase/` (`create_tables.sql`, `rls.sql`, `public.sql`, `reset_database.sql`, `purge_tables.sql`, `check_email_exists.sql`).
+- **Setup**: Run SQL files in order: `create_tables.sql`, `rls.sql`, `public.sql`, `check_email_exists.sql`. Requires `auth.users` (auto-created by Supabase).
+
+## Third-Party Configurations
+
+### Supabase
+
+- **Tables**: `business_profile`, `appointments`, `messages`, `appointment_links`.
+- **Functions**:
+  - `insert_default_messages`: Adds default message templates on setup.
+  - `check_email_exists`: Checks for existing emails during signup.
+- **RLS Policies**:
+  - `business_profile`: Authenticated users only (read/write own data).
+  - `appointments`: Authenticated write, public read for non-expired links.
+  - `messages`: Authenticated access only.
+  - `appointment_links`: Public read if not expired, authenticated write.
+- **Setup**: Run SQL files in order: `create_tables.sql`, `rls.sql`, `public.sql`, `check_email_exists.sql`. Requires `auth.users` (auto-created by Supabase).
+
+### Netlify
+
+- **Integration**: Hosts frontend at `https://delparte.com`.
+- **SPA Routing**: Configured via `frontend/netlify.toml` for deep linking (e.g., `/a/:code`).
+- **Environment Variables**: Set in Netlify UI under "Site Settings > Environment Variables" (e.g., `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`).
+
+### Google reCAPTCHA
+
+- **Integration**: Used in `SignupForm.jsx` for signup validation.
+- **Setup**: Generate keys at `https://www.google.com/recaptcha/admin/create`. Set `VITE_RECAPTCHA_SITE_KEY` in environment variables.
+- **Toggle**: `VITE_ENABLE_CAPTCHA=true` enables it; `false` disables it.
+
+## Current Features
+
+- User authentication with Supabase Auth, dynamic redirects (`localhost:4000/auth/confirm` locally, `delparte.com/auth/confirm` live), email checks via `check_email_exists`.
+- Business profile setup with time zone.
+- Appointment booking with service type and status.
+- Confirmation page with calendar integration, scheduled message, and optional notes.
+- Messages management for event messages and business info, initialized on first dashboard load.
+- **Appointment Confirmation with Short Links**:
+  - Generates unique short links (e.g., `delparte.com/a/<short_code>`) stored in `appointment_links` with expiration (appointment date + 1 day).
+  - Private view (`/appointment-confirmation/:id`): Includes clickable short links in email/SMS formats, calendar icons, and `.ics` download.
+  - Public view (`/a/:code`): Simplified details with calendar integration.
+  - Table enhancements: `AppointmentsTable.jsx` includes web/email/SMS copy icons with overlay feedback.
+
+## Known Issues
+
+- **Public Link PII Exposure**: `/a/:code` displays appointment details (including PII) publicly. See `Roadmap.md` tasks #043 (Secure Public Shortcode Access) and #044 (Anonymize Public Appointment Data) for planned fixes.
+- **Legacy File**: `src/pages/AppointmentConfirmation.jsx` is likely deprecated post-refactor into public/private versions. Consider removing or updating if needed.
+
+## Roadmap
+
+See `Roadmap.md` for planned features and progress.
+
+## Contributing
+
+Fork, make changes, submit a PR, follow React hooks and Tailwind via `styles.js`.
+
+## Instructions for AI
+
+Provide full updated files and specific code snippets for changes. For significant updates to `README.md` or `Roadmap.md`, share the full file; for minor edits, provide the updated section (e.g., task A.3).
