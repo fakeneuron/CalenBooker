@@ -25,6 +25,9 @@ const BusinessProfile = () => {
     province: '',
     postalCode: '',
     timeZone: 'America/New_York',
+    parkingInstructions: '',
+    officeDirections: '',
+    customInfo: '',
   });
   const [error, setError] = useState('');
   const [showPreview, setShowPreview] = useState(false);
@@ -37,13 +40,13 @@ const BusinessProfile = () => {
       try {
         const { data, error } = await supabase
           .from('business_profile')
-          .select('email, business_name, phone, address, unit, city, province, postal_code, time_zone')
+          .select('email, business_name, phone, address, unit, city, province, postal_code, time_zone, parking_instructions, office_directions, custom_info')
           .eq('user_id', session.user.id)
           .single();
         if (error && error.code !== 'PGRST116') throw error;
         if (data) {
           setFormData({
-            email: data.email || '',
+            email: data.email || session.user.email || '',
             businessName: data.business_name || '',
             phone: data.phone || '',
             address: data.address || '',
@@ -52,7 +55,12 @@ const BusinessProfile = () => {
             province: data.province || '',
             postalCode: data.postal_code || '',
             timeZone: data.time_zone || 'America/New_York',
+            parkingInstructions: data.parking_instructions || '',
+            officeDirections: data.office_directions || '',
+            customInfo: data.custom_info || '',
           });
+        } else {
+          setFormData(prev => ({ ...prev, email: session.user.email || '' }));
         }
       } catch (err) {
         setError('Error loading business profile: ' + err.message);
@@ -75,12 +83,17 @@ const BusinessProfile = () => {
       return;
     }
 
+    if (!formData.businessName || !formData.phone || !formData.address || !formData.city || !formData.province || !formData.postalCode || !formData.timeZone) {
+      setError('Please fill in all required fields.');
+      return;
+    }
+
     try {
       const { error } = await supabase
         .from('business_profile')
         .upsert({
           user_id: session.user.id,
-          email: formData.email,
+          email: formData.email || session.user.email,
           business_name: formData.businessName,
           phone: formData.phone,
           address: formData.address,
@@ -89,9 +102,13 @@ const BusinessProfile = () => {
           province: formData.province,
           postal_code: formData.postalCode,
           time_zone: formData.timeZone,
+          parking_instructions: formData.parkingInstructions,
+          office_directions: formData.officeDirections,
+          custom_info: formData.customInfo,
         });
       if (error) throw error;
       alert('Business profile saved successfully!');
+      setError('');
     } catch (error) {
       setError('Error saving business profile: ' + error.message);
     }
@@ -108,6 +125,9 @@ const BusinessProfile = () => {
       province: 'ON',
       postalCode: 'M5V 2T6',
       timeZone: 'America/Toronto',
+      parkingInstructions: 'Park in the lot behind the building.',
+      officeDirections: 'Enter through the main door, take the stairs to the second floor.',
+      customInfo: 'Bring cash for tips!',
     });
     setError('');
   };
@@ -134,7 +154,6 @@ const BusinessProfile = () => {
           value={formData.email}
           onChange={handleChange}
           labelText="Business Email"
-          required
         />
         <FormField
           type="text"
@@ -199,6 +218,27 @@ const BusinessProfile = () => {
           required
           options={timeZoneOptions}
         />
+        <FormField
+          type="textarea"
+          name="parkingInstructions"
+          value={formData.parkingInstructions}
+          onChange={handleChange}
+          labelText="Parking Instructions"
+        />
+        <FormField
+          type="textarea"
+          name="officeDirections"
+          value={formData.officeDirections}
+          onChange={handleChange}
+          labelText="Office Directions"
+        />
+        <FormField
+          type="textarea"
+          name="customInfo"
+          value={formData.customInfo}
+          onChange={handleChange}
+          labelText="Custom Info"
+        />
         {error && <p className={errorText}>{error}</p>}
         <div className={buttonGroup}>
           <button type="submit" className={`${button} w-full`}>
@@ -221,6 +261,9 @@ const BusinessProfile = () => {
           <p className={previewText}><strong>Phone:</strong> {formData.phone || 'Not provided'}</p>
           <p className={previewText}><strong>Location:</strong> {formData.address ? `${formData.address}${formData.unit ? ', ' + formData.unit : ''}, ${formData.city}, ${formData.province} ${formData.postalCode}` : 'Not provided'}</p>
           <p className={previewText}><strong>Time Zone:</strong> {formData.timeZone.split('/')[1].replace('_', ' ') || 'TBD'}</p>
+          {formData.parkingInstructions && <p className={previewText}><strong>Parking:</strong> {formData.parkingInstructions}</p>}
+          {formData.officeDirections && <p className={previewText}><strong>Directions:</strong> {formData.officeDirections}</p>}
+          {formData.customInfo && <p className={previewText}><strong>Info:</strong> {formData.customInfo}</p>}
         </div>
       )}
     </div>

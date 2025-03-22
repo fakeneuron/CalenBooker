@@ -28,14 +28,14 @@ const useAppointmentDetails = (id, code, isPublic = false) => {
 
           const { data: apptData, error: apptError } = await supabase
             .from('appointments')
-            .select('meeting_date, meeting_time, duration, user_id')
+            .select('meeting_date, meeting_time, duration, service_type, user_id')
             .eq('id', appointmentId)
             .single();
           if (apptError) throw apptError;
 
           const { data: bizData, error: bizError } = await supabase
             .from('business_profile')
-            .select('business_name, address, unit, city, province, postal_code')
+            .select('business_name, address, unit, city, province, postal_code, parking_instructions, office_directions, custom_info')
             .eq('user_id', apptData.user_id)
             .single();
           if (bizError) throw bizError;
@@ -43,6 +43,11 @@ const useAppointmentDetails = (id, code, isPublic = false) => {
           setAppointment(apptData);
           setBusiness(bizData);
           setMessage('Your appointment is confirmed!');
+          const notesArray = [];
+          if (bizData?.parking_instructions) notesArray.push(`Parking: ${bizData.parking_instructions}`);
+          if (bizData?.office_directions) notesArray.push(`Directions: ${bizData.office_directions}`);
+          if (bizData?.custom_info) notesArray.push(`Info: ${bizData.custom_info}`);
+          setNotes(notesArray);
         } else if (appointmentId) {
           const { data: appointmentData, error: appointmentError } = await supabase
             .from('appointments')

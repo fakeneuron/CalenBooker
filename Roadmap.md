@@ -265,9 +265,39 @@ B.27 Rename "Appointment" to "Appt" in UI
 
 B.28 Enhance Email Confirmation with Formatted Mailto and ICS Attachment
 
+B.29 Secure Public Shortcode Access
+
+- Description: Require a PIN or email verification to view `/a/:code`, preventing unauthorized access to appointment details.
+- Effort: ~6-8 hours
+- Priority: High - Enhances client privacy post-MVP.
+
+B.30 Anonymize Public Appointment Data
+
+- Description: Limit public `/a/:code` view to generic details (e.g., date, time, business name) without client or service specifics.
+- Effort: ~4-6 hours
+- Priority: Medium - Reduces privacy risks.
+
+B.31 PHIPA Compliance Audit
+
+- Description: Audit data handling for Personal Health Information Protection Act compliance, encrypt PHI, and log consent.
+- Effort: ~10-12 hours
+- Priority: Low - Prepares for health sector use.
+
 - Description: Replace "Copy to Clipboard" in `AppointmentConfirmationPrivate.jsx` with a "Send Email" link using `mailto:` to open the user’s email client, pre-populating a formatted message (e.g., HTML bold text) and attaching the `.ics` file (via Blob URL or server-side solution).
 - Effort: ~6-8 hours
 - Priority: Medium - Improves client communication workflow.
+
+B.32 PHIPA Compliance Toggle
+
+- Description: Add a signup option for businesses to enable PHIPA mode, requiring PIN access for public links and client TOS acceptance (e.g., limited liability, terms, conditions).
+- Effort: ~8-10 hours
+- Priority: Medium - Prepares for health sector use, includes third-party risks (e.g., Twilio).
+
+B.33 Add psql Client
+
+- Description: Set up a local `psql` client to run SQL files directly against Supabase DB, streamlining resets and updates.
+- Effort: ~2-4 hours
+- Priority: Low - Improves dev workflow.
 
 ## C. Progress (Completed)
 

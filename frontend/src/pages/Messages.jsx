@@ -28,6 +28,7 @@ const Messages = () => {
       .eq('user_id', user.id);
 
     if (messagesError) {
+      console.error('Error fetching messages:', messagesError);
     } else {
       const messagesMap = {};
       messagesData.forEach((msg) => {
@@ -38,11 +39,12 @@ const Messages = () => {
 
     const { data: profileData, error: profileError } = await supabase
       .from('business_profile')
-      .select('parking_instructions, office_directions, custom_info')
+      .select('business_name, phone, address, unit, city, province, postal_code, time_zone, parking_instructions, office_directions, custom_info')
       .eq('user_id', user.id)
       .single();
 
-    if (profileError) {
+    if (profileError && profileError.code !== 'PGRST116') {
+      console.error('Error fetching business profile:', profileError);
     } else {
       setBusinessInfo(profileData || {});
     }
@@ -79,19 +81,47 @@ const Messages = () => {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return;
 
+    // Fetch existing profile to merge with updates
+    const { data: existingProfile, error: fetchError } = await supabase
+      .from('business_profile')
+      .select('business_name, phone, address, unit, city, province, postal_code, time_zone')
+      .eq('user_id', user.id)
+      .single();
+
+    if (fetchError && fetchError.code !== 'PGRST116') {
+      alert('Error fetching existing profile: ' + fetchError.message);
+      return;
+    }
+
+    if (!existingProfile || !existingProfile.business_name) {
+      alert('Please save your business profile with required fields in the Business Profile section first.');
+      return;
+    }
+
+    const updatedProfile = {
+      user_id: user.id,
+      business_name: existingProfile.business_name,
+      phone: existingProfile.phone,
+      address: existingProfile.address,
+      unit: existingProfile.unit || null,
+      city: existingProfile.city,
+      province: existingProfile.province,
+      postal_code: existingProfile.postal_code,
+      time_zone: existingProfile.time_zone,
+      parking_instructions: businessInfo.parking_instructions || existingProfile.parking_instructions || '',
+      office_directions: businessInfo.office_directions || existingProfile.office_directions || '',
+      custom_info: businessInfo.custom_info || existingProfile.custom_info || ''
+    };
+
     const { error } = await supabase
       .from('business_profile')
-      .upsert({
-        user_id: user.id,
-        parking_instructions: businessInfo.parking_instructions,
-        office_directions: businessInfo.office_directions,
-        custom_info: businessInfo.custom_info
-      }, { onConflict: 'user_id' });
+      .upsert(updatedProfile, { onConflict: 'user_id' });
 
     if (error) {
       alert('Failed to save: ' + error.message);
     } else {
       alert('Business info saved successfully!');
+      setBusinessInfo(updatedProfile); // Sync state with saved data
     }
   };
 
@@ -105,7 +135,12 @@ const Messages = () => {
   };
 
   const handleRevertBusinessInfo = () => {
-    setBusinessInfo({ parking_instructions: '', office_directions: '', custom_info: '' });
+    setBusinessInfo((prev) => ({
+      ...prev,
+      parking_instructions: '',
+      office_directions: '',
+      custom_info: ''
+    }));
   };
 
   if (loading) return <div className={wideContainer}>Loading...</div>;
@@ -147,7 +182,7 @@ const Messages = () => {
         {['parking_instructions', 'office_directions', 'custom_info'].map((field) => (
           <div key={field} className="mb-4">
             <label className={label}>
-              {field.replace('_', ' ')}
+              {field.replace('_', ' ').replace('info', 'Info')}
             </label>
             <textarea
               className={input}
@@ -160,6 +195,9 @@ const Messages = () => {
         <div className={buttonGroup}>
           <button onClick={handleSaveBusinessInfo} className={`${button} w-full`}>
             Save
+          </button>
+          <button onClick={handleRevertBusinessInfo} className={`${button} w-full bg-gray-500 hover:bg-gray-600`}>
+            Clear
           </button>
         </div>
       </div>

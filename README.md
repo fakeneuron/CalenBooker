@@ -69,8 +69,8 @@ To run CalenBooker locally:
       - `VITE_AUTH_REDIRECT` (e.g., `https://delparte.com/auth/confirm`)
       - `VITE_RECAPTCHA_SITE_KEY` (if using reCAPTCHA)
       - `VITE_ENABLE_CAPTCHA` (e.g., `true`)
+  - **SPA Routing**: Configured via `frontend/netlify.toml` to ensure all routes (e.g., `/appointment-confirmation/:id`, `/a/:code`) are handled by the React app. Required for deep linking to work on Netlify.
 - **Supabase**: Apply database changes (e.g., `appointment_links` table) to production via SQL Editor.
-- **SPA Routing**: Configured via `frontend/netlify.toml` for Netlify SPA support.
 - Note: `.env` excluded from Git via `.gitignore`. Backend (`backend/`) is optional for MVP and not required locally.
 
 ## Technical Approach
@@ -135,14 +135,16 @@ To run CalenBooker locally:
 
 ### 4. Database Setup
 
+### 4. Database Setup
+
 - **Tables**:
   - `business_profile`: Business details with `time_zone`, `parking_instructions`, `office_directions`, `custom_info` (nullable, blank by default).
   - `appointments`: Appointment records with `service_type`, `status`.
   - `messages`: Event messages (`scheduled`, `rescheduled`, `cancelled`, `no_show`), populated on first dashboard load.
-  - `appointment_links`: Short links (`id`, `short_code`, `appointment_id`, `expires_at`, `created_at`) for public access.
+  - `appointment_links`: Short links (`id`, `short_code`, `appointment_id`, `expires_at`, `created_at`, `access_pin`) for public access; `access_pin` nullable for future PIN security.
 - **Functions**: `check_email_exists` for secure signup email checks.
-- **Security**: RLS policies for INSERT, UPDATE, SELECT (authenticated users) and public SELECT on `appointment_links` for non-expired links.
-- **SQL Files**: In `supabase/` (unchanged).
+- **Security**: RLS policies split between `rls.sql` (authenticated) and `public.sql` (public SELECT for non-expired links).
+- **SQL Files**: In `supabase/` (`create_tables.sql`, `rls.sql`, `public.sql`, `reset_database.sql`, `purge_tables.sql`, `check_email_exists.sql`).
 
 ## Current Features
 

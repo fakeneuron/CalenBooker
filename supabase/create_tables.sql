@@ -6,9 +6,9 @@ DROP TABLE IF EXISTS business_profile;
 DROP TABLE IF EXISTS messages;
 DROP TABLE IF EXISTS appointment_links;
 
-CREATE TABLE business_profile (
+CCREATE TABLE business_profile (
   user_id UUID PRIMARY KEY,
-  email TEXT UNIQUE NOT NULL,
+  email TEXT UNIQUE, -- Remove NOT NULL
   business_name TEXT NOT NULL,
   phone TEXT NOT NULL,
   address TEXT NOT NULL,
