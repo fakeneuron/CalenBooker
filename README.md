@@ -93,7 +93,7 @@ To run CalenBooker locally:
   - `docs/`: Enhancement plans (e.g., `enhancement-plan-confirmation-page-split.md`).
   - `TaskNotes/`: Completed task records (e.g., `000-InitialProgress.md` for historical progress).
   - `README.md`: Main documentation.
-  - `Roadmap.md`: Planned tasks; active tasks tracked in `###-ShortName.md` files in root.
+  - `Roadmap.md`: Planned tasks; active tasks tracked in `ShortName.md` files in root (e.g., `OwnerCalendarSync.md`).
 
 ### 2. Frontend Overview
 
