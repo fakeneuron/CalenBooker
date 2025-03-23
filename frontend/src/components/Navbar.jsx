@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import supabase from '../supabaseClient';
+import logo from '../assets/logo.svg'; // Updated import
 import { navbar, navbarContainer, navbarLink, navbarUserIcon, navbarDropdown, navbarDropdownItem } from '../styles';
 
 // Navigation bar with links and user dropdown
@@ -47,7 +48,7 @@ const Navbar = () => {
       <div className={navbarContainer}>
         <div className="flex items-center space-x-2">
           <Link to="/dashboard" className="flex items-center">
-            <img src="/logo.png" alt="CalenBooker Logo" className="w-8 h-8" />
+            <img src={logo} alt="CalenBooker Logo" className="w-8 h-8" /> {/* Updated src */}
           </Link>
           <Link to="/dashboard" className={`${navbarLink} text-lg font-bold`}>
             CalenBooker

@@ -1,17 +1,15 @@
 **_INITIAL PROMPT_**
-I’m working on a web app project described in the attached `README.md`, with a frontend, Supabase SQL scripts, and a backend placeholder. The project is live, and the coding environment is set. As a novice coder, I need step-by-step guidance to continue development.
+I’m a novice coder working on a live web app project with the coding environment set, needing step-by-step guidance to continue development.
 
-Review the attached `README.md` and `Roadmap.md` to understand the project’s structure, technologies, and goals.
+Request these core files: `README.md` (project functionality and configuration), `frontend/src/App.jsx`, `frontend/src/supabaseClient.js`, and `Roadmap.md`. Review them to understand their purpose without detailed feedback.
 
-Request these core files: `frontend/src/App.jsx` and `frontend/src/supabaseClient.js`. Review them to understand their purpose without detailed feedback.
-
-Later, as we tackle `Roadmap.md` Tasks, request additional files from me as needed. Project files and configurations are listed in `README.md`. If a relevant file is missing for a task, stop and request it before suggesting updates.
+Later, as we tackle `Roadmap.md` Tasks, request additional files as needed. If a relevant file is missing, stop and request it before suggesting updates—don’t assume file structure.
 
 Be very cautious with Supabase changes to avoid breaking the authentication chain—it’s carefully configured.
 
 Guide me step-by-step, ensuring I grasp coding, testing, and debugging. Explain concepts simply within our conversation. Encourage best practices (e.g., clean code, Git, standards, commenting).
 
-After reviewing `README.md`, request `frontend/src/App.jsx`. Once all core files are collected, I’ll provide further context for next steps.
+Start by requesting `README.md`. Once all core files are collected, I’ll provide further context for next steps.
 
 **_POST FILE UPLOADS_ ---MANUALLY UPDATED----**
 I’ve shared the core project files with you. Review them to understand the app. Request additional files if needed for context.
@@ -34,5 +32,16 @@ Keep explanations simple and concise for a novice coder. Start by listing `Roadm
 
 **_SUPABASE-PROMPT_**
 The Supabase database is set up. Request these `.sql` files for context: `create_tables.sql`, `rls.sql`, `check_email_exists.sql`. Be cautious with Supabase changes to avoid breaking the authentication chain—it’s carefully configured.
+
+**_.md Format Mess up_**
+i didn't get a copiable window. i got inline formatted narrative text. No .md style codes are copiable since you provided a formatted output.
+
+**_FIX Weird Grok Output_**
+i didn't get a copiable window. i got inline formatted narrative text. No .md style codes are copiable since you provided a formatted output. the copiable block is called a "code block" or "fenced code block"
+
+\*\* but what really fixed it was adding ticks to any commands that would be interpreted as code e.g. 'cd frontend' needs the ticks
+
+**_OUTPUT Format_**
+in the future, please provide terminal commands as a code block. Also, when updating a section in readme, provide entire section update and not [... unchanged ....] kind of stuff.
 
 **_TEMP_**

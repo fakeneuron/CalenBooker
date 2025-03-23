@@ -99,7 +99,8 @@ To run CalenBooker locally:
 
 - **Styling**: Tailwind CSS (`src/index.css`, `src/styles.js`) with Kawaii theme (pastels, rounded shapes), processed via `postcss.config.js`.
 - **Assets**:
-  - `src/logo.svg`: Application logo (currently in `src/`, planned move to `src/assets/`).
+  - `src/assets/logo.svg`: Application logo (moved from `src/` to `src/assets/` for better organization).
+  - `public/favicon.png`: Favicon for the application, displayed in browser tabs (32x32 PNG derived from `logo.svg`).
   - `src/assets/icons/`: Calendar icons (`google-calendar96.png`, `outlook96.png`, `apple96.png`) for public confirmation page.
 - **Pages** (in `src/pages/`):
   - `/` (`Home.jsx`): Landing with login/signup toggles.
