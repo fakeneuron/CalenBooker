@@ -29,10 +29,15 @@ To run CalenBooker locally:
   - `VITE_ENABLE_CAPTCHA`: `true` to enable reCAPTCHA, `false` to disable (default: `false`).
 - Run development server (opens `http://localhost:4000`):
   `npm start`
+  - Note: For iterative testing, use `npm start` for live reloading. To test production builds (e.g., with updated assets), use:
+    `npm run build`
+    `npm run preview`
+    - Project uses ESM (`"type": "module"` in `package.json`), so config files like `vite.config.js` and `postcss.config.js` must use ESM syntax (e.g., `export default`).
 - Build for production (outputs to `dist/`):
   `npm run build`
 - Preview the build (serves `dist/` at `http://localhost:4173`):
   `npm run preview`
+- **Style Note**: App interface aims for sleek, professional design (e.g., Messages, Dashboard), while landing page retains a fun, kawaii aesthetic. See `Roadmap.md` for UI overhaul plans (T005).
 
 ### Supabase
 
@@ -44,8 +49,12 @@ To run CalenBooker locally:
   - `public.sql` (adds public access policies for appointment links).
   - `check_email_exists.sql` (secure email check function).
 - Configure Authentication:
-  - Enable email signups: Authentication > Configuration > Sign In / Up > Email.
-  - Set OTP expiry to 3600s (1 hour).
+  - Enable email signups: Authentication > Providers > Email > Enable Email provider.
+  - Set OTP expiry to 3600s (1 hour): Authentication > Settings.
+  - Add redirect URLs: Authentication > URL Configuration > Redirect URLs:
+    - `http://localhost:4000/auth/confirm` (local).
+    - `https://delparte.com/auth/confirm` (live).
+  - Note: Confirmation emails may land in your junk/spam folder—check there if not in inbox.
 - Copy Project URL and Anon Key from API settings to `frontend/.env`.
 - Test:
   - Sign up at `http://localhost:4000`.

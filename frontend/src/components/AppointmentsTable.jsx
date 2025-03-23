@@ -63,22 +63,23 @@ const AppointmentsTable = () => {
           .from('business_profile')
           .select('business_name, address, unit, city, province, postal_code, phone, time_zone, parking_instructions, office_directions, custom_info')
           .eq('user_id', session.user.id)
-          .single();
-        if (businessError) throw businessError;
+          .limit(1);
+
+        if (businessError && businessError.code !== 'PGRST116') throw businessError;
 
         const { data: messageData, error: messageError } = await supabase
           .from('messages')
           .select('default_message')
           .eq('user_id', session.user.id)
           .eq('event_type', 'scheduled')
-          .limit(1)
-          .single();
-        if (messageError) throw messageError;
+          .limit(1);
+
+        if (messageError && messageError.code !== 'PGRST116') throw messageError;
 
         if (isMounted) {
           setAppointments(appointmentsWithLinks || []);
-          setBusiness(businessData);
-          setDefaultMessage(messageData.default_message);
+          setBusiness(businessData?.[0] || null);
+          setDefaultMessage(messageData?.[0]?.default_message || 'Thank you for booking with us! Your appointment is confirmed.');
         }
       } catch (err) {
         if (isMounted) setError('Failed to load appointments: ' + err.message);

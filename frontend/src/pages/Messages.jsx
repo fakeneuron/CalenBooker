@@ -11,7 +11,11 @@ const defaultMessages = {
 
 const Messages = () => {
   const [messages, setMessages] = useState({});
-  const [businessInfo, setBusinessInfo] = useState({});
+  const [businessInfo, setBusinessInfo] = useState({
+    parking_instructions: '',
+    office_directions: '',
+    custom_info: '',
+  });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -41,12 +45,16 @@ const Messages = () => {
       .from('business_profile')
       .select('business_name, phone, address, unit, city, province, postal_code, time_zone, parking_instructions, office_directions, custom_info')
       .eq('user_id', user.id)
-      .single();
+      .limit(1);
 
     if (profileError && profileError.code !== 'PGRST116') {
       console.error('Error fetching business profile:', profileError);
     } else {
-      setBusinessInfo(profileData || {});
+      setBusinessInfo({
+        parking_instructions: profileData?.[0]?.parking_instructions || '',
+        office_directions: profileData?.[0]?.office_directions || '',
+        custom_info: profileData?.[0]?.custom_info || '',
+      });
     }
 
     setLoading(false);
@@ -81,7 +89,6 @@ const Messages = () => {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return;
 
-    // Fetch existing profile to merge with updates
     const { data: existingProfile, error: fetchError } = await supabase
       .from('business_profile')
       .select('business_name, phone, address, unit, city, province, postal_code, time_zone')
@@ -108,9 +115,9 @@ const Messages = () => {
       province: existingProfile.province,
       postal_code: existingProfile.postal_code,
       time_zone: existingProfile.time_zone,
-      parking_instructions: businessInfo.parking_instructions || existingProfile.parking_instructions || '',
-      office_directions: businessInfo.office_directions || existingProfile.office_directions || '',
-      custom_info: businessInfo.custom_info || existingProfile.custom_info || ''
+      parking_instructions: businessInfo.parking_instructions,
+      office_directions: businessInfo.office_directions,
+      custom_info: businessInfo.custom_info
     };
 
     const { error } = await supabase
@@ -121,7 +128,11 @@ const Messages = () => {
       alert('Failed to save: ' + error.message);
     } else {
       alert('Business info saved successfully!');
-      setBusinessInfo(updatedProfile); // Sync state with saved data
+      setBusinessInfo({
+        parking_instructions: updatedProfile.parking_instructions,
+        office_directions: updatedProfile.office_directions,
+        custom_info: updatedProfile.custom_info
+      });
     }
   };
 
@@ -135,12 +146,11 @@ const Messages = () => {
   };
 
   const handleRevertBusinessInfo = () => {
-    setBusinessInfo((prev) => ({
-      ...prev,
+    setBusinessInfo({
       parking_instructions: '',
       office_directions: '',
       custom_info: ''
-    }));
+    });
   };
 
   if (loading) return <div className={wideContainer}>Loading...</div>;

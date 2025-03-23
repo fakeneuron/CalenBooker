@@ -65,12 +65,6 @@ This file tracks planned tasks for CalenBooker development. Functional changes f
 - Effort: ~3-4 hours
 - Priority: Medium - Strategic planning for market competitiveness.
 
-### Clean Up ESLint Warnings
-
-- Description: Fix `no-unused-vars` warnings in `AppointmentConfirmation.jsx` (Line 172: `businessName`) and `Messages.jsx` (Line 107: `handleRevertBusinessInfo`). Remove or use the variables/functions, ensuring no functionality breaks. Improves code cleanliness and reduces console noise.
-- Effort: ~1-2 hours
-- Priority: Low - Minor cleanup for better maintainability.
-
 ### Premium Version
 
 - Description: Limit free tier to 5 appointments/month, offer premium with unlimited appointments and extras.
@@ -151,8 +145,8 @@ This file tracks planned tasks for CalenBooker development. Functional changes f
 
 ### Custom Service Types in Business Profile
 
-- Description: Allow custom service types in `BusinessProfile.jsx` for `AppointmentScheduler.jsx`.
-- Effort: ~4-6 hours
+- Description: Allow custom service types in `BusinessProfile.jsx` for `AppointmentScheduler.jsx`. Optional: Add address autocomplete using a knowledge base (e.g., Google Places API) to populate address fields.
+- Effort: ~4-6 hours (base); +4-6 hours with autocomplete
 - Priority: Medium - Personalization.
 
 ### Client Confirmation Workflow
@@ -229,7 +223,7 @@ This file tracks planned tasks for CalenBooker development. Functional changes f
 
 ### Enhance Email Confirmation with Formatted Mailto and ICS Attachment
 
-- Description: Replace "Copy to Clipboard" in `AppointmentConfirmationPrivate.jsx` with a "Send Email" link using `mailto:` to open the user’s email client, pre-populating a formatted message (e.g., HTML bold text) and attaching the `.ics` file (via Blob URL or server-side solution).
+- Description: Replace "Copy to Clipboard" in `AppointmentConfirmationPrivate.jsx` with a "Send Email" link using `mailto:` to open the user’s email client, pre-populating a formatted message (e.g., HTML bold text) and attaching the `.ics` file (via Blob URL or server-side solution). Updates: Remove "Thank you..." message, combine date/time (use AM/PM, omit timezone), exclude location/contact, add client name/email/phone, move shortlink to top with copy icon (keep in email/SMS), improve email formatting, add `mailto:` option, omit timezone in email/SMS texts.
 - Effort: ~6-8 hours
 - Priority: Medium - Improves client communication workflow.
 

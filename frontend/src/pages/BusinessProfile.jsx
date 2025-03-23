@@ -5,11 +5,7 @@ import {
   button, 
   buttonSecondary, 
   errorText, 
-  heading, 
-  previewButton, 
-  previewContainer, 
-  previewText, 
-  previewTitle,
+  heading,
   buttonGroup
 } from '../styles';
 import FormField from '../components/FormField';
@@ -25,12 +21,8 @@ const BusinessProfile = () => {
     province: '',
     postalCode: '',
     timeZone: 'America/New_York',
-    parkingInstructions: '',
-    officeDirections: '',
-    customInfo: '',
   });
   const [error, setError] = useState('');
-  const [showPreview, setShowPreview] = useState(false);
 
   useEffect(() => {
     const fetchBusinessProfile = async () => {
@@ -40,7 +32,7 @@ const BusinessProfile = () => {
       try {
         const { data, error } = await supabase
           .from('business_profile')
-          .select('email, business_name, phone, address, unit, city, province, postal_code, time_zone, parking_instructions, office_directions, custom_info')
+          .select('email, business_name, phone, address, unit, city, province, postal_code, time_zone')
           .eq('user_id', session.user.id)
           .single();
         if (error && error.code !== 'PGRST116') throw error;
@@ -55,9 +47,6 @@ const BusinessProfile = () => {
             province: data.province || '',
             postalCode: data.postal_code || '',
             timeZone: data.time_zone || 'America/New_York',
-            parkingInstructions: data.parking_instructions || '',
-            officeDirections: data.office_directions || '',
-            customInfo: data.custom_info || '',
           });
         } else {
           setFormData(prev => ({ ...prev, email: session.user.email || '' }));
@@ -102,9 +91,6 @@ const BusinessProfile = () => {
           province: formData.province,
           postal_code: formData.postalCode,
           time_zone: formData.timeZone,
-          parking_instructions: formData.parkingInstructions,
-          office_directions: formData.officeDirections,
-          custom_info: formData.customInfo,
         });
       if (error) throw error;
       alert('Business profile saved successfully!');
@@ -116,24 +102,17 @@ const BusinessProfile = () => {
 
   const handleAutoPopulate = () => {
     setFormData({
-      email: 'info@janesbarbershop.com',
-      businessName: 'Jane’s Barber Shop',
-      phone: '416-555-1234',
-      address: '123 Main St',
-      unit: 'Unit 5',
+      email: 'info@fknenterprises.com',
+      businessName: 'FKN Enterprises',
+      phone: '416-555-5678',
+      address: '456 Elm St',
+      unit: 'Unit 66',
       city: 'Toronto',
       province: 'ON',
-      postalCode: 'M5V 2T6',
+      postalCode: 'M5V 3K9',
       timeZone: 'America/Toronto',
-      parkingInstructions: 'Park in the lot behind the building.',
-      officeDirections: 'Enter through the main door, take the stairs to the second floor.',
-      customInfo: 'Bring cash for tips!',
     });
     setError('');
-  };
-
-  const handlePreview = () => {
-    setShowPreview(!showPreview);
   };
 
   const timeZoneOptions = [
@@ -218,27 +197,6 @@ const BusinessProfile = () => {
           required
           options={timeZoneOptions}
         />
-        <FormField
-          type="textarea"
-          name="parkingInstructions"
-          value={formData.parkingInstructions}
-          onChange={handleChange}
-          labelText="Parking Instructions"
-        />
-        <FormField
-          type="textarea"
-          name="officeDirections"
-          value={formData.officeDirections}
-          onChange={handleChange}
-          labelText="Office Directions"
-        />
-        <FormField
-          type="textarea"
-          name="customInfo"
-          value={formData.customInfo}
-          onChange={handleChange}
-          labelText="Custom Info"
-        />
         {error && <p className={errorText}>{error}</p>}
         <div className={buttonGroup}>
           <button type="submit" className={`${button} w-full`}>
@@ -247,25 +205,8 @@ const BusinessProfile = () => {
           <button type="button" onClick={handleAutoPopulate} className={buttonSecondary}>
             Fill Sample Data
           </button>
-          <button type="button" onClick={handlePreview} className={previewButton}>
-            {showPreview ? 'Hide Preview' : 'Show Preview'}
-          </button>
         </div>
       </form>
-
-      {showPreview && (
-        <div className={previewContainer}>
-          <h3 className={previewTitle}>Business Profile Preview</h3>
-          <p className={previewText}><strong>Business Name:</strong> {formData.businessName || 'Business TBD'}</p>
-          <p className={previewText}><strong>Email:</strong> {formData.email || 'Not provided'}</p>
-          <p className={previewText}><strong>Phone:</strong> {formData.phone || 'Not provided'}</p>
-          <p className={previewText}><strong>Location:</strong> {formData.address ? `${formData.address}${formData.unit ? ', ' + formData.unit : ''}, ${formData.city}, ${formData.province} ${formData.postalCode}` : 'Not provided'}</p>
-          <p className={previewText}><strong>Time Zone:</strong> {formData.timeZone.split('/')[1].replace('_', ' ') || 'TBD'}</p>
-          {formData.parkingInstructions && <p className={previewText}><strong>Parking:</strong> {formData.parkingInstructions}</p>}
-          {formData.officeDirections && <p className={previewText}><strong>Directions:</strong> {formData.officeDirections}</p>}
-          {formData.customInfo && <p className={previewText}><strong>Info:</strong> {formData.customInfo}</p>}
-        </div>
-      )}
     </div>
   );
 };
