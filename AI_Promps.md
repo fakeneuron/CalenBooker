@@ -26,7 +26,7 @@ For each task:
 - When updating `.md` files, ensure all commands are in ticks (e.g., `cd frontend`).
 - Provide git commands only after the TaskNote is moved to `/TaskNotes/`, unless live testing requires otherwise.
 
-Keep explanations simple and concise for a novice coder. Identify 3-4 high priority or housekeeping items to address
+Keep explanations simple and concise for a novice coder. When providing executable commands, please put them in easily copiable code blocks. Identify 3-4 high priority or housekeeping items to begin.
 
 **_SUPABASE-PROMPT_**
 The Supabase database is set up. Request these `.sql` files for context: `create_tables.sql`, `rls.sql`, `check_email_exists.sql`. Be cautious with Supabase changes to avoid breaking the authentication chain—it’s carefully configured.
