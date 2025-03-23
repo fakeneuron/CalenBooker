@@ -37,7 +37,7 @@ To run CalenBooker locally:
   `npm run build`
 - Preview the build (serves `dist/` at `http://localhost:4173`):
   `npm run preview`
-- **Style Note**: App interface aims for sleek, professional design (e.g., Messages, Dashboard), while landing page retains a fun, kawaii aesthetic. See `Roadmap.md` for UI overhaul plans (T005).
+- **Style Note**: App interface (Messages, Dashboard, Business Profile) uses a sleek, professional design with subtle colors and icon buttons, while the landing page retains a fun, kawaii aesthetic. See `STYLEGUIDE.md` for details and `Roadmap.md` for UI plans (e.g., T006).
 
 ### Supabase
 

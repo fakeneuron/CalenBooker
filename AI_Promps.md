@@ -30,6 +30,8 @@ For each task:
 
 Keep explanations simple and concise for a novice coder. Start by listing `Roadmap.md` Tasks and ask which to tackle first.
 
+\*\*\*When using commands, always write them with ticks: `commands`
+
 **_SUPABASE-PROMPT_**
 The Supabase database is set up. Request these `.sql` files for context: `create_tables.sql`, `rls.sql`, `check_email_exists.sql`. Be cautious with Supabase changes to avoid breaking the authentication chain—it’s carefully configured.
 
@@ -45,3 +47,12 @@ i didn't get a copiable window. i got inline formatted narrative text. No .md st
 in the future, please provide terminal commands as a code block. Also, when updating a section in readme, provide entire section update and not [... unchanged ....] kind of stuff.
 
 **_TEMP_**
+Hold off on git commands until the very end. Unless we need to test the live site, or each TaskNote we are doing the following:
+
+- complete all items in the TaskNote T###-ShortName.md
+- Log all new functionality or configuration in README.md
+- Remove the live item from ROADMAP.md
+- Log any new Tasks (if any) to ROADMAP.md
+- move the TaskNote to /TaskNote/ folder
+- confirm with me we are ready to push to git
+- run git commands
