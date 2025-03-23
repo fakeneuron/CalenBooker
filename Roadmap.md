@@ -24,6 +24,13 @@ This file tracks incomplete tasks for CalenBooker development. Completed tasks a
   - **Effort**: ~4-6 hours
   - **Notes**: Prompt user to save or discard changes when navigating away.
 
+- **Custom Service Types in Business Profile**
+
+  - **Goal**: Enhance `BusinessProfile.jsx` with custom service types and address autocomplete.
+  - **Details**: Allow custom service types for `AppointmentScheduler.jsx`; add address autocomplete using Google Places API for signup form.
+  - **Effort**: ~4-6 hours (base); +4-6 hours with autocomplete
+  - **Notes**: Bumped to High priority to address address autocomplete next.
+
 - **Owner Calendar Sync**
 
   - **Goal**: Add 2-way sync with owners’ calendars (Google, Outlook, Apple) in `Dashboard.jsx` or `AppointmentScheduler.jsx`.
@@ -33,10 +40,10 @@ This file tracks incomplete tasks for CalenBooker development. Completed tasks a
 
 - **Enhanced Appointment Scheduler**
 
-  - **Goal**: Enhance `AppointmentScheduler.jsx` with a visual calendar and confirmation flow.
-  - **Details**: Add month view (dots for saturation), hourly day view; populate form via clicks; warn on conflicts (overrideable, stored in `appointments`); use 15-min increments; show inline confirmation (date/time, service, notes, links) post-submission.
-  - **Effort**: ~6-8 hours
-  - **Notes**: Merges scheduler preview and availability calendar for a unified feature.
+  - **Goal**: Redesign `AppointmentScheduler.jsx` with a visual calendar, confirmation flow, and availability controls.
+  - **Details**: Add month view (dots for saturation), hourly day view; populate time slots via clicks; warn on conflicts (overrideable, stored in `appointments`); use 15-min increments; show inline confirmation (date/time, service, notes, links); add working hours/protected time to limit slots; future: allow clients to book directly with employees.
+  - **Effort**: ~8-10 hours
+  - **Notes**: Merges scheduler preview, availability calendar, and working hours for a unified feature.
 
 - **Marketing Landing Page**
 
@@ -82,9 +89,10 @@ This file tracks incomplete tasks for CalenBooker development. Completed tasks a
 
 - **Multi-Employee Scheduling**
 
-  - **Goal**: Support team scheduling.
-  - **Details**: Add staff assignment via a `staff` table; future split calendar views in `AppointmentScheduler.jsx`.
-  - **Effort**: ~8-10 hours
+  - **Goal**: Support team scheduling with business signup options.
+  - **Details**: Add signup as Business (admin) or Individual; businesses can add employees; admins manage employee data and appointments; only admins modify appointments unless permissions granted to co-workers.
+  - **Effort**: ~10-12 hours
+  - **Notes**: Expanded to include business signup and permissions.
 
 - **Secure Public Shortcode Access**
   - **Goal**: Enhance privacy for `/a/:code`.
@@ -119,9 +127,16 @@ This file tracks incomplete tasks for CalenBooker development. Completed tasks a
 
 - **Analytics Dashboard**
 
-  - **Goal**: Provide booking insights in `Dashboard.jsx`.
-  - **Details**: Add stats (e.g., bookings/week).
-  - **Effort**: ~6-8 hours
+  - **Goal**: Redesign `Dashboard.jsx` as a calendar with insights and interactivity.
+  - **Details**: Show month/week view with appointment saturation (dots/shading); click dates for table/widget or day view (granular based on selection); make appointments clickable to drill down, modify, update, or reschedule.
+  - **Effort**: ~8-10 hours
+  - **Notes**: Expanded to include calendar view and clickable appointments.
+
+- **Guest Mode for Appointment Creation**
+
+  - **Goal**: Allow non-signed-up users to create appointment widgets.
+  - **Details**: Enable "Appointment Confirmed" widget with Google/ICS links in guest mode; add protections (e.g., CAPTCHA, rate limiting) to prevent abuse.
+  - **Effort**: ~4-6 hours
 
 - **Client Portal**
 
@@ -152,12 +167,6 @@ This file tracks incomplete tasks for CalenBooker development. Completed tasks a
   - **Goal**: Improve `AppointmentsTable.jsx` usability.
   - **Details**: Add filters (date range, status).
   - **Effort**: ~4-6 hours
-
-- **Custom Service Types in Business Profile**
-
-  - **Goal**: Personalize services in `BusinessProfile.jsx`.
-  - **Details**: Allow custom service types; optional address autocomplete (e.g., Google Places API).
-  - **Effort**: ~4-6 hours (base); +4-6 hours with autocomplete
 
 - **Client Booking Workflow**
 
