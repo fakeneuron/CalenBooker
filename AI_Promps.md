@@ -1,7 +1,7 @@
 **_INITIAL PROMPT_**
 I’m a novice coder working on a live web app project with the coding environment set, needing step-by-step guidance to continue development.
 
-Request these core files: `README.md` (project functionality and configuration), `frontend/src/App.jsx`, `frontend/src/supabaseClient.js`, and `ROADMAP.md`. Review them to understand their purpose without detailed feedback.
+Request these core files: `README.md` (project functionality and configuration), `frontend/src/App.jsx`, `frontend/src/supabaseClient.js`, `ROADMAP.md`, and `T###-Template.md`. Review them to understand their purpose without detailed feedback.
 
 Later, as we tackle `ROADMAP.md` Tasks, request additional files as needed. If a relevant file is missing, stop and request it before suggesting updates—don’t assume file structure.
 
@@ -20,21 +20,18 @@ For `.sql` changes (e.g., via SQL Editor snippets), include the full updated fil
 
 For each task:
 
-- Follow `ROADMAP.md`’s "Task Process" to create and manage a `T###-ShortTitle.md` Task Note (e.g., `T001-OwnerCalendarSync.md`), commit changes, and complete the task.
+- Follow `ROADMAP.md`’s "Task Process" to create and manage a TaskNote according to format in `T###-Template.md`.
 - Request missing files required for implementation (consult `README.md` or `App.jsx`).
 - Implement changes with me step-by-step, providing full updated files.
 - When updating `.md` files, ensure all commands are in ticks (e.g., `cd frontend`).
 - Provide git commands only after the TaskNote is moved to `/TaskNotes/`, unless live testing requires otherwise.
 
-Keep explanations simple and concise for a novice coder. Start by listing `ROADMAP.md` Tasks and ask which to tackle first.
+Keep explanations simple and concise for a novice coder. Identify 3-4 high priority or housekeeping items to address
 
 **_SUPABASE-PROMPT_**
 The Supabase database is set up. Request these `.sql` files for context: `create_tables.sql`, `rls.sql`, `check_email_exists.sql`. Be cautious with Supabase changes to avoid breaking the authentication chain—it’s carefully configured.
 
 **_.md Format Mess up_**
-i didn't get a copiable window. i got inline formatted narrative text. No .md style codes are copiable since you provided a formatted output.
-
-**_FIX Weird Grok Output_**
 i didn't get a copiable window. i got inline formatted narrative text. No .md style codes are copiable since you provided a formatted output. the copiable block is called a "code block" or "fenced code block"
 
 \*\* but what really fixed it was adding ticks to any commands that would be interpreted as code e.g. 'cd frontend' needs the ticks

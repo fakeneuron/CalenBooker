@@ -1,22 +1,29 @@
 # ROADMAP
 
 This file tracks incomplete tasks for CalenBooker development. Completed tasks are logged in `TaskNotes/` with sequential numbering.
-Last Completed Task: T006-CustomServiceAndAutocomplete (completed March 23, 2025)
+Last Completed Task: T005-UIOverhaul-Messages (completed March 22, 2025)
 
 ## Task Process
 
-- **New Tasks**: Open a new `T###-ShortName.md` TaskNote in the `CalenBooker/` root (e.g., `T006-NavigationPrompts.md`) to plan and execute. Start with `git commit -m "Start T###-ShortName"`.
-- **Execution**: Complete all items in the TaskNote.
+- **New Tasks**: Open a new `T###-ShortName.md` TaskNote in the `CalenBooker/` root (e.g., `T006-BusinessLocationAutocomplete.md`) using the template in `TaskNotes/TaskNote-Template.md`. Start with `git commit -m "Start T###-ShortName"`.
+- **Execution**: Complete all steps in the TaskNote, checking off items in the "Progress" section as you go.
 - **Completion**:
   - Log new functionality or configuration in `README.md`.
   - Remove the task from `ROADMAP.md`.
   - Add any new tasks to `ROADMAP.md`.
-  - Move the TaskNote to `CalenBooker/TaskNotes/` (e.g., `TaskNotes/T006-NavigationPrompts.md`).
+  - Move the TaskNote to `CalenBooker/TaskNotes/` (e.g., `TaskNotes/T006-BusinessLocationAutocomplete.md`).
   - Confirm with user for Git push.
   - Run Git commands: `git add`, `git commit`, `git push origin master`.
 - **Git**: Hold off on Git commands until the end, unless live site testing is required.
 
 ## High Priority
+
+- **T006-CustomServiceAndAutocomplete**
+
+  - **Goal**: Enhance `BusinessProfile.jsx` with custom service types and address autocomplete.
+  - **Details**: Allow custom service types for `AppointmentScheduler.jsx`; add address autocomplete using Google Places API for signup form.
+  - **Effort**: ~4-6 hours (base); +4-6 hours with autocomplete
+  - **Notes**: Prioritized to address address autocomplete next.
 
 - **T007-NavigationPrompts**
 
