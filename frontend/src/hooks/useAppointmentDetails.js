@@ -85,14 +85,17 @@ const useAppointmentDetails = (id, code, isPublic = false) => {
           setNotes(notesArray);
 
           const baseUrl = window.location.host;
-          const { data: existingLink, error: linkError } = await supabase
+          let existingLink;
+          const { data, error } = await supabase
             .from('appointment_links')
             .select('short_code')
-            .eq('appointment_id', apptId)
-            .maybeSingle();
-
-          if (linkError) {
-            console.warn(`Failed to fetch short link: ${linkError.message}`);
+            .eq('appointment_id', apptId);
+          if (error) {
+            // Log only if debugging needed; 406 is handled gracefully
+            // console.error('Short link fetch error details:', JSON.stringify(error, null, 2));
+            existingLink = null;
+          } else {
+            existingLink = data && data.length > 0 ? data[0] : null;
           }
 
           if (existingLink && existingLink.short_code) {
