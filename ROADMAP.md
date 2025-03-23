@@ -1,16 +1,17 @@
 # ROADMAP
 
-This file tracks incomplete tasks for CalenBooker development. Completed tasks are logged in `TaskNotes/` with sequential numbering (e.g., `T004-QuickFixes.md`). Last updated: March 22, 2025.
+This file tracks incomplete tasks for CalenBooker development. Completed tasks are logged in `TaskNotes/` with sequential numbering.
+Last Completed Task: T005-UIOverhaul-Messages (completed March 22, 2025)
 
 ## Task Process
 
-- **New Tasks**: Open a new `T###-ShortName.md` TaskNote in the root (e.g., `T006-NavigationPrompts.md`) to plan and execute. Start with `git commit -m "Start T###-ShortName"`.
+- **New Tasks**: Open a new `T###-ShortName.md` TaskNote in the `CalenBooker/` root (e.g., `T006-NavigationPrompts.md`) to plan and execute. Start with `git commit -m "Start T###-ShortName"`.
 - **Execution**: Complete all items in the TaskNote.
 - **Completion**:
   - Log new functionality or configuration in `README.md`.
   - Remove the task from `ROADMAP.md`.
   - Add any new tasks to `ROADMAP.md`.
-  - Move the TaskNote to `TaskNotes/` (e.g., `TaskNotes/T006-NavigationPrompts.md`).
+  - Move the TaskNote to `CalenBooker/TaskNotes/` (e.g., `TaskNotes/T006-NavigationPrompts.md`).
   - Confirm with user for Git push.
   - Run Git commands: `git add`, `git commit`, `git push origin master`.
 - **Git**: Hold off on Git commands until the end, unless live site testing is required.
