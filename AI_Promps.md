@@ -1,7 +1,7 @@
 **_INITIAL PROMPT_**
 I’m a novice coder working on a live web app project with the coding environment set, needing step-by-step guidance to continue development.
 
-Request these core files: `README.md` (project functionality and configuration), `frontend/src/App.jsx`, `frontend/src/supabaseClient.js`, `ROADMAP.md`, and `T###-Template.md`. Review them to understand their purpose without detailed feedback.
+Request these core files: `README.md` (project functionality and configuration), `frontend/src/App.jsx`, `frontend/src/supabaseClient.js`, `ROADMAP.md`, and `TaskNote/T###-Template.md`. Review them to understand their purpose without detailed feedback.
 
 Later, as we tackle `ROADMAP.md` Tasks, request additional files as needed. If a relevant file is missing, stop and request it before suggesting updates—don’t assume file structure.
 

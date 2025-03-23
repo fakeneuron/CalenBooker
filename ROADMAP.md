@@ -5,7 +5,7 @@ Last Completed Task: T005-UIOverhaul-Messages (completed March 22, 2025)
 
 ## Task Process
 
-- **New Tasks**: Open a new `T###-ShortName.md` TaskNote in the `CalenBooker/` root (e.g., `T006-BusinessLocationAutocomplete.md`) using the template in `TaskNotes/TaskNote-Template.md`. Start with `git commit -m "Start T###-ShortName"`.
+- **New Tasks**: Open a new `T###-ShortName.md` TaskNote in the `CalenBooker/` root (e.g., `T006-BusinessLocationAutocomplete.md`) using the template in `TaskNotes/T###-Template.md`. Start with `git commit -m "Start T###-ShortName"`. Use the next sequential number after the last completed task.
 - **Execution**: Complete all steps in the TaskNote, checking off items in the "Progress" section as you go.
 - **Completion**:
   - Log new functionality or configuration in `README.md`.
@@ -18,14 +18,7 @@ Last Completed Task: T005-UIOverhaul-Messages (completed March 22, 2025)
 
 ## High Priority
 
-- **T006-CustomServiceAndAutocomplete**
-
-  - **Goal**: Enhance `BusinessProfile.jsx` with custom service types and address autocomplete.
-  - **Details**: Allow custom service types for `AppointmentScheduler.jsx`; add address autocomplete using Google Places API for signup form.
-  - **Effort**: ~4-6 hours (base); +4-6 hours with autocomplete
-  - **Notes**: Prioritized to address address autocomplete next.
-
-- **T007-NavigationPrompts**
+- **Navigation Prompts**
 
   - **Goal**: Prevent navigation away from unsaved changes on all editable pages (Messages, Business Profile, Appointments).
   - **Details**: Add dirty state tracking to `Messages.jsx`, `BusinessProfile.jsx`, and future editable pages; implement prompts using `react-router-dom` (e.g., `useBlocker`); test across all editable fields.
@@ -101,6 +94,13 @@ Last Completed Task: T005-UIOverhaul-Messages (completed March 22, 2025)
   - **Effort**: ~6-8 hours
 
 ## Moderate Priority
+
+- **Business Profile Location Autocomplete**
+
+  - **Goal**: Add Google Maps Autocomplete to `BusinessProfile.jsx` for accurate address entry.
+  - **Details**: Implement a separate location search field (not inline with address input); auto-populate `address`, `city`, `province`, and `postalCode`; update `.env` and `.env.example` with Google API key.
+  - **Effort**: ~4-6 hours
+  - **Notes**: Post-launch feature; avoid LocationIQ (poor response format); use Google Maps API (requires credit card for billing).
 
 - **Streamline Messages Page Layout**
 
