@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import supabase from '../supabaseClient';
-import { wideContainer, heading, button, input, label, buttonGroup } from '../styles';
+import { wideContainer, heading, iconButtonSubtle, input, label, buttonGroup } from '../styles';
+import { FaSave, FaUndo, FaTrash } from 'react-icons/fa';
 
 const defaultMessages = {
   scheduled: 'Thank you for booking with us! Your appointment is confirmed.',
@@ -159,57 +160,53 @@ const Messages = () => {
     <div className={wideContainer}>
       <h1 className={heading}>Default Messages</h1>
       {Object.keys(defaultMessages).map((eventType) => (
-        <div key={eventType} className="mb-6 p-4 bg-pink-100 rounded-xl shadow-md">
-          <h2 className="text-xl font-semibold capitalize mb-2 text-blue-600">
+        <div key={eventType} className="mb-2 bg-gray-100 p-2 rounded-md">
+          <h2 className="text-md font-medium text-gray-700 mb-1 capitalize">
             {eventType === 'no_show' ? 'No-Show' : eventType}
           </h2>
-          <div className="mb-4">
-            <label className={label}>
-              Default Message
-            </label>
+          <div className="relative">
             <textarea
               className={input}
               value={messages[eventType]?.default_message || defaultMessages[eventType]}
               onChange={(e) => handleMessageChange(eventType, e.target.value)}
-              rows="3"
+              rows="2"
             />
-          </div>
-          <div className={buttonGroup}>
-            <button onClick={() => handleSaveMessage(eventType)} className={`${button} w-full`}>
-              Save
-            </button>
-            <button
-              onClick={() => handleRevertMessage(eventType)}
-              className={`${button} w-full bg-gray-500 hover:bg-gray-600`}
-            >
-              Revert to Default
-            </button>
+            <div className={`${buttonGroup} absolute top-1 right-1`}>
+              <button onClick={() => handleSaveMessage(eventType)} className={iconButtonSubtle} title="Save">
+                <FaSave size={14} />
+              </button>
+              <button onClick={() => handleRevertMessage(eventType)} className={iconButtonSubtle} title="Revert to default">
+                <FaUndo size={14} />
+              </button>
+            </div>
           </div>
         </div>
       ))}
-      <div className="mb-6 p-4 bg-pink-100 rounded-xl shadow-md">
-        <h2 className="text-xl font-semibold mb-2 text-blue-600">Business Information</h2>
+      <div className="mb-2 bg-gray-100 p-2 rounded-md">
+        <h2 className="text-md font-medium text-gray-700 mb-1">Business Information</h2>
         {['parking_instructions', 'office_directions', 'custom_info'].map((field) => (
-          <div key={field} className="mb-4">
+          <div key={field} className="mb-1">
             <label className={label}>
               {field.replace('_', ' ').replace('info', 'Info')}
             </label>
-            <textarea
-              className={input}
-              value={businessInfo[field] || ''}
-              onChange={(e) => handleBusinessInfoChange(field, e.target.value)}
-              rows="3"
-            />
+            <div className="relative">
+              <textarea
+                className={input}
+                value={businessInfo[field] || ''}
+                onChange={(e) => handleBusinessInfoChange(field, e.target.value)}
+                rows="2"
+              />
+              <div className={`${buttonGroup} absolute top-1 right-1`}>
+                <button onClick={handleSaveBusinessInfo} className={iconButtonSubtle} title="Save">
+                  <FaSave size={14} />
+                </button>
+                <button onClick={handleRevertBusinessInfo} className={iconButtonSubtle} title="Clear">
+                  <FaTrash size={14} />
+                </button>
+              </div>
+            </div>
           </div>
         ))}
-        <div className={buttonGroup}>
-          <button onClick={handleSaveBusinessInfo} className={`${button} w-full`}>
-            Save
-          </button>
-          <button onClick={handleRevertBusinessInfo} className={`${button} w-full bg-gray-500 hover:bg-gray-600`}>
-            Clear
-          </button>
-        </div>
       </div>
     </div>
   );
