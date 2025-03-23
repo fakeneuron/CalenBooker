@@ -3,7 +3,7 @@ import supabase from '../supabaseClient';
 import { generateShortCode } from '../utils/shortCode';
 
 const useAppointmentDetails = (id, code, isPublic = false) => {
-  const [appointment, setAppointment] = useState(null);
+  const [appt, setAppt] = useState(null);
   const [business, setBusiness] = useState(null);
   const [message, setMessage] = useState('');
   const [notes, setNotes] = useState([]);
@@ -14,22 +14,23 @@ const useAppointmentDetails = (id, code, isPublic = false) => {
   useEffect(() => {
     const fetchAppointmentDetails = async () => {
       try {
-        let appointmentId = id;
+        let apptId = id;
 
         if (isPublic && code) {
           const { data: linkData, error: linkError } = await supabase
             .from('appointment_links')
             .select('appointment_id')
             .eq('short_code', code)
-            .limit(1);
+            .limit(1)
+            .single();
           if (linkError) throw linkError;
-          if (!linkData || linkData.length === 0) throw new Error('Invalid or expired link.');
-          appointmentId = linkData[0].appointment_id;
+          if (!linkData) throw new Error('Invalid or expired link.');
+          apptId = linkData.appointment_id;
 
           const { data: apptData, error: apptError } = await supabase
             .from('appointments')
             .select('meeting_date, meeting_time, duration, service_type, user_id')
-            .eq('id', appointmentId)
+            .eq('id', apptId)
             .single();
           if (apptError) throw apptError;
 
@@ -40,7 +41,7 @@ const useAppointmentDetails = (id, code, isPublic = false) => {
             .single();
           if (bizError) throw bizError;
 
-          setAppointment(apptData);
+          setAppt(apptData);
           setBusiness(bizData);
           setMessage('Your appointment is confirmed!');
           const notesArray = [];
@@ -48,31 +49,32 @@ const useAppointmentDetails = (id, code, isPublic = false) => {
           if (bizData?.office_directions) notesArray.push(`Directions: ${bizData.office_directions}`);
           if (bizData?.custom_info) notesArray.push(`Info: ${bizData.custom_info}`);
           setNotes(notesArray);
-        } else if (appointmentId) {
-          const { data: appointmentData, error: appointmentError } = await supabase
+        } else if (apptId) {
+          const { data: apptData, error: apptError } = await supabase
             .from('appointments')
             .select('client_name, client_email, meeting_date, meeting_time, duration, service_type, user_id')
-            .eq('id', appointmentId)
+            .eq('id', apptId)
             .single();
-          if (appointmentError) throw appointmentError;
+          if (apptError) throw apptError;
+          if (!apptData) throw new Error('Appointment not found.');
 
           const { data: businessData, error: businessError } = await supabase
             .from('business_profile')
             .select('business_name, address, unit, city, province, postal_code, phone, time_zone, parking_instructions, office_directions, custom_info')
-            .eq('user_id', appointmentData.user_id)
+            .eq('user_id', apptData.user_id)
             .single();
           if (businessError) throw businessError;
 
           const { data: messageData, error: messageError } = await supabase
             .from('messages')
             .select('default_message')
-            .eq('user_id', appointmentData.user_id)
+            .eq('user_id', apptData.user_id)
             .eq('event_type', 'scheduled')
             .limit(1)
             .single();
           if (messageError) throw messageError;
 
-          setAppointment(appointmentData);
+          setAppt(apptData);
           setBusiness(businessData);
           setMessage(messageData.default_message);
 
@@ -85,22 +87,22 @@ const useAppointmentDetails = (id, code, isPublic = false) => {
           const { data: existingLink, error: linkError } = await supabase
             .from('appointment_links')
             .select('short_code')
-            .eq('appointment_id', appointmentId)
+            .eq('appointment_id', apptId)
             .single();
 
           const baseUrl = window.location.host;
           if (existingLink) {
             setShortLink(`${baseUrl}/a/${existingLink.short_code}`);
-          } else if (!linkError || linkError.code === 'PGRST116') {
+          } else if (!linkError || linkError.code === 'PGRST116') { // PGRST116 = no rows
             const shortCode = await generateShortCode();
-            const expiresAt = new Date(appointmentData.meeting_date);
+            const expiresAt = new Date(apptData.meeting_date);
             expiresAt.setDate(expiresAt.getDate() + 1);
 
             const { error: insertError } = await supabase
               .from('appointment_links')
               .insert({
                 short_code: shortCode,
-                appointment_id: appointmentId,
+                appointment_id: apptId,
                 expires_at: expiresAt.toISOString(),
               });
 
@@ -120,7 +122,7 @@ const useAppointmentDetails = (id, code, isPublic = false) => {
     fetchAppointmentDetails();
   }, [id, code, isPublic]);
 
-  return { appointment, business, message, notes, shortLink, loading, error };
+  return { appt, business, message, notes, shortLink, loading, error };
 };
 
 export default useAppointmentDetails;

@@ -16,18 +16,18 @@ import {
   messageText,
 } from '../styles';
 import { formatEmailMessage, formatSMSMessage } from '../utils/appointmentUtils';
-import { FaCopy } from 'react-icons/fa'; // Using react-icons for the copy icon
+import { FaCopy } from 'react-icons/fa';
 
-const AppointmentConfirmationPrivate = () => {
+const ApptConfirmPrivate = () => {
   const { id } = useParams();
-  const { appointment, business, message, notes, shortLink, loading, error } = useAppointmentDetails(id, null, false);
+  const { appt, business, message, notes, shortLink, loading, error } = useAppointmentDetails(id, null, false);
   const [emailCopied, setEmailCopied] = useState(false);
   const [smsCopied, setSMSCopied] = useState(false);
-  const [icsUrl] = useState(''); // Kept for email format compatibility
+  const [icsUrl] = useState('');
 
   const handleCopyEmail = async () => {
     try {
-      await navigator.clipboard.writeText(formatEmailMessage(appointment, business, message, notes, shortLink, icsUrl));
+      await navigator.clipboard.writeText(formatEmailMessage(appt, business, message, notes, shortLink, icsUrl));
       setEmailCopied(true);
       setTimeout(() => setEmailCopied(false), 2000);
     } catch (err) {
@@ -37,7 +37,7 @@ const AppointmentConfirmationPrivate = () => {
 
   const handleCopySMS = async () => {
     try {
-      await navigator.clipboard.writeText(formatSMSMessage(appointment, business, message, shortLink));
+      await navigator.clipboard.writeText(formatSMSMessage(appt, business, message, shortLink));
       setSMSCopied(true);
       setTimeout(() => setSMSCopied(false), 2000);
     } catch (err) {
@@ -60,19 +60,19 @@ const AppointmentConfirmationPrivate = () => {
   const phone = business ? business.phone : 'To be provided';
   const timeZone = business ? business.time_zone.split('/')[1].replace('_', ' ') : 'TBD';
 
-  const emailMessage = formatEmailMessage(appointment, business, message, notes, shortLink, icsUrl).replace('View Details:', 'Add to calendar:');
-  const smsMessage = formatSMSMessage(appointment, business, message, shortLink);
+  const emailMessage = formatEmailMessage(appt, business, message, notes, shortLink, icsUrl).replace('View Details:', 'Add to calendar:');
+  const smsMessage = formatSMSMessage(appt, business, message, shortLink);
 
   return (
     <div className={container}>
       <h2 className={`${heading} ${successText}`}>Appointment Confirmed!</h2>
       <p className={text}>{message}</p>
       <div className="space-y-2">
-        <p className={text}><strong>Service:</strong> {appointment.service_type}</p>
-        <p className={text}><strong>Client:</strong> {appointment.client_name} ({appointment.client_email})</p>
-        <p className={text}><strong>Date:</strong> {appointment.meeting_date}</p>
-        <p className={text}><strong>Time:</strong> {appointment.meeting_time} ({timeZone})</p>
-        <p className={text}><strong>Duration:</strong> {appointment.duration} minutes</p>
+        <p className={text}><strong>Service:</strong> {appt.service_type}</p>
+        <p className={text}><strong>Client:</strong> {appt.client_name} ({appt.client_email})</p>
+        <p className={text}><strong>Date:</strong> {appt.meeting_date}</p>
+        <p className={text}><strong>Time:</strong> {appt.meeting_time} ({timeZone})</p>
+        <p className={text}><strong>Duration:</strong> {appt.duration} minutes</p>
         <p className={text}><strong>Location:</strong> {location}</p>
         <p className={text}><strong>Contact:</strong> {phone}</p>
       </div>
@@ -140,4 +140,4 @@ const AppointmentConfirmationPrivate = () => {
   );
 };
 
-export default AppointmentConfirmationPrivate;
+export default ApptConfirmPrivate;

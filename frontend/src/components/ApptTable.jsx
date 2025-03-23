@@ -17,8 +17,8 @@ import {
 import { formatEmailMessage, formatSMSMessage } from '../utils/appointmentUtils';
 import { FaLink, FaEnvelope, FaSms } from 'react-icons/fa';
 
-const AppointmentsTable = () => {
-  const [appointments, setAppointments] = useState([]);
+const ApptTable = () => {
+  const [appts, setAppts] = useState([]);
   const [business, setBusiness] = useState(null);
   const [defaultMessage, setDefaultMessage] = useState('');
   const [loading, setLoading] = useState(true);
@@ -54,7 +54,7 @@ const AppointmentsTable = () => {
 
         if (linkError) throw linkError;
 
-        const appointmentsWithLinks = apptData.map((appt) => {
+        const apptsWithLinks = apptData.map((appt) => {
           const link = linkData.find((l) => l.appointment_id === appt.id);
           return { ...appt, shortLink: link ? `${window.location.host}/a/${link.short_code}` : '' };
         });
@@ -77,7 +77,7 @@ const AppointmentsTable = () => {
         if (messageError && messageError.code !== 'PGRST116') throw messageError;
 
         if (isMounted) {
-          setAppointments(appointmentsWithLinks || []);
+          setAppts(apptsWithLinks || []);
           setBusiness(businessData?.[0] || null);
           setDefaultMessage(messageData?.[0]?.default_message || 'Thank you for booking with us! Your appointment is confirmed.');
         }
@@ -159,23 +159,23 @@ const AppointmentsTable = () => {
           </tr>
         </thead>
         <tbody>
-          {appointments.length === 0 ? (
+          {appts.length === 0 ? (
             <tr><td colSpan="8" className={`${tableCellCenter} text-gray-500`}>No appointments scheduled yet.</td></tr>
           ) : (
-            appointments.map((appointment) => (
-              <tr key={appointment.id} className={tableRowHover}>
-                <td className={tableCellLeft}>{appointment.client_name}</td>
-                <td className={tableCellCenter}>{appointment.client_email}</td>
-                <td className={tableCellCenter}>{appointment.meeting_date}</td>
-                <td className={tableCellCenter}>{appointment.meeting_time}</td>
-                <td className={tableCellCenter}>{appointment.duration}</td>
-                <td className={tableCellCenter}>{appointment.service_type}</td>
-                <td className={`${tableCellCenter} ${getStatusClass(appointment.status)}`}>{appointment.status}</td>
+            appts.map((appt) => (
+              <tr key={appt.id} className={tableRowHover}>
+                <td className={tableCellLeft}>{appt.client_name}</td>
+                <td className={tableCellCenter}>{appt.client_email}</td>
+                <td className={tableCellCenter}>{appt.meeting_date}</td>
+                <td className={tableCellCenter}>{appt.meeting_time}</td>
+                <td className={tableCellCenter}>{appt.duration}</td>
+                <td className={tableCellCenter}>{appt.service_type}</td>
+                <td className={`${tableCellCenter} ${getStatusClass(appt.status)}`}>{appt.status}</td>
                 <td className={tableCellCenter}>
                   <div className="flex space-x-2 justify-center items-center">
-                    {appointment.shortLink && (
+                    {appt.shortLink && (
                       <button
-                        onClick={() => handleCopy('web', appointment.id, appointment.shortLink)}
+                        onClick={() => handleCopy('web', appt.id, appt.shortLink)}
                         className={iconButton}
                         title="Copy Web Link"
                       >
@@ -183,14 +183,14 @@ const AppointmentsTable = () => {
                       </button>
                     )}
                     <button
-                      onClick={() => handleCopy('email', appointment.id, formatEmailMessage(appointment, business, defaultMessage, notes, appointment.shortLink, ''))}
+                      onClick={() => handleCopy('email', appt.id, formatEmailMessage(appt, business, defaultMessage, notes, appt.shortLink, ''))}
                       className={iconButton}
                       title="Copy Email Content"
                     >
                       <FaEnvelope size={16} />
                     </button>
                     <button
-                      onClick={() => handleCopy('sms', appointment.id, formatSMSMessage(appointment, business, defaultMessage, appointment.shortLink))}
+                      onClick={() => handleCopy('sms', appt.id, formatSMSMessage(appt, business, defaultMessage, appt.shortLink))}
                       className={iconButton}
                       title="Copy SMS Message"
                     >
@@ -212,4 +212,4 @@ const AppointmentsTable = () => {
   );
 };
 
-export default AppointmentsTable;
+export default ApptTable;

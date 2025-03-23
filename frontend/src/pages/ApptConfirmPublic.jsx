@@ -16,18 +16,18 @@ import outlookIcon from '../assets/icons/outlook96.png';
 import appleCalendarIcon from '../assets/icons/apple96.png';
 import { generateICalendar, generateGoogleCalendarLink } from '../utils/appointmentUtils';
 
-const AppointmentConfirmationPublic = () => {
+const ApptConfirmPublic = () => {
   const { code } = useParams();
-  const { appointment, business, message, loading, error } = useAppointmentDetails(null, code, true);
+  const { appt, business, message, loading, error } = useAppointmentDetails(null, code, true);
 
   const handleICalendarDownload = () => {
-    if (!appointment || !business) return null;
-    const icsContent = generateICalendar(appointment, business, message, []); // No notes for public
+    if (!appt || !business) return null;
+    const icsContent = generateICalendar(appt, business, message, []);
     const blob = new Blob([icsContent], { type: 'text/calendar' });
     const url = window.URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = `appointment-${appointment.meeting_date}.ics`;
+    link.download = `appt-${appt.meeting_date}.ics`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -35,8 +35,8 @@ const AppointmentConfirmationPublic = () => {
   };
 
   const handleGoogleCalendar = () => {
-    if (!appointment || !business) return;
-    const googleUrl = generateGoogleCalendarLink(appointment, business, message, [], true); // isPublic = true
+    if (!appt || !business) return;
+    const googleUrl = generateGoogleCalendarLink(appt, business, message, [], true);
     window.open(googleUrl, '_blank');
   };
 
@@ -61,9 +61,9 @@ const AppointmentConfirmationPublic = () => {
       <h2 className={`${heading} ${successText}`}>Appointment Confirmed!</h2>
       <p className={text}>{message}</p>
       <div className="space-y-2">
-        <p className={text}><strong>Date:</strong> {appointment.meeting_date}</p>
-        <p className={text}><strong>Time:</strong> {appointment.meeting_time}</p>
-        <p className={text}><strong>Duration:</strong> {appointment.duration} minutes</p>
+        <p className={text}><strong>Date:</strong> {appt.meeting_date}</p>
+        <p className={text}><strong>Time:</strong> {appt.meeting_time}</p>
+        <p className={text}><strong>Duration:</strong> {appt.duration} minutes</p>
         <p className={text}><strong>Location:</strong> {location}</p>
       </div>
       <div className={successBox}>
@@ -96,4 +96,4 @@ const AppointmentConfirmationPublic = () => {
   );
 };
 
-export default AppointmentConfirmationPublic;
+export default ApptConfirmPublic;

@@ -13,7 +13,7 @@ import {
 } from '../styles';
 import FormField from '../components/FormField';
 
-const AppointmentScheduler = () => {
+const ApptScheduler = () => {
   const [formData, setFormData] = useState({
     clientName: '',
     clientEmail: '',
@@ -25,7 +25,7 @@ const AppointmentScheduler = () => {
     status: 'Confirmed',
   });
   const [error, setError] = useState('');
-  const [confirmationUrl, setConfirmationUrl] = useState('');
+  const [confirmUrl, setConfirmUrl] = useState('');
 
   useEffect(() => {
     const fetchRecentClient = async () => {
@@ -117,9 +117,9 @@ const AppointmentScheduler = () => {
         .single();
       if (error) throw error;
 
-      const appointmentId = data.id;
-      const url = `${window.location.origin}/appointment-confirmation/${appointmentId}`;
-      setConfirmationUrl(url);
+      const apptId = data.id;
+      const url = `${window.location.origin}/appt-confirm/${apptId}`;
+      setConfirmUrl(url);
       setFormData({
         clientName: '',
         clientEmail: '',
@@ -248,14 +248,14 @@ const AppointmentScheduler = () => {
           Fill Sample Data
         </button>
       </form>
-      {confirmationUrl && (
+      {confirmUrl && (
         <div className={successBox}>
           <p className={successText}>
             Appointment scheduled successfully! Share this link with your client:
           </p>
           <p className="mt-2 text-blue-600 break-all">
-            <a href={confirmationUrl} target="_blank" rel="noopener noreferrer" className={link}>
-              {confirmationUrl}
+            <a href={confirmUrl} target="_blank" rel="noopener noreferrer" className={link}>
+              {confirmUrl}
             </a>
           </p>
         </div>
@@ -264,4 +264,4 @@ const AppointmentScheduler = () => {
   );
 };
 
-export default AppointmentScheduler;
+export default ApptScheduler;

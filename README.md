@@ -59,8 +59,8 @@ To run CalenBooker locally:
 - Test:
   - Sign up at `http://localhost:4000`.
   - Set up a profile at `/business-profile`.
-  - Book an appointment at `/appointment-scheduler`.
-  - Check private confirmation (`/appointment-confirmation/<id>`) and public short link (`/a/<short_code>`).
+  - Book an appointment at `/appt-scheduler`.
+  - Check private confirmation (`/appt-confirm/<id>`) and public short link (`/a/<short_code>`).
 
 ### Dependencies
 
@@ -80,7 +80,7 @@ To run CalenBooker locally:
       - `VITE_AUTH_REDIRECT` (e.g., `https://delparte.com/auth/confirm`)
       - `VITE_RECAPTCHA_SITE_KEY` (if using reCAPTCHA)
       - `VITE_ENABLE_CAPTCHA` (e.g., `true`)
-  - **SPA Routing**: Configured via `frontend/netlify.toml` to ensure all routes (e.g., `/appointment-confirmation/:id`, `/a/:code`) are handled by the React app. Required for deep linking to work on Netlify.
+  - **SPA Routing**: Configured via `frontend/netlify.toml` to ensure all routes (e.g., `/appt-confirm/:id`, `/a/:code`) are handled by the React app. Required for deep linking to work on Netlify.
 - **Supabase**: Apply database changes (e.g., `appointment_links` table) to production via SQL Editor.
 - Note: `.env` excluded from Git via `.gitignore`. Backend (`backend/`) is optional for MVP and not required locally.
 
@@ -116,14 +116,14 @@ To run CalenBooker locally:
   - `/auth/confirm` (`AuthConfirm.jsx`): Handles email confirmation redirects from Supabase.
   - `/dashboard` (`Dashboard.jsx`): Displays appointments table, initializes default messages on first load.
   - `/business-profile` (`BusinessProfile.jsx`): Edits business details with time zone selection and preview.
-  - `/appointment-scheduler` (`AppointmentScheduler.jsx`): Booking form with dropdowns for service type, duration, and status.
-  - `/appointment-confirmation/:id` (`AppointmentConfirmationPrivate.jsx`): Private confirmation with email/SMS formats (overlaid copy icons), short link, and notes; calendar links removed.
-  - `/a/:code` (`AppointmentConfirmationPublic.jsx`): Public confirmation with simplified details, calendar links (`.ics`, Google) using full address and notes, accessible via short code with expiration check.
+  - `/appt-scheduler` (`ApptScheduler.jsx`): Booking form with dropdowns for service type, duration, and status.
+  - `/appt-confirm/:id` (`ApptConfirmPrivate.jsx`): Private confirmation with email/SMS formats (overlaid copy icons), short link, and notes; calendar links removed.
+  - `/a/:code` (`ApptConfirmPublic.jsx`): Public confirmation with simplified details, calendar links (`.ics`, Google) using full address and notes, accessible via short code with expiration check.
   - `/messages` (`Messages.jsx`): Customizes event messages (scheduled, rescheduled, cancelled, no-show) and business info.
   - Static: `/terms` (`Terms.jsx`), `/privacy` (`Privacy.jsx`), `/support` (`Support.jsx`), `/about` (`About.jsx`), 404 (`NotFound.jsx`).
 - **Components** (in `src/components/`):
   - `Navbar.jsx`: Fixed navigation with menu and user dropdown (profile, messages, logout).
-  - `AppointmentsTable.jsx`: Sortable table with status colors and web/email/SMS copy icons with overlay feedback.
+  - `ApptTable.jsx`: Sortable table with status colors and web/email/SMS copy icons with overlay feedback.
   - `FormField.jsx`: Reusable input/select/textarea component for forms.
   - `Footer.jsx`: Static footer with links to terms, privacy, support, and about pages.
   - `LoginForm.jsx`: Login form with email/password and resend confirmation option.
@@ -139,7 +139,7 @@ To run CalenBooker locally:
   - `src/supabaseClient.js`: Supabase connection using Anon Key.
   - `src/styles.js`: Tailwind CSS class definitions (e.g., `shortLink`, `messageText`, `copyIcon`).
 - **Hooks** (in `src/hooks/`):
-  - `useAppointmentDetails.js`: Fetches appointment data for public/private views, generates short links.
+  - `useAppointmentDetails.jsx`: Fetches appointment data for public/private views, generates short links.
 - **Utilities** (in `src/utils/`):
   - `appointmentUtils.js`: Formats email/SMS messages and generates `.ics`/Google Calendar links with `isPublic` flag for PII control.
   - `shortCode.js`: Generates unique short codes with `nanoid`.
@@ -203,9 +203,9 @@ To run CalenBooker locally:
 - Messages management for event messages and business info, initialized on first dashboard load.
 - **Appointment Confirmation with Short Links**:
   - Generates unique short links (e.g., `delparte.com/a/<short_code>`) stored in `appointment_links` with expiration (appointment date + 1 day).
-  - Private view (`/appointment-confirmation/:id`): Includes clickable short links in email/SMS formats, calendar icons, and `.ics` download.
+  - Private view (`/appt-confirm/:id`): Includes clickable short links in email/SMS formats, calendar icons, and `.ics` download.
   - Public view (`/a/:code`): Simplified details with calendar integration.
-  - Table enhancements: `AppointmentsTable.jsx` includes web/email/SMS copy icons with overlay feedback.
+  - Table enhancements: `ApptTable.jsx` includes web/email/SMS copy icons with overlay feedback.
 
 ## Known Issues
 

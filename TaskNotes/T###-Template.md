@@ -1,34 +1,40 @@
-# T###-ShortName
+# T###-[TaskName]
 
-**Start Date**: [Date, e.g., March 23, 2025]  
-**Starting Commit**: `git commit -m "Start T###-ShortName"`
+**Start Date**: [Date]  
+**Starting Commit**: `git commit -m "Start T###-[TaskName]"`  
+**End Date**: [Date]  
+**Ending Commit**: `git commit -m "Complete T###-[TaskName]: [Summary]"`
 
-## Task: [Short Task Title]
+## Task: [Task Title]
 
-- **Goal**: [Briefly state the purpose of the task]
-- **Details**: [Specific features or changes to implement]
-- **Effort**: [Estimated time, e.g., ~4-6 hours]
+- **Goal**: [Short description of the goal]
+- **Details**: [Detailed description of what needs to be done]
+- **Effort**: [Estimated time, e.g., ~X hours]
 - **Steps**:
-  1. [Step 1 description]
-  2. [Step 2 description]
-  3. [Step 3 description]
-     ... [Add more as needed]
+  1. Identify all files needing changes (e.g., using VS Code’s Search).
+  2. Update code as required (e.g., variable names, functions, classes).
+  3. Rename files if applicable.
+  4. Update imports in all affected files.
+  5. Test locally to ensure no breaks (e.g., run `npm start`, check key pages).
+  6. Update `README.md` with any changed filenames or relevant details.
+  7. Commit and push changes with a clear commit message.
 - **Progress**:
-  - [ ] [Step 1 brief title]
-  - [ ] [Step 2 brief title]
-  - [ ] [Step 3 brief title]
-        ... [Add more as needed]
+  - [ ] Identify files
+  - [ ] Update code
+  - [ ] Rename files (if applicable)
+  - [ ] Update imports
+  - [ ] Test locally
+  - [ ] Update `README.md`
+  - [ ] Commit and push
 - **File Tracking**:
   - **Instructions**: List files relevant to the task here. Categorize as:
     - _Required_: Files needed but not yet shared (request these).
-    - _In Memory_: Files already provided to the assistant (e.g., from prior tasks).
-    - _Modified_: Files changed during the task (update as you go).
+    - _In Memory_: Files already provided to the assistant.
+    - _Modified_: Files changed during the task.
     - _Created_: New files made for the task.
     - _Deleted_: Files removed during the task.
   - **Files**:
-    - [Category] [File Path] - [Brief note, e.g., purpose or status]
-    - [e.g., Required] frontend/src/SomeFile.jsx - [Needs to be shared for task]
-    - [e.g., In Memory] frontend/src/App.jsx - [Already shared earlier]
-- **Notes**: [Optional: Any clarifications or reminders]
-- **Challenges**: [To be filled during execution: Any issues or obstacles encountered]
-- **Summary**: [To be filled on completion: Recap of what was done]
+    - [Placeholder]
+- **Notes**: [Additional details, e.g., scope limitations]
+- **Challenges**: [Issues encountered and resolutions]
+- **Summary**: [To be filled on completion]

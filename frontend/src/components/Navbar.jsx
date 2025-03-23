@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import supabase from '../supabaseClient';
-import logo from '../assets/logo.svg'; // Updated import
+import logo from '../assets/logo.svg';
 import { navbar, navbarContainer, navbarLink, navbarUserIcon, navbarDropdown, navbarDropdownItem } from '../styles';
 
-// Navigation bar with links and user dropdown
 const Navbar = () => {
   const navigate = useNavigate();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -12,7 +11,6 @@ const Navbar = () => {
   const dropdownRef = useRef(null);
 
   const handleLogout = async () => {
-    // Log out via Supabase Auth
     const { error } = await supabase.auth.signOut();
     if (error) {
       alert('Failed to log out: ' + error.message);
@@ -27,7 +25,6 @@ const Navbar = () => {
   };
 
   useEffect(() => {
-    // Close dropdown when clicking outside
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsDropdownOpen(false);
@@ -48,7 +45,7 @@ const Navbar = () => {
       <div className={navbarContainer}>
         <div className="flex items-center space-x-2">
           <Link to="/dashboard" className="flex items-center">
-            <img src={logo} alt="CalenBooker Logo" className="w-8 h-8" /> {/* Updated src */}
+            <img src={logo} alt="CalenBooker Logo" className="w-8 h-8" />
           </Link>
           <Link to="/dashboard" className={`${navbarLink} text-lg font-bold`}>
             CalenBooker
@@ -65,7 +62,7 @@ const Navbar = () => {
             <Link to="/dashboard" className={navbarLink} onClick={() => setIsMenuOpen(false)}>
               Home
             </Link>
-            <Link to="/appointment-scheduler" className={navbarLink} onClick={() => setIsMenuOpen(false)}>
+            <Link to="/appt-scheduler" className={navbarLink} onClick={() => setIsMenuOpen(false)}>
               Book Appointment
             </Link>
           </div>

@@ -5,9 +5,9 @@ import Home from './pages/Home.jsx';
 import AuthConfirm from './pages/AuthConfirm.jsx';
 import Dashboard from './pages/Dashboard.jsx';
 import BusinessProfile from './pages/BusinessProfile.jsx';
-import AppointmentScheduler from './pages/AppointmentScheduler.jsx';
-import AppointmentConfirmationPrivate from './pages/AppointmentConfirmationPrivate.jsx';
-import AppointmentConfirmationPublic from './pages/AppointmentConfirmationPublic.jsx';
+import ApptScheduler from './pages/ApptScheduler.jsx';
+import ApptConfirmPrivate from './pages/ApptConfirmPrivate.jsx';
+import ApptConfirmPublic from './pages/ApptConfirmPublic.jsx';
 import Terms from './pages/Terms.jsx';
 import Privacy from './pages/Privacy.jsx';
 import Support from './pages/Support.jsx';
@@ -45,11 +45,11 @@ function App() {
           <Route path="/" element={!session ? <Home /> : <Navigate to="/dashboard" />} />
           <Route path="/dashboard" element={session ? <Dashboard /> : <Navigate to="/" />} />
           <Route path="/business-profile" element={session ? <BusinessProfile /> : <Navigate to="/" />} />
-          <Route path="/appointment-scheduler" element={session ? <AppointmentScheduler /> : <Navigate to="/" />} />
+          <Route path="/appt-scheduler" element={session ? <ApptScheduler /> : <Navigate to="/" />} />
           <Route path="/messages" element={session ? <Messages /> : <Navigate to="/" />} />
           <Route path="/auth/confirm" element={<AuthConfirm />} />
-          <Route path="/appointment-confirmation/:id" element={<AppointmentConfirmationPrivate />} />
-          <Route path="/a/:code" element={<AppointmentConfirmationPublic />} />
+          <Route path="/appt-confirm/:id" element={<ApptConfirmPrivate />} />
+          <Route path="/a/:code" element={<ApptConfirmPublic />} />
           <Route path="/terms" element={<Terms />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/support" element={<Support />} />

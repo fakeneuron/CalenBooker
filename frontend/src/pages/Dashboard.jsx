@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import supabase from '../supabaseClient';
-import AppointmentsTable from '../components/AppointmentsTable';
+import ApptTable from '../components/ApptTable';
 import { wideContainer, heading } from '../styles';
 
 const Dashboard = () => {
@@ -30,7 +30,7 @@ const Dashboard = () => {
   return (
     <div className={wideContainer}>
       <h2 className={heading}>CalenBooker Dashboard</h2>
-      <AppointmentsTable />
+      <ApptTable />
     </div>
   );
 };
