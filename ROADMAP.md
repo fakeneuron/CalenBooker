@@ -1,7 +1,7 @@
 # ROADMAP
 
 This file tracks incomplete tasks for CalenBooker development. Completed tasks are logged in `TaskNotes/` with sequential numbering.
-Last Completed Task: T005-UIOverhaul-Messages (completed March 22, 2025)
+Last Completed Task: T007-Fix406AndHomeAlignment (completed March 23, 2025)
 
 ## Priority Statement
 
@@ -22,6 +22,13 @@ The focus is on creating a sleek, visually appealing, and highly functional MVP.
 
 ## High Priority
 
+- **Fix Supabase 406 Error on Appointment Links**
+
+  - **Goal**: Eliminate the 406 error logged when loading `/appt-confirm/:id`.
+  - **Details**: Investigate and resolve the 406 (Not Acceptable) error from `appointment_links` queries in `useAppointmentDetails.jsx`; likely due to RLS permissions or missing data; ensure `insert` succeeds or is skipped cleanly without console errors.
+  - **Effort**: ~2-3 hours
+  - **Notes**: Page loads fine, but error persists in logs; critical for a polished MVP experience.
+
 - **Site Redesign with Sidebars**
 
   - **Goal**: Revamp key pages (`Dashboard.jsx`, `BusinessProfile.jsx`, `Messages.jsx`) with sidebars and a sleek, modern layout.
@@ -31,7 +38,7 @@ The focus is on creating a sleek, visually appealing, and highly functional MVP.
 
 - **Enhanced Appointment Scheduler**
 
-  - **Goal**: Redesign `AppointmentScheduler.jsx` with a visual calendar, confirmation flow, and availability controls.
+  - **Goal**: Redesign `ApptScheduler.jsx` with a visual calendar, confirmation flow, and availability controls.
   - **Details**: Add month view (dots for saturation), hourly day view; populate time slots via clicks; warn on conflicts (overrideable, stored in `appointments`); use 15-min increments; show inline confirmation (date/time, service, notes, links); add working hours/protected time to limit slots; future: allow clients to book directly with employees.
   - **Effort**: ~8-10 hours
   - **Notes**: Key for smooth booking flow and feature richness.
@@ -46,7 +53,7 @@ The focus is on creating a sleek, visually appealing, and highly functional MVP.
 - **Public Guest Scheduler**
 
   - **Goal**: Allow non-signed-up users to book via a public-facing scheduler.
-  - **Details**: Build a standalone page (e.g., `/guest-scheduler`) with a simplified `AppointmentScheduler.jsx`; generate confirmation with Google/ICS links; add CAPTCHA/rate limiting to prevent abuse.
+  - **Details**: Build a standalone page (e.g., `/guest-scheduler`) with a simplified `ApptScheduler.jsx`; generate confirmation with Google/ICS links; add CAPTCHA/rate limiting to prevent abuse.
   - **Effort**: ~6-8 hours
   - **Notes**: Boosts accessibility and feature richness for clients.
 
@@ -67,7 +74,7 @@ The focus is on creating a sleek, visually appealing, and highly functional MVP.
 - **Owner Calendar Sync**
 
   - **Goal**: Add 2-way sync with owners’ calendars (Google, Outlook, Apple).
-  - **Details**: Integrate with `Dashboard.jsx` or `AppointmentScheduler.jsx`; support toggle (app-only mode); pull/push events; show month view with dots, hourly day view.
+  - **Details**: Integrate with `Dashboard.jsx` or `ApptScheduler.jsx`; support toggle (app-only mode); pull/push events; show month view with dots, hourly day view.
   - **Effort**: ~6-8 hours
   - **Notes**: Enhances functionality and workflow.
 
@@ -137,7 +144,7 @@ The focus is on creating a sleek, visually appealing, and highly functional MVP.
 
 - **Client Feedback**
 
-  - **Goal**: Collect feedback on `/appointment-confirmation/<id>`.
+  - **Goal**: Collect feedback on `/appt-confirm/<id>`.
   - **Details**: Add "Feedback" link, store in `feedback` table.
   - **Effort**: ~4-6 hours
 
@@ -182,7 +189,7 @@ The focus is on creating a sleek, visually appealing, and highly functional MVP.
 
 - **Recurring Appointments**
 
-  - **Goal**: Support recurring bookings in `AppointmentScheduler.jsx`.
+  - **Goal**: Support recurring bookings in `ApptScheduler.jsx`.
   - **Details**: Add recurring scheduling options.
   - **Effort**: ~6-8 hours
 
@@ -200,14 +207,14 @@ The focus is on creating a sleek, visually appealing, and highly functional MVP.
 
 - **Advanced Filtering and Sorting**
 
-  - **Goal**: Improve `AppointmentsTable.jsx` usability.
+  - **Goal**: Improve `ApptTable.jsx` usability.
   - **Details**: Add filters (date range, status).
   - **Effort**: ~4-6 hours
 
 - **Client Booking Workflow**
 
   - **Goal**: Streamline client confirmation and email flow.
-  - **Details**: Default appointments to "Pending," send confirm/cancel links; enhance `AppointmentConfirmationPrivate.jsx`.
+  - **Details**: Default appointments to "Pending," send confirm/cancel links; enhance `ApptConfirmPrivate.jsx`.
   - **Effort**: ~8-10 hours
 
 - **Automate Client Notification Emails**
@@ -237,7 +244,7 @@ The focus is on creating a sleek, visually appealing, and highly functional MVP.
 - **Unify Routes to `/a/:code`**
 
   - **Goal**: Simplify routing.
-  - **Details**: Phase out `/appointment-confirmation/:id` for `/a/:code` with auth-based views.
+  - **Details**: Phase out `/appt-confirm/:id` for `/a/:code` with auth-based views.
   - **Effort**: ~4-6 hours
 
 - **Anonymize Public Appointment Data**
@@ -272,7 +279,7 @@ The focus is on creating a sleek, visually appealing, and highly functional MVP.
 
 - **AI Appointment Suggestions**
 
-  - **Goal**: Optimize scheduling in `AppointmentScheduler.jsx`.
+  - **Goal**: Optimize scheduling in `ApptScheduler.jsx`.
   - **Details**: Suggest times via Edge Functions.
   - **Effort**: ~8-10 hours
 

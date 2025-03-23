@@ -35,7 +35,7 @@ function Home() {
         <h1 className={heroHeading}>CalenBooker</h1>
         <p className={heroSubtext}>Streamline your appointment scheduling with ease.</p>
         {view === 'buttons' ? (
-          <div className={`${buttonGroup} flex-col space-y-4 md:flex-row md:space-y-0`}>
+          <div className={`${buttonGroup} flex-col space-y-4 md:flex-row md:space-y-0 items-center`}>
             <button onClick={() => setView('login')} className={`${button} bg-gray-200 text-gray-800 hover:bg-gray-300`}>
               Login
             </button>

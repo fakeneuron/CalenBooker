@@ -22,8 +22,8 @@ const useAppointmentDetails = (id, code, isPublic = false) => {
             .select('appointment_id')
             .eq('short_code', code)
             .limit(1)
-            .single();
-          if (linkError) throw linkError;
+            .maybeSingle();
+          if (linkError) throw new Error(`Public link fetch failed: ${linkError.message}`);
           if (!linkData) throw new Error('Invalid or expired link.');
           apptId = linkData.appointment_id;
 
@@ -32,14 +32,14 @@ const useAppointmentDetails = (id, code, isPublic = false) => {
             .select('meeting_date, meeting_time, duration, service_type, user_id')
             .eq('id', apptId)
             .single();
-          if (apptError) throw apptError;
+          if (apptError) throw new Error(`Appointment fetch failed: ${apptError.message}`);
 
           const { data: bizData, error: bizError } = await supabase
             .from('business_profile')
             .select('business_name, address, unit, city, province, postal_code, parking_instructions, office_directions, custom_info')
             .eq('user_id', apptData.user_id)
             .single();
-          if (bizError) throw bizError;
+          if (bizError) throw new Error(`Business fetch failed: ${bizError.message}`);
 
           setAppt(apptData);
           setBusiness(bizData);
@@ -55,7 +55,7 @@ const useAppointmentDetails = (id, code, isPublic = false) => {
             .select('client_name, client_email, meeting_date, meeting_time, duration, service_type, user_id')
             .eq('id', apptId)
             .single();
-          if (apptError) throw apptError;
+          if (apptError) throw new Error(`Appointment fetch failed: ${apptError.message}`);
           if (!apptData) throw new Error('Appointment not found.');
 
           const { data: businessData, error: businessError } = await supabase
@@ -63,7 +63,7 @@ const useAppointmentDetails = (id, code, isPublic = false) => {
             .select('business_name, address, unit, city, province, postal_code, phone, time_zone, parking_instructions, office_directions, custom_info')
             .eq('user_id', apptData.user_id)
             .single();
-          if (businessError) throw businessError;
+          if (businessError) throw new Error(`Business fetch failed: ${businessError.message}`);
 
           const { data: messageData, error: messageError } = await supabase
             .from('messages')
@@ -72,7 +72,7 @@ const useAppointmentDetails = (id, code, isPublic = false) => {
             .eq('event_type', 'scheduled')
             .limit(1)
             .single();
-          if (messageError) throw messageError;
+          if (messageError) throw new Error(`Message fetch failed: ${messageError.message}`);
 
           setAppt(apptData);
           setBusiness(businessData);
@@ -84,32 +84,39 @@ const useAppointmentDetails = (id, code, isPublic = false) => {
           if (businessData?.custom_info) notesArray.push(`Info: ${businessData.custom_info}`);
           setNotes(notesArray);
 
+          const baseUrl = window.location.host;
           const { data: existingLink, error: linkError } = await supabase
             .from('appointment_links')
             .select('short_code')
             .eq('appointment_id', apptId)
-            .single();
+            .maybeSingle();
 
-          const baseUrl = window.location.host;
-          if (existingLink) {
+          if (linkError) {
+            console.warn(`Failed to fetch short link: ${linkError.message}`);
+          }
+
+          if (existingLink && existingLink.short_code) {
             setShortLink(`${baseUrl}/a/${existingLink.short_code}`);
-          } else if (!linkError || linkError.code === 'PGRST116') { // PGRST116 = no rows
+          } else {
             const shortCode = await generateShortCode();
             const expiresAt = new Date(apptData.meeting_date);
             expiresAt.setDate(expiresAt.getDate() + 1);
+            const newLink = `${baseUrl}/a/${shortCode}`;
 
-            const { error: insertError } = await supabase
-              .from('appointment_links')
-              .insert({
-                short_code: shortCode,
-                appointment_id: apptId,
-                expires_at: expiresAt.toISOString(),
-              });
+            try {
+              const { error: insertError } = await supabase
+                .from('appointment_links')
+                .insert({
+                  short_code: shortCode,
+                  appointment_id: apptId,
+                  expires_at: expiresAt.toISOString(),
+                });
+              if (insertError) throw insertError;
+            } catch (insertError) {
+              console.warn(`Failed to insert short link: ${insertError.message}`);
+            }
 
-            if (insertError) throw new Error('Failed to create short link: ' + insertError.message);
-            setShortLink(`${baseUrl}/a/${shortCode}`);
-          } else {
-            throw new Error('Error checking short link: ' + linkError.message);
+            setShortLink(newLink); // Set link regardless of insert success
           }
         }
       } catch (err) {
