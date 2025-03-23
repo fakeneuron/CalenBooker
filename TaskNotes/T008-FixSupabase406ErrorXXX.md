@@ -1,9 +1,9 @@
-# T008-FixSupabase406Error
+# T008-FixSupabase406Error_XXX
 
 **Start Date**: March 23, 2025  
 **Starting Commit**: `git commit -m "Start T008-FixSupabase406Error"`  
 **End Date**: March 23, 2025  
-**Ending Commit**: `git commit -m "Complete T008-FixSupabase406Error: Documented 406 as known issue"`
+**Ending Commit**: `git commit -m "Complete T008-FixSupabase406Error: Documented 406 as known issue in KNOWN_ISSUES.md"`
 
 ## Task: Fix Supabase 406 Error on Appointment Links
 
@@ -27,14 +27,14 @@
   - [x] Update `supabase/rls.sql` (refined policies, broad SELECT)
   - [x] Update imports (none needed)
   - [x] Test locally (page works, 406 persists in logs)
-  - [x] Update `README.md` (pending, moved to `KNOWN_ISSUES.md`)
+  - [x] Update documentation (added `KNOWN_ISSUES.md`)
 - **File Tracking**:
   - **Files**:
-    - [In Memory] `src/hooks/useAppointmentDetails.jsx` - Hook causing the 406 error (fixed functionally).
+    - [Modified] `frontend/src/hooks/useAppointmentDetails.jsx` - Hook causing the 406 error (functional despite log).
     - [In Memory] `README.md` - Project documentation (no update needed).
-    - [In Memory] `supabase/rls.sql` - RLS policies for authenticated access (modified).
+    - [Modified] `supabase/rls.sql` - RLS policies for authenticated access (refined).
     - [In Memory] `supabase/public.sql` - Public access policies (reviewed).
-    - [In Memory] `src/pages/ApptConfirmPrivate.jsx` - Private confirmation page (reviewed).
+    - [In Memory] `frontend/src/pages/ApptConfirmPrivate.jsx` - Private confirmation page (reviewed).
     - [Created] `KNOWN_ISSUES.md` - New file to document this issue.
 - **Notes**: Error on `/appt-confirm/22`; query returns `[]` successfully, but network logs 406; likely Supabase API bug; app works fine.
 - **Challenges**: 406 logged at network level despite query success; extensive debugging confirmed it’s cosmetic.
